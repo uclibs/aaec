@@ -1,5 +1,17 @@
+Layout/EmptyLineAfterMagicComment:
+    Exclude:
+        - 'db/schema.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+    Exclude:
+        - 'db/schema.rb'
+
 Metrics/LineLength:
     Max: 150
+
+Style/ClassAndModuleChildren:
+    Exclude:
+        - 'test/test_helper.rb'
 
 Style/Documentation:
     Exclude:
@@ -10,11 +22,11 @@ Style/Documentation:
         - 'test/application_system_test_case.rb'
         - 'test/test_helper.rb'
 
+Style/FrozenStringLiteralComment:
+    Exclude:
+        - 'db/schema.rb'
+
 Style/MixinUsage:
     Exclude:
         - 'bin/setup'
         - 'bin/update'
-
-Style/ClassAndModuleChildren:
-    Exclude:
-        - 'test/test_helper.rb'
