@@ -6,8 +6,14 @@ Layout/EmptyLinesAroundBlockBody:
     Exclude:
         - 'db/schema.rb'
 
+Metrics/BlockLength:
+    Exclude:
+        - 'spec/controllers/submitters_controller_spec.rb'
+        - 'spec/routing/submitters_routing_spec.rb'
+        - 'spec/views/submitters/index.html.erb_spec.rb'
+
 Metrics/LineLength:
-    Max: 150
+    Max: 225
 
 Style/ClassAndModuleChildren:
     Exclude:
@@ -15,12 +21,16 @@ Style/ClassAndModuleChildren:
 
 Style/Documentation:
     Exclude:
+        - 'db/**/*'
         - 'app/helpers/application_helper.rb'
         - 'app/mailers/application_mailer.rb'
         - 'app/models/application_record.rb'
         - 'config/application.rb'
         - 'test/application_system_test_case.rb'
         - 'test/test_helper.rb'
+        - 'app/controllers/submitters_controller.rb'
+        - 'app/helpers/submitters_helper.rb'
+        - 'app/models/submitter.rb'
 
 Style/FrozenStringLiteralComment:
     Exclude:
