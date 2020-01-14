@@ -7,11 +7,10 @@ Layout/EmptyLinesAroundBlockBody:
         - 'db/schema.rb'
 
 Metrics/BlockLength:
+    Max: 50
     Exclude:
         - 'spec/controllers/submitters_controller_spec.rb'
-        - 'spec/routing/submitters_routing_spec.rb'
-        - 'spec/views/submitters/index.html.erb_spec.rb'
-
+        
 Metrics/LineLength:
     Max: 225
 
