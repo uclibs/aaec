@@ -25,30 +25,26 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe SubmittersController, type: :controller do
+RSpec.describe BooksController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
-  # Submitter. As you add validations to Submitter, be sure to
+  # Book. As you add validations to Book, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { first_name: 'Test', last_name: 'Case', college: 'UC Libraries', department: 'Application Development', mailing_address: '2911 Woodside', phone_number: '111-111-1111', email_address: 'test@mail.uc.edu' }
+    { 'author_first_name' => 'Test', 'author_last_name' => 'Case', 'college_ids' => ['', '1', '2'], 'uc_department' => 'Dept', 'work_title' => 'WT', 'other_title' => 'OT', 'publisher' => 'Pub', 'city' => 'City', 'publication_date' => 'Today', 'url' => 'www.fake.com', 'doi' => 'doi:' }
   end
 
   let(:invalid_attributes) do
-    { first_name: '', last_name: '', college: 'UC Libraries', department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
-  end
-
-  let(:new_attributes) do
-    { first_name: 'New', last_name: 'Submitter', college: 'Other', department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
+    { 'author_first_name' => 'Bad', 'author_last_name' => '', 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # SubmittersController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  # BooksController. Be sure to keep this updated too.
+  let(:valid_session) { { submitter_id: 1 } }
 
   describe 'GET #index' do
     it 'returns a success response' do
-      Submitter.create! valid_attributes
+      Book.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -56,8 +52,8 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe 'GET #show' do
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :show, params: { id: submitter.to_param }, session: valid_session
+      book = Book.create! valid_attributes
+      get :show, params: { id: book.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -71,29 +67,29 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe 'GET #edit' do
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :edit, params: { id: submitter.to_param }, session: valid_session
+      book = Book.create! valid_attributes
+      get :edit, params: { id: book.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe 'POST #create' do
     context 'with valid params' do
-      it 'creates a new Submitter' do
+      it 'creates a new Book' do
         expect do
-          post :create, params: { submitter: valid_attributes }, session: valid_session
-        end.to change(Submitter, :count).by(1)
+          post :create, params: { book: valid_attributes }, session: valid_session
+        end.to change(Book, :count).by(1)
       end
 
-      it 'redirects to the publications show page' do
-        post :create, params: { submitter: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(other_publications_path)
+      it 'redirects to the created book' do
+        post :create, params: { book: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(Book.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { submitter: invalid_attributes }, session: valid_session
+        post :create, params: { book: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -101,41 +97,45 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      it 'updates the requested submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: new_attributes }, session: valid_session
-        submitter.reload
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
+      end
+
+      it 'updates the requested book' do
+        book = Book.create! valid_attributes
+        put :update, params: { id: book.to_param, book: new_attributes }, session: valid_session
+        book.reload
         skip('Add assertions for updated state')
       end
 
-      it 'redirects to the submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(submitter)
+      it 'redirects to the book' do
+        book = Book.create! valid_attributes
+        put :update, params: { id: book.to_param, book: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(book)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: invalid_attributes }, session: valid_session
+        book = Book.create! valid_attributes
+        put :update, params: { id: book.to_param, book: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    it 'destroys the requested submitter' do
-      submitter = Submitter.create! valid_attributes
+    it 'destroys the requested book' do
+      book = Book.create! valid_attributes
       expect do
-        delete :destroy, params: { id: submitter.to_param }, session: valid_session
-      end.to change(Submitter, :count).by(-1)
+        delete :destroy, params: { id: book.to_param }, session: valid_session
+      end.to change(Book, :count).by(-1)
     end
 
-    it 'redirects to the submitters list' do
-      submitter = Submitter.create! valid_attributes
-      delete :destroy, params: { id: submitter.to_param }, session: valid_session
-      expect(response).to redirect_to(submitters_url)
+    it 'redirects to the books list' do
+      book = Book.create! valid_attributes
+      delete :destroy, params: { id: book.to_param }, session: valid_session
+      expect(response).to redirect_to(books_url)
     end
   end
 end

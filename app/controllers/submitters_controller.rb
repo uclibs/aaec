@@ -28,7 +28,9 @@ class SubmittersController < ApplicationController
 
     respond_to do |format|
       if @submitter.save
-        format.html { redirect_to @submitter, notice: 'Submitter was successfully created.' }
+        session[:submitter_id] = @submitter.id
+        # Change to home page
+        format.html { redirect_to other_publications_path, notice: 'Submitter was successfully created.' }
         format.json { render :show, status: :created, location: @submitter }
       else
         format.html { render :new }
@@ -70,6 +72,6 @@ class SubmittersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def submitter_params
-    params.require(:submitter).permit(:first_name, :last_name, :college, :department, :mailing_address, :phone_number, :email_address)
+    params.require(:submitter).permit(:first_name, :last_name, :department, :mailing_address, :phone_number, :email_address, :college)
   end
 end
