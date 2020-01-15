@@ -34,4 +34,11 @@ RSpec.describe 'submitters/new', type: :view do
       assert_select 'input[name=?]', 'submitter[email_address]'
     end
   end
+
+  it 'shows instructions' do
+    render
+
+    expect(rendered).to include('Instructions')
+    expect(rendered).to include('melissa.norris@uc.edu')
+  end
 end

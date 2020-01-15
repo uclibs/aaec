@@ -21,7 +21,7 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
     Max: 20
-
+    
 Metrics/LineLength:
     Max: 275
     Exclude:
