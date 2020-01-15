@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :college %>
-    <%= form.select :college, ["Allied Health Sciences", "Arts and Sciences", "Business", "College-Conservatory of Music", "Design, Architecture, Art, and Planning", "Education, Criminal Justice, and Human Services", "Engineering and Applied Science", "The Gradute School", "Law", "Medicine", "Nursing", "Pharmacy", "UCBA", "UC Clermont", "UC Libraries", "Other"] %>
+    <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name) %> 
   </div>
 
   <div class="field">

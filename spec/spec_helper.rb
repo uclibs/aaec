@@ -15,13 +15,25 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'simplecov'
+SimpleCov.start 'rails'
+
+SimpleCov.at_exit do
+  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+  SimpleCov.result.format!
+end
+
+# Include coveralls for code-coverage
 require 'coveralls'
-Coveralls.wear!('rails')
+Coveralls.wear!
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  config.before(:suite) do
+    Rails.application.load_seed # loading seeds
+  end
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods

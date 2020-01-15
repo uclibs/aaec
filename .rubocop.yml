@@ -6,13 +6,26 @@ Layout/EmptyLinesAroundBlockBody:
     Exclude:
         - 'db/schema.rb'
 
+Metrics/AbcSize:
+    Exclude:
+        - 'db/migrate/*'
+        - 'app/controllers/publications_controller.rb'
+        - 'app/controllers/submitters_controller.rb'
+
 Metrics/BlockLength:
-    Max: 50
+    Max: 100
     Exclude:
         - 'spec/controllers/submitters_controller_spec.rb'
-        
+        - 'spec/routing/submitters_routing_spec.rb'
+        - 'spec/views/submitters/index.html.erb_spec.rb'
+
+Metrics/MethodLength:
+    Max: 20
+    
 Metrics/LineLength:
-    Max: 225
+    Max: 275
+    Exclude:
+        - 'spec/controllers/*'
 
 Style/ClassAndModuleChildren:
     Exclude:
@@ -20,6 +33,9 @@ Style/ClassAndModuleChildren:
 
 Style/Documentation:
     Exclude:
+        - 'app/helpers/*'
+        - 'app/controllers/*'
+        - 'app/models/*'
         - 'db/**/*'
         - 'app/helpers/application_helper.rb'
         - 'app/mailers/application_mailer.rb'

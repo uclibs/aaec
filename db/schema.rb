@@ -10,7 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_191_205_193_528) do
+ActiveRecord::Schema.define(version: 20_200_109_194_631) do
+
+  create_table 'books', force: :cascade do |t|
+    t.string 'author_first_name'
+    t.string 'author_last_name'
+    t.string 'college_ids'
+    t.string 'uc_department'
+    t.string 'work_title'
+    t.string 'other_title'
+    t.string 'publisher'
+    t.string 'city'
+    t.string 'publication_date'
+    t.string 'url'
+    t.string 'doi'
+    t.string 'submitter_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'books_colleges', id: false, force: :cascade do |t|
+    t.integer 'college_id', null: false
+    t.integer 'book_id', null: false
+  end
+
+  create_table 'colleges', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'colleges_other_publications', id: false, force: :cascade do |t|
+    t.integer 'college_id', null: false
+    t.integer 'other_publication_id', null: false
+  end
+
+  create_table 'other_publications', force: :cascade do |t|
+    t.string 'author_first_name'
+    t.string 'author_last_name'
+    t.string 'college_ids'
+    t.string 'uc_department'
+    t.string 'work_title'
+    t.string 'other_title'
+    t.string 'volume'
+    t.string 'issue'
+    t.string 'page_numbers'
+    t.string 'publisher'
+    t.string 'city'
+    t.string 'publication_date'
+    t.string 'url'
+    t.string 'doi'
+    t.string 'submitter_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
 
   create_table 'submitters', force: :cascade do |t|
     t.string 'first_name'
