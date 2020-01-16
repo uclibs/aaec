@@ -23,19 +23,19 @@
 
   <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label :college %>
+      <%= form.label(:college, "UC College") %>
       <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name), class: "form-control" %> 
     </div>
 
     <div class="form-group col-md-6">
-      <%= form.label :department %>
+      <%= form.label(:department, "UC Department or Division") %>
       <%= form.text_field :department, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label :mailing_address %>
+      <%= form.label(:mailing_address, "Mail Location (Postal address if off campus)") %>
       <%= form.text_field :mailing_address, required: true, class: "form-control" %>
     </div>
 
