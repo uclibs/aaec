@@ -8,7 +8,7 @@ RSpec.describe 'submitters/index', type: :view do
              Submitter.create!(
                first_name: 'First Name',
                last_name: 'Last Name',
-               college: 'College',
+               college: 1,
                department: 'Department',
                mailing_address: 'Mailing Address',
                phone_number: '111-111-1111',
@@ -17,7 +17,7 @@ RSpec.describe 'submitters/index', type: :view do
              Submitter.create!(
                first_name: 'First Name',
                last_name: 'Last Name',
-               college: 'College',
+               college: 1,
                department: 'Department',
                mailing_address: 'Mailing Address',
                phone_number: '111-111-1111',
@@ -30,7 +30,7 @@ RSpec.describe 'submitters/index', type: :view do
     render
     assert_select 'tr>td', text: 'First Name'.to_s, count: 2
     assert_select 'tr>td', text: 'Last Name'.to_s, count: 2
-    assert_select 'tr>td', text: 'College'.to_s, count: 2
+    assert_select 'tr>td', text: '1'.to_s, count: 2
     assert_select 'tr>td', text: 'Department'.to_s, count: 2
     assert_select 'tr>td', text: 'Mailing Address'.to_s, count: 2
     assert_select 'tr>td', text: '111-111-1111'.to_s, count: 2

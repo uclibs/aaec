@@ -24,7 +24,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <%= form.label(:college, "UC College") %>
-      <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name), class: "form-control" %> 
+      <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name, @submitter.college), prompt: "Please select a college", class: "form-control" %>
     </div>
 
     <div class="form-group col-md-6">

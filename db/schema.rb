@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_109_194_631) do
+ActiveRecord::Schema.define(version: 20_200_116_172_702) do
 
   create_table 'books', force: :cascade do |t|
     t.string 'author_first_name'
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20_200_109_194_631) do
   create_table 'submitters', force: :cascade do |t|
     t.string 'first_name'
     t.string 'last_name'
-    t.string 'college'
+    t.integer 'college'
     t.string 'department'
     t.string 'mailing_address'
     t.string 'phone_number'
