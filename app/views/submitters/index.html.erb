@@ -1,39 +1,51 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<h1>Submitters</h1>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>College</th>
-      <th>Department</th>
-      <th>Mailing address</th>
-      <th>Phone number</th>
-      <th>Email address</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="row">
+    <h1>Submitters</h1>
+  </div>
 
-  <tbody>
-    <% @submitters.each do |submitter| %>
-      <tr>
-        <td><%= submitter.first_name %></td>
-        <td><%= submitter.last_name %></td>
-        <td><%= submitter.college %></td>
-        <td><%= submitter.department %></td>
-        <td><%= submitter.mailing_address %></td>
-        <td><%= submitter.phone_number %></td>
-        <td><%= submitter.email_address %></td>
-        <td><%= link_to 'Show', submitter %></td>
-        <td><%= link_to 'Edit', edit_submitter_path(submitter) %></td>
-        <td><%= link_to 'Destroy', submitter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>College</th>
+          <th>Department</th>
+          <th>Mailing address</th>
+          <th>Phone number</th>
+          <th>Email address</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<br>
+      <tbody>
+        <% @submitters.each do |submitter| %>
+          <tr>
+            <td><%= submitter.first_name %></td>
+            <td><%= submitter.last_name %></td>
+            <td><%= submitter.college %></td>
+            <td><%= submitter.department %></td>
+            <td><%= submitter.mailing_address %></td>
+            <td><%= submitter.phone_number %></td>
+            <td><%= submitter.email_address %></td>
+            <td><%= link_to 'Show', submitter %></td>
+            <td><%= link_to 'Edit', edit_submitter_path(submitter) %></td>
+            <td><%= link_to 'Destroy', submitter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<%= link_to 'New Submitter', new_submitter_path %>
+  <div class="row">
+    <%= link_to 'New Submitter', new_submitter_path, class: "btn btn-primary" %>
+  </div>
+
+</div>

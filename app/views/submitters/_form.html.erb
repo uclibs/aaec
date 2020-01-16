@@ -1,52 +1,58 @@
 <%= form_with(model: submitter, local: true) do |form| %>
   <% if submitter.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(submitter.errors.count, "error") %> prohibited this submitter from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= pluralize(submitter.errors.count, "error") %> found:</h4>
+      <hr>
       <% submitter.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <p class="mb-0"><%= message %></p>
       <% end %>
-      </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, required: true %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :first_name %>
+      <%= form.text_field :first_name, required: true, class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= form.label :last_name %>
+      <%= form.text_field :last_name, required: true, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, required: true %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :college %>
+      <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name), class: "form-control" %> 
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= form.label :department %>
+      <%= form.text_field :department, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :college %>
-    <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name) %> 
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :mailing_address %>
+      <%= form.text_field :mailing_address, required: true, class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= form.label :phone_number %>
+      <%= form.text_field :phone_number, required: true, class: "form-control" %>
+      <small class="form-text text-muted">Must be in the form ###-###-####</small>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :department %>
-    <%= form.text_field :department %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :email_address %>
+      <%= form.text_field :email_address, required: true, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :mailing_address %>
-    <%= form.text_field :mailing_address, required: true %>
-  </div>
+  <%= form.submit "Submit", class: "btn btn-primary" %>
 
-  <div class="field">
-    <%= form.label :phone_number %>
-    <%= form.text_field :phone_number, required: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :email_address %>
-    <%= form.text_field :email_address, required: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

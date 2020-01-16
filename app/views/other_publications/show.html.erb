@@ -1,79 +1,96 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<p>
-  <strong>Author first name:</strong>
-  <%= @other_publication.author_first_name %>
-</p>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<p>
-  <strong>Author last name:</strong>
-  <%= @other_publication.author_last_name %>
-</p>
+  <div class="row">
+    <h1>Show Other Publication</h1>
+  </div>
 
-<p>
-  <strong>College ids:</strong>
-  <%= @other_publication.college_ids %>
-</p>
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author first name:</th>
+          <td><%= @other_publication.author_first_name %></td>
+        </tr>
 
-<p>
-  <strong>Uc department:</strong>
-  <%= @other_publication.uc_department %>
-</p>
+        <tr>
+          <th scope="row">Author last name:</th>
+          <td><%= @other_publication.author_last_name %></td>
+        </tr>
 
-<p>
-  <strong>Work title:</strong>
-  <%= @other_publication.work_title %>
-</p>
+        <tr>
+          <th scope="row">College ids:</th>
+          <td><%= @other_publication.college_ids %></td>
+        </tr>
 
-<p>
-  <strong>Other title:</strong>
-  <%= @other_publication.other_title %>
-</p>
+        <tr>
+          <th scope="row">Uc department:</th>
+          <td><%= @other_publication.uc_department %></td>
+        </tr>
 
-<p>
-  <strong>Volume:</strong>
-  <%= @other_publication.volume %>
-</p>
+        <tr>
+          <th scope="row">Work title:</th>
+          <td><%= @other_publication.work_title %></td>
+        </tr>
 
-<p>
-  <strong>Issue:</strong>
-  <%= @other_publication.issue %>
-</p>
+        <tr>
+          <th scope="row">Other title:</th>
+          <td><%= @other_publication.other_title %></td>
+        </tr>
 
-<p>
-  <strong>Page numbers:</strong>
-  <%= @other_publication.page_numbers %>
-</p>
+        <tr>
+          <th scope="row">Volume:</th>
+          <td><%= @other_publication.volume %></td>
+        </tr>
 
-<p>
-  <strong>Publisher:</strong>
-  <%= @other_publication.publisher %>
-</p>
+        <tr>
+          <th scope="row">Issue:</th>
+          <td><%= @other_publication.issue %></td>
+        </tr>
 
-<p>
-  <strong>City:</strong>
-  <%= @other_publication.city %>
-</p>
+        <tr>
+          <th scope="row">Page numbers:</th>
+          <td><%= @other_publication.page_numbers %></td>
+        </tr>
 
-<p>
-  <strong>Publication date:</strong>
-  <%= @other_publication.publication_date %>
-</p>
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @other_publication.publisher %></td>
+        </tr>
 
-<p>
-  <strong>Url:</strong>
-  <%= @other_publication.url %>
-</p>
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @other_publication.city %></td>
+        </tr>
 
-<p>
-  <strong>Doi:</strong>
-  <%= @other_publication.doi %>
-</p>
+        <tr>
+          <th scope="row">Publication date:</th>
+          <td><%= @other_publication.publication_date %></td>
+        </tr>
 
-<p>
-  <strong>Submitter:</strong>
-  <%= @other_publication.submitter_id %>
-</p>
+        <tr>
+          <th scope="row">Url:</th>
+          <td><%= @other_publication.url %></td>
+        </tr>
 
-<%= link_to 'Edit', edit_other_publication_path(@other_publication) %> |
-<%= link_to 'Back', other_publications_path %>
+        <tr>
+          <th scope="row">Doi:</th>
+          <td><%= @other_publication.doi %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Submitter:</th>
+          <td><%= @other_publication.submitter_id %></td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+    
+    <div class="row">
+      <%= link_to 'Edit', edit_other_publication_path(@other_publication), class: "btn btn-primary" %>
+    </div>
