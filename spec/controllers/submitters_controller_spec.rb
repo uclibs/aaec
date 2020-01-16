@@ -30,15 +30,15 @@ RSpec.describe SubmittersController, type: :controller do
   # Submitter. As you add validations to Submitter, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { first_name: 'Test', last_name: 'Case', college: 'UC Libraries', department: 'Application Development', mailing_address: '2911 Woodside', phone_number: '111-111-1111', email_address: 'test@mail.uc.edu' }
+    { first_name: 'Test', last_name: 'Case', college: 1, department: 'Application Development', mailing_address: '2911 Woodside', phone_number: '111-111-1111', email_address: 'test@mail.uc.edu' }
   end
 
   let(:invalid_attributes) do
-    { first_name: '', last_name: '', college: 'UC Libraries', department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
+    { first_name: '', last_name: '', college: 1, department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
   end
 
   let(:new_attributes) do
-    { first_name: 'New', last_name: 'Submitter', college: 'Other', department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
+    { first_name: 'New', last_name: 'Submitter', college: 2, department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
   end
 
   # This should return the minimal set of values that should be in the session
