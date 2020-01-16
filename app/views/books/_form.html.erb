@@ -1,79 +1,89 @@
 <%= form_with(model: book, local: true) do |form| %>
   <% if book.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= pluralize(book.errors.count, "error") %> found:</h4>
+      <hr>
       <% book.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <p class="mb-0"><%= message %></p>
       <% end %>
-      </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :author_first_name %>
-    <%= form.text_field :author_first_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :author_last_name %>
-    <%= form.text_field :author_last_name %>
-  </div>
-
-  <div class="field">
-  <%= form.label :college_ids %><br />
-  <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-    <div class="collection-check-box">
-      <%= c.check_box %>
-      <%= c.label %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :author_first_name %>
+      <%= form.text_field :author_first_name, required: true, class: "form-control" %>
     </div>
-  <% end %>
+
+    <div class="form-group col-md-6">
+      <%= form.label :author_last_name %>
+      <%= form.text_field :author_last_name, required: true, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :uc_department %>
-    <%= form.text_field :uc_department %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label(:college_ids, "UC College") %><br />
+      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
+        <div class="form-check form-check-inline">
+          <%= c.check_box class: "form-check-input" %>
+          <%= c.label class: "form-check-label" %>
+        </div>
+      <% end %>
+      </div>
+
+      <div class="form-group col-md-6">
+        <%= form.label(:uc_department, "UC Department or Division") %>
+        <%= form.text_field :uc_department, class: "form-control" %>
+      </div>
+    </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :work_title %>
+      <%= form.text_field :work_title, class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= form.label :other_title %>
+      <%= form.text_field :other_title, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :work_title %>
-    <%= form.text_field :work_title %>
-  </div>
+  <div class="form-row"> 
+    <div class="form-group col-md-6">
+      <%= form.label :publisher %>
+      <%= form.text_field :publisher, class: "form-control" %>
+    </div>
 
-  <div class="field">
-    <%= form.label :other_title %>
-    <%= form.text_field :other_title %>
-  </div>
+    <div class="form-group col-md-6">
+      <%= form.label :city %>
+      <%= form.text_field :city, class: "form-control" %>
+    </div>
+  </div>  
 
-  <div class="field">
-    <%= form.label :publisher %>
-    <%= form.text_field :publisher %>
-  </div>
+  <div class="form-row">  
+    <div class="form-group col-md-6">
+      <%= form.label :publication_date %>
+      <%= form.text_field :publication_date, class: "form-control" %>
+    </div>
 
-  <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city %>
-  </div>
+    <div class="form-group col-md-6">
+      <%= form.label :url %>
+      <%= form.text_field :url, class: "form-control" %>
+    </div>
+  </div>  
 
-  <div class="field">
-    <%= form.label :publication_date %>
-    <%= form.text_field :publication_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url %>
-  </div>
-
-  <div class="field">
-    <%= form.label :doi %>
-    <%= form.text_field :doi %>
+  <div class="form-row">  
+    <div class="form-group col-md-6">
+      <%= form.label :doi %>
+      <%= form.text_field :doi, class: "form-control" %>
+    </div>
   </div>
 
 <%= hidden_field_tag "book[submitter_id]", session[:submitter_id] %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

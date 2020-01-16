@@ -1,9 +1,26 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<p>
-  <strong>Name:</strong>
-  <%= @college.name %>
-</p>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<%= link_to 'Edit', edit_college_path(@college) %> |
-<%= link_to 'Back', colleges_path %>
+  <div class="row">
+    <h1>Show College</h1>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Name:</th>
+          <td><%= @college.name %></td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+    
+    <div class="row">
+      <%= link_to 'Edit', edit_college_path(@college), class: "btn btn-primary" %>
+    </div>

@@ -1,56 +1,67 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<h1>Other Publications</h1>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Author first name</th>
-      <th>Author last name</th>
-      <th>College ids</th>
-      <th>Uc department</th>
-      <th>Work title</th>
-      <th>Other title</th>
-      <th>Volume</th>
-      <th>Issue</th>
-      <th>Page numbers</th>
-      <th>Publisher</th>
-      <th>City</th>
-      <th>Publication date</th>
-      <th>Url</th>
-      <th>Doi</th>
-      <th>Submitter</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="row">
+    <h1>Other Publications</h1>
+</div>
 
-  <tbody>
-    <% @other_publications.each do |other_publication| %>
-      <tr>
-        <td><%= other_publication.author_first_name %></td>
-        <td><%= other_publication.author_last_name %></td>
-        <td><%= other_publication.college_ids %></td>
-        <td><%= other_publication.uc_department %></td>
-        <td><%= other_publication.work_title %></td>
-        <td><%= other_publication.other_title %></td>
-        <td><%= other_publication.volume %></td>
-        <td><%= other_publication.issue %></td>
-        <td><%= other_publication.page_numbers %></td>
-        <td><%= other_publication.publisher %></td>
-        <td><%= other_publication.city %></td>
-        <td><%= other_publication.publication_date %></td>
-        <td><%= other_publication.url %></td>
-        <td><%= other_publication.doi %></td>
-        <td><%= other_publication.submitter_id %></td>
-        <td><%= link_to 'Show', other_publication %></td>
-        <td><%= link_to 'Edit', edit_other_publication_path(other_publication) %></td>
-        <td><%= link_to 'Destroy', other_publication, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+        <th>Author first name</th>
+        <th>Author last name</th>
+        <th>UC College</th>
+        <th>UC Department or Division</th>
+        <th>Work title</th>
+        <th>Other title</th>
+        <th>Volume</th>
+        <th>Issue</th>
+        <th>Page numbers</th>
+        <th>Publisher</th>
+        <th>City</th>
+        <th>Publication date</th>
+        <th>Url</th>
+        <th>Doi</th>
+        <th>Submitter</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @other_publications.each do |other_publication| %>
+        <tr>
+          <td><%= other_publication.author_first_name %></td>
+          <td><%= other_publication.author_last_name %></td>
+          <td><%= other_publication.college_ids %></td>
+          <td><%= other_publication.uc_department %></td>
+          <td><%= other_publication.work_title %></td>
+          <td><%= other_publication.other_title %></td>
+          <td><%= other_publication.volume %></td>
+          <td><%= other_publication.issue %></td>
+          <td><%= other_publication.page_numbers %></td>
+          <td><%= other_publication.publisher %></td>
+          <td><%= other_publication.city %></td>
+          <td><%= other_publication.publication_date %></td>
+          <td><%= other_publication.url %></td>
+          <td><%= other_publication.doi %></td>
+          <td><%= other_publication.submitter_id %></td>
+          <td><%= link_to 'Show', other_publication %></td>
+          <td><%= link_to 'Edit', edit_other_publication_path(other_publication) %></td>
+          <td><%= link_to 'Destroy', other_publication, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
 
-<%= link_to 'New Other Publication', new_other_publication_path %> <br>
-<%= link_to 'New Book', new_book_path %>
+  <div class="row">
+    <%= link_to 'New Other Publication', new_other_publication_path, class: "btn btn-primary" %>
+  </div>
+
+</div>

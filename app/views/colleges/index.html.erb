@@ -1,14 +1,23 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<h1>Colleges</h1>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="row">
+    <h1>Colleges</h1>
+</div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
   <tbody>
     <% @colleges.each do |college| %>
@@ -21,7 +30,10 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
-<br>
+  <div class="row">
+    <%= link_to 'New College', new_college_path, class: "btn btn-primary" %>
+  </div>
 
-<%= link_to 'New College', new_college_path %>
+</div>

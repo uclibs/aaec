@@ -1,64 +1,81 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<p>
-  <strong>Author first name:</strong>
-  <%= @book.author_first_name %>
-</p>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<p>
-  <strong>Author last name:</strong>
-  <%= @book.author_last_name %>
-</p>
+  <div class="row">
+    <h1>Show Other Publication</h1>
+  </div>
 
-<p>
-  <strong>College ids:</strong>
-  <%= @book.college_ids %>
-</p>
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author first name:</th>
+          <td><%= @book.author_first_name %></td>
+        </tr>
 
-<p>
-  <strong>Uc department:</strong>
-  <%= @book.uc_department %>
-</p>
+        <tr>
+          <th scope="row">Author last name:</th>
+          <td><%= @book.author_last_name %></td>
+        </tr>
 
-<p>
-  <strong>Work title:</strong>
-  <%= @book.work_title %>
-</p>
+        <tr>
+          <th scope="row">UC College:</th>
+          <td><%= @book.college_ids %></td>
+        </tr>
 
-<p>
-  <strong>Other title:</strong>
-  <%= @book.other_title %>
-</p>
+        <tr>
+          <th scope="row">UC Department or Division:</th>
+          <td><%= @book.uc_department %></td>
+        </tr>
 
-<p>
-  <strong>Publisher:</strong>
-  <%= @book.publisher %>
-</p>
+        <tr>
+          <th scope="row">Work title:</th>
+          <td><%= @book.work_title %></td>
+        </tr>
 
-<p>
-  <strong>City:</strong>
-  <%= @book.city %>
-</p>
+        <tr>
+          <th scope="row">Other title:</th>
+          <td><%= @book.other_title %></td>
+        </tr>
 
-<p>
-  <strong>Publication date:</strong>
-  <%= @book.publication_date %>
-</p>
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @book.publisher %></td>
+        </tr>
 
-<p>
-  <strong>Url:</strong>
-  <%= @book.url %>
-</p>
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @book.city %></td>
+        </tr>
 
-<p>
-  <strong>Doi:</strong>
-  <%= @book.doi %>
-</p>
+        <tr>
+          <th scope="row">Publication date:</th>
+          <td><%= @book.publication_date %></td>
+        </tr>
 
-<p>
-  <strong>Submitter:</strong>
-  <%= @book.submitter_id %>
-</p>
+        <tr>
+          <th scope="row">Url:</th>
+          <td><%= @book.url %></td>
+        </tr>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+        <tr>
+          <th scope="row">Doi:</th>
+          <td><%= @book.doi %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Submitter:</th>
+          <td><%= @book.submitter_id %></td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <%= link_to 'Edit', edit_book_path(@book), class: "btn btn-primary" %>
+    </div>

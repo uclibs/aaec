@@ -1,7 +1,11 @@
-<h1>New Submitter</h1>
+<div class="container offset-footer">
 
-<%= render 'instructions' %>
+    <div class="row">
+        <h1>Artists, authors, editors, composers</h1>
+    </div>
+    <hr>
+    <%= render 'instructions' %>
+    <hr>
+    <%= render 'form', submitter: @submitter %>
 
-<%= render 'form', submitter: @submitter %>
-
-<%#= link_to 'Back', submitters_path %>
+</div>

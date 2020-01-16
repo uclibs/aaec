@@ -53,16 +53,6 @@ class SubmittersController < ApplicationController
     end
   end
 
-  # DELETE /submitters/1
-  # DELETE /submitters/1.json
-  def destroy
-    @submitter.destroy
-    respond_to do |format|
-      format.html { redirect_to submitters_url, notice: 'Submitter was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

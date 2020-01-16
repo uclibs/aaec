@@ -1,39 +1,58 @@
-<p id="notice"><%= notice %></p>
+<div class="container offset-footer">
 
-<p>
-  <strong>First name:</strong>
-  <%= @submitter.first_name %>
-</p>
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @submitter.last_name %>
-</p>
+  <div class="row">
+    <h1>Show Submitter</h1>
+  </div>
 
-<p>
-  <strong>College:</strong>
-  <%= @submitter.college %>
-</p>
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">First name:</th>
+          <td><%= @submitter.first_name %></td>
+        </tr>
 
-<p>
-  <strong>Department:</strong>
-  <%= @submitter.department %>
-</p>
+        <tr>
+          <th scope="row">Last name:</th>
+          <td><%= @submitter.last_name %></td>
+        </tr>
 
-<p>
-  <strong>Mailing address:</strong>
-  <%= @submitter.mailing_address %>
-</p>
+        <tr>
+          <th scope="row">UC College:</th>
+          <td><%= @submitter.college %></td>
+        </tr>
 
-<p>
-  <strong>Phone number:</strong>
-  <%= @submitter.phone_number %>
-</p>
+        <tr>
+          <th scope="row">UC Department or Division:</th>
+          <td><%= @submitter.department %></td>
+        </tr>
 
-<p>
-  <strong>Email address:</strong>
-  <%= @submitter.email_address %>
-</p>
+        <tr>
+          <th scope="row">Mail Location:</th>
+          <td><%= @submitter.mailing_address %></td>
+        </tr>
 
-<%= link_to 'Edit', edit_submitter_path(@submitter) %> |
-<%= link_to 'Back', submitters_path %>
+        <tr>
+          <th scope="row">Phone number:</th>
+          <td><%= @submitter.phone_number %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Email address:</th>
+          <td><%= @submitter.email_address %></td>
+        </tr>
+      </tbody>
+      </table>
+  </div>
+
+  <div class="row">
+    <%= link_to 'Edit', edit_submitter_path(@submitter), class: "btn btn-primary" %>
+  </div>
+
+</div>

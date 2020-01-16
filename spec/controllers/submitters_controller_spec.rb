@@ -123,19 +123,4 @@ RSpec.describe SubmittersController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested submitter' do
-      submitter = Submitter.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: submitter.to_param }, session: valid_session
-      end.to change(Submitter, :count).by(-1)
-    end
-
-    it 'redirects to the submitters list' do
-      submitter = Submitter.create! valid_attributes
-      delete :destroy, params: { id: submitter.to_param }, session: valid_session
-      expect(response).to redirect_to(submitters_url)
-    end
-  end
 end
