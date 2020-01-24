@@ -1,10 +1,7 @@
-Layout/EmptyLineAfterMagicComment:
+AllCops:
     Exclude:
         - 'db/schema.rb'
-
-Layout/EmptyLinesAroundBlockBody:
-    Exclude:
-        - 'db/schema.rb'
+        - 'vendor/**/*'
 
 Metrics/AbcSize:
     Exclude:
@@ -13,7 +10,7 @@ Metrics/AbcSize:
         - 'app/controllers/submitters_controller.rb'
 
 Metrics/BlockLength:
-    Max: 100
+    Max: 125
     Exclude:
         - 'spec/controllers/submitters_controller_spec.rb'
         - 'spec/routing/submitters_routing_spec.rb'
@@ -46,10 +43,6 @@ Style/Documentation:
         - 'app/controllers/submitters_controller.rb'
         - 'app/helpers/submitters_helper.rb'
         - 'app/models/submitter.rb'
-
-Style/FrozenStringLiteralComment:
-    Exclude:
-        - 'db/schema.rb'
 
 Style/MixinUsage:
     Exclude:

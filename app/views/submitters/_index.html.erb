@@ -1,0 +1,15 @@
+<div class="row pl-2">
+  <h1>Your Information</h1>
+</div>
+
+<% submitter = @submitters.first%>
+
+<div class="row">
+    <div class="col text-center my-auto"><%= submitter.first_name %> <%= submitter.last_name %></div>
+    <div class="col text-center my-auto"><%= submitter.college %></div>
+    <div class="col text-center my-auto"><%= submitter.department %></div>
+    <div class="col text-center my-auto"><%= submitter.mailing_address %></div>
+    <div class="col text-center my-auto"><%= submitter.phone_number %></div>
+    <div class="col text-center my-auto"><%= submitter.email_address %></div>
+    <div class="col text-center my-auto"><%= link_to 'Edit', edit_submitter_path(submitter) %></div>
+</div>

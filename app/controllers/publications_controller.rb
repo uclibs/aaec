@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
 class PublicationsController < ApplicationController
+  before_action :set_object, only: %i[show edit update destroy]
+  before_action :signed_in, only: %i[index show edit update destroy]
+  before_action :check_max_submissions, only: %i[new]
+
   def index
-    instance_variable_set("@#{controller_name.pluralize}", Object.const_get(controller_name.classify).all)
+    redirect_to publications_path if request.fullpath != '/publications'
+    @submitters = helpers.find_submitter(session[:submitter_id])
+    @books = helpers.find_books(session[:submitter_id])
+    @other_publications = helpers.find_other_publications(session[:submitter_id])
   end
 
   def show; end
 
   def new
-    redirect_to new_submitter_path if session[:submitter_id].nil?
     instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).new)
   end
 
@@ -19,7 +25,7 @@ class PublicationsController < ApplicationController
     instance_variable = instance_variable_get("@#{controller_name.singularize}")
     respond_to do |format|
       if instance_variable.save
-        format.html { redirect_to instance_variable, notice: "#{controller_name.classify} was successfully created." }
+        format.html { redirect_to publications_path, notice: "#{controller_name.classify} was successfully created." }
         format.json { render :show, status: :created, location: instance_variable }
       else
         format.html { render :new }
@@ -54,5 +60,13 @@ class PublicationsController < ApplicationController
 
   def set_object
     instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find(params[:id]))
+  end
+
+  def signed_in
+    redirect_to new_submitter_path if session[:submitter_id].nil?
+  end
+
+  def check_max_submissions
+    redirect_to publications_path if Object.const_get(controller_name.classify).where(submitter_id: session[:submitter_id]).count > 2
   end
 end

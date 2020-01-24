@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 class SubmittersController < ApplicationController
-  before_action :set_submitter, only: %i[show edit update destroy]
-
-  # GET /submitters
-  # GET /submitters.json
-  def index
-    @submitters = Submitter.all
-  end
+  before_action :set_submitter, only: %i[edit update destroy]
 
   # GET /submitters/1
   # GET /submitters/1.json
@@ -44,7 +38,7 @@ class SubmittersController < ApplicationController
   def update
     respond_to do |format|
       if @submitter.update(submitter_params)
-        format.html { redirect_to @submitter, notice: 'Submitter was successfully updated.' }
+        format.html { redirect_to publications_path, notice: 'Submitter was successfully updated.' }
         format.json { render :show, status: :ok, location: @submitter }
       else
         format.html { render :edit }

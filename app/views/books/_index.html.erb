@@ -1,0 +1,57 @@
+<div class="row mt-4">
+  <div class="col-xs-auto pl-2">
+    <h1 class="my-auto">Books</h1>
+  </div>
+  <% if @books.count < 3 %>
+  <div class="my-auto pl-3">
+      <%= link_to 'New', new_book_path, class: "btn btn-primary" %>
+  </div>
+  <% end %>
+</div>
+
+<% if @books.count != 0 %>
+<div class="row table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+      <th>Author first name</th>
+      <th>Author last name</th>
+      <th>UC College</th>
+      <th>UC Department or Division</th>
+      <th>Work title</th>
+      <th>Other title</th>
+      <th>Publisher</th>
+      <th>City</th>
+      <th>Publication date</th>
+      <th>Url</th>
+      <th>Doi</th>
+      <th>Submitter</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= book.author_first_name %></td>
+        <td><%= book.author_last_name %></td>
+        <td><%= book.college_ids %></td>
+        <td><%= book.uc_department %></td>
+        <td><%= book.work_title %></td>
+        <td><%= book.other_title %></td>
+        <td><%= book.publisher %></td>
+        <td><%= book.city %></td>
+        <td><%= book.publication_date %></td>
+        <td><%= book.url %></td>
+        <td><%= book.doi %></td>
+        <td><%= book.submitter_id %></td>
+        <td><%= link_to 'Show', book %></td>
+        <td><%= link_to 'Edit', edit_book_path(book) %></td>
+        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>

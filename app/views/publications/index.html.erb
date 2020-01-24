@@ -1,0 +1,15 @@
+<div class="container offset-footer">
+
+    <% if notice %>
+        <div class="alert alert-success" role="alert">
+            <%= notice %>
+        </div>
+    <% end %>
+
+    <%= render 'submitters/index', submitters: @submitters %>
+
+    <%= render 'books/index', books: @books %>
+
+    <%= render 'other_publications/index', other_publications: @other_publications %>
+
+</div>
