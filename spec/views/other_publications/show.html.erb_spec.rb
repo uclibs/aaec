@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'other_publications/show', type: :view do
   before(:each) do
     @other_publication = assign(:other_publication, OtherPublication.create!(
-                                                      author_first_name: 'Author First Name',
-                                                      author_last_name: 'Author Last Name',
+                                                      author_first_name: ['Author First Name'],
+                                                      author_last_name: ['Author Last Name'],
                                                       college_ids: [1],
                                                       uc_department: 'Uc Department',
                                                       work_title: 'Work Title',
@@ -25,9 +25,8 @@ RSpec.describe 'other_publications/show', type: :view do
 
   it 'renders attributes in <p>' do
     render
-    expect(rendered).to match(/Author First Name/)
-    expect(rendered).to match(/Author Last Name/)
-    expect(rendered).to match(/[1]/)
+    expect(rendered).to match(/Author First Name Author Last Name/)
+    expect(rendered).to match(/Allied Health Sciences/)
     expect(rendered).to match(/Uc Department/)
     expect(rendered).to match(/Work Title/)
     expect(rendered).to match(/Other Title/)

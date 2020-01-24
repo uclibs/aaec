@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'other_publications/new', type: :view do
   before(:each) do
     assign(:other_publication, OtherPublication.new(
-                                 author_first_name: 'MyString',
-                                 author_last_name: 'MyString',
+                                 author_first_name: ['MyString'],
+                                 author_last_name: ['MyString'],
                                  college_ids: [1],
                                  uc_department: 'MyString',
                                  work_title: 'MyString',
@@ -27,10 +27,6 @@ RSpec.describe 'other_publications/new', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', other_publications_path, 'post' do
-      assert_select 'input[name=?]', 'other_publication[author_first_name]'
-
-      assert_select 'input[name=?]', 'other_publication[author_last_name]'
-
       assert_select 'input[name=?]', 'other_publication[college_ids][]'
 
       assert_select 'input[name=?]', 'other_publication[uc_department]'
