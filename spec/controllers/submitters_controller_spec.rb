@@ -46,14 +46,6 @@ RSpec.describe SubmittersController, type: :controller do
   # SubmittersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe 'GET #index' do
-    it 'returns a success response' do
-      Submitter.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe 'GET #show' do
     it 'returns a success response' do
       submitter = Submitter.create! valid_attributes
@@ -111,7 +103,7 @@ RSpec.describe SubmittersController, type: :controller do
       it 'redirects to the submitter' do
         submitter = Submitter.create! valid_attributes
         put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(submitter)
+        expect(response).to redirect_to(publications_path)
       end
     end
 
