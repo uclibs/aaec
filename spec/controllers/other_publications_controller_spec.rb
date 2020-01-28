@@ -30,7 +30,7 @@ RSpec.describe OtherPublicationsController, type: :controller do
   # Publication. As you add validations to Publication, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { 'author_first_name' => ['Test'], 'author_last_name' => ['Case'], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'Test', 'doi' => 'Test' }
+    { 'author_first_name' => ['Test', 'Person'], 'author_last_name' => ['Case', '2'], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'Test', 'doi' => 'Test' }
   end
 
   let(:invalid_attributes) do

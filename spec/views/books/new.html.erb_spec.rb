@@ -24,6 +24,10 @@ RSpec.describe 'books/new', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', books_path, 'post' do
+      assert_select 'input[name=?]', 'book[author_first_name][]'
+
+      assert_select 'input[name=?]', 'book[author_last_name][]'
+
       assert_select 'input[name=?]', 'book[college_ids][]'
 
       assert_select 'input[name=?]', 'book[uc_department]'
@@ -44,5 +48,13 @@ RSpec.describe 'books/new', type: :view do
 
       assert_select 'input[name=?]', 'book[submitter_id]'
     end
+  end
+
+  it 'adds a new author on click', js: true do
+    render
+    rendered.find('button.add_author_btn').click
+    expect(rendered).to have_selector("input#first_added_2")
+    expect(rendered).to have_selector("input#last_added_2")
+    expect(rendered).to have_selector("button#delete_added_2")
   end
 end

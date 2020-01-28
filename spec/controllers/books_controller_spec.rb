@@ -30,7 +30,7 @@ RSpec.describe BooksController, type: :controller do
   # Book. As you add validations to Book, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { 'author_first_name' => ['Test'], 'author_last_name' => ['Case'], 'college_ids' => ['', '1', '2'], 'uc_department' => 'Dept', 'work_title' => 'WT', 'other_title' => 'OT', 'publisher' => 'Pub', 'city' => 'City', 'publication_date' => 'Today', 'url' => 'www.fake.com', 'doi' => 'doi:' }
+    { 'author_first_name' => ['Test', 'Person'], 'author_last_name' => ['Case', '2'], 'college_ids' => ['', '1', '2'], 'uc_department' => 'Dept', 'work_title' => 'WT', 'other_title' => 'OT', 'publisher' => 'Pub', 'city' => 'City', 'publication_date' => 'Today', 'url' => 'www.fake.com', 'doi' => 'doi:' }
   end
 
   let(:invalid_attributes) do

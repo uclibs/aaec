@@ -27,6 +27,10 @@ RSpec.describe 'other_publications/new', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', other_publications_path, 'post' do
+      assert_select 'input[name=?]', 'other_publication[author_first_name][]'
+
+      assert_select 'input[name=?]', 'other_publication[author_last_name][]'
+
       assert_select 'input[name=?]', 'other_publication[college_ids][]'
 
       assert_select 'input[name=?]', 'other_publication[uc_department]'

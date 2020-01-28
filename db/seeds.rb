@@ -1,26 +1,24 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+collegeArray = []
 
-College.create(name: 'Allied Health Sciences')
-College.create(name: 'Arts and Sciences')
-College.create(name: 'Business')
-College.create(name: 'Conservatory of Music')
-College.create(name: 'Design, Architecture, Art, and Planning')
-College.create(name: 'Education, Criminal Justice, and Human Services')
-College.create(name: 'Engineering and Applied Science')
-College.create(name: 'The Graduate School')
-College.create(name: 'Law')
-College.create(name: 'Medicine')
-College.create(name: 'Nursing')
-College.create(name: 'Pharmacy')
-College.create(name: 'UCBA')
-College.create(name: 'UC Clermont')
-College.create(name: 'UC Libraries')
-College.create(name: 'Other')
+College.all.each { |college|
+    collegeArray.push(college.name)
+}
+
+if collegeArray.exclude? 'Allied Health Sciences' then College.create(name: 'Allied Health Sciences') end
+if collegeArray.exclude? 'Arts and Sciences' then College.create(name: 'Arts and Sciences') end
+if collegeArray.exclude? 'Business' then College.create(name: 'Business') end
+if collegeArray.exclude? 'Conservatory of Music' then College.create(name: 'Conservatory of Music') end
+if collegeArray.exclude? 'Design, Architecture, Art, and Planning' then College.create(name: 'Design, Architecture, Art, and Planning') end
+if collegeArray.exclude? 'Education, Criminal Justice, and Human Services' then College.create(name: 'Education, Criminal Justice, and Human Services') end
+if collegeArray.exclude? 'Engineering and Applied Science' then College.create(name: 'Engineering and Applied Science') end
+if collegeArray.exclude? 'The Graduate School' then College.create(name: 'The Graduate School') end
+if collegeArray.exclude? 'Law' then College.create(name: 'Law') end
+if collegeArray.exclude? 'Medicine' then College.create(name: 'Medicine') end
+if collegeArray.exclude? 'Nursing' then College.create(name: 'Nursing') end
+if collegeArray.exclude? 'Pharmacy' then College.create(name: 'Pharmacy') end
+if collegeArray.exclude? 'UCBA' then College.create(name: 'UCBA') end
+if collegeArray.exclude? 'UC Clermont' then College.create(name: 'UC Clermont') end
+if collegeArray.exclude? 'UC Libraries' then College.create(name: 'UC Libraries') end
+if collegeArray.exclude? 'Other' then College.create(name: 'Other') end
