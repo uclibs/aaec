@@ -4,20 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'books/new', type: :view do
   before(:each) do
-    assign(:book, Book.new(
-                    author_first_name: ['MyString'],
-                    author_last_name: ['MyString'],
-                    college_ids: [1],
-                    uc_department: 'MyString',
-                    work_title: 'MyString',
-                    other_title: 'MyString',
-                    publisher: 'MyString',
-                    city: 'MyString',
-                    publication_date: 'MyString',
-                    url: 'MyString',
-                    doi: 'MyString',
-                    submitter_id: 'MyString'
-                  ))
+    assign(:book, FactoryBot.build(:book))
   end
 
   it 'renders new book form' do
@@ -48,13 +35,5 @@ RSpec.describe 'books/new', type: :view do
 
       assert_select 'input[name=?]', 'book[submitter_id]'
     end
-  end
-
-  it 'adds a new author on click', js: true do
-    render
-    rendered.find('button.add_author_btn').click
-    expect(rendered).to have_selector("input#first_added_2")
-    expect(rendered).to have_selector("input#last_added_2")
-    expect(rendered).to have_selector("button#delete_added_2")
   end
 end

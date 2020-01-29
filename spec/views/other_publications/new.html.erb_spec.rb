@@ -4,23 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'other_publications/new', type: :view do
   before(:each) do
-    assign(:other_publication, OtherPublication.new(
-                                 author_first_name: ['MyString'],
-                                 author_last_name: ['MyString'],
-                                 college_ids: [1],
-                                 uc_department: 'MyString',
-                                 work_title: 'MyString',
-                                 other_title: 'MyString',
-                                 volume: 'MyString',
-                                 issue: 'MyString',
-                                 page_numbers: 'MyString',
-                                 publisher: 'MyString',
-                                 city: 'MyString',
-                                 publication_date: 'MyString',
-                                 url: 'MyString',
-                                 doi: 'MyString',
-                                 submitter_id: 'MyString'
-                               ))
+    assign(:other_publication, FactoryBot.build(:other_publication))
   end
 
   it 'renders new other_publication form' do

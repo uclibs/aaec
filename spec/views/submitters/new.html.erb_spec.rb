@@ -4,15 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'submitters/new', type: :view do
   before(:each) do
-    assign(:submitter, Submitter.new(
-                         first_name: 'MyString',
-                         last_name: 'MyString',
-                         college: 'UC Libraries',
-                         department: 'MyString',
-                         mailing_address: 'MyString',
-                         phone_number: '111-111-1111',
-                         email_address: 'test@mail.uc.edu'
-                       ))
+    assign(:submitter, FactoryBot.build(:submitter))
   end
 
   it 'renders new submitter form' do

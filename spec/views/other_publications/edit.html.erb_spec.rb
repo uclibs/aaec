@@ -4,23 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'other_publications/edit', type: :view do
   before(:each) do
-    @other_publication = assign(:other_publication, OtherPublication.create!(
-                                                      author_first_name: ['MyString'],
-                                                      author_last_name: ['MyString'],
-                                                      college_ids: [1],
-                                                      uc_department: 'MyString',
-                                                      work_title: 'MyString',
-                                                      other_title: 'MyString',
-                                                      volume: 'MyString',
-                                                      issue: 'MyString',
-                                                      page_numbers: 'MyString',
-                                                      publisher: 'MyString',
-                                                      city: 'MyString',
-                                                      publication_date: 'MyString',
-                                                      url: 'MyString',
-                                                      doi: 'MyString',
-                                                      submitter_id: 'MyString'
-                                                    ))
+    @other_publication = FactoryBot.create(:other_publication)
   end
 
   it 'renders the edit other_publication form' do

@@ -4,15 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'submitters/edit', type: :view do
   before(:each) do
-    @submitter = assign(:submitter, Submitter.create!(
-                                      first_name: 'MyString',
-                                      last_name: 'MyString',
-                                      college: 'UC Libraries',
-                                      department: 'MyString',
-                                      mailing_address: 'MyString',
-                                      phone_number: '111-111-1111',
-                                      email_address: 'test@mail.uc.edu'
-                                    ))
+    @submitter = FactoryBot.create(:submitter)
   end
 
   it 'renders the edit submitter form' do
