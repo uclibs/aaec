@@ -22,19 +22,4 @@ module PublicationsHelper
   def author_comma(publication, position)
     publication.author_last_name[position] + ', ' + publication.author_first_name[position]
   end
-
-  def list_colleges(publication)
-    array = publication.college_ids
-    college_list = ''
-    size = array.count - 1
-    (0..size).each do |i|
-      college_list += college_name(array[i])
-      college_list += if i != size
-                        ', '
-                      else
-                        ' '
-                      end
-    end
-    college_list
-  end
 end

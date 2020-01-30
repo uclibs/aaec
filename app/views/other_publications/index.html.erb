@@ -36,7 +36,7 @@
       <% @other_publications.each do |other_publication| %>
         <tr>
           <td><%= all_authors(other_publication) %></td>
-          <td><%= list_colleges(other_publication) %></td>
+          <td><%= all_colleges(other_publication.college_ids) %></td>
           <td><%= other_publication.uc_department %></td>
           <td><%= other_publication.work_title %></td>
           <td><%= other_publication.other_title %></td>

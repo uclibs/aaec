@@ -2,16 +2,24 @@
 
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the PublicationsHelper. For example:
-#
-# describe PublicationsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe PublicationsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:other_publication) { FactoryBot.create(:other_publication) }
+
+  describe '#all_authors(publication)' do
+    it 'returns all authors for a work in a string' do
+      expect(helper.all_authors(other_publication)).to eq 'First Last, Second None '
+    end
+  end
+
+  describe '#author_name(publication, position)' do
+    it 'returns the author for a specific position in a string' do
+      expect(helper.author_name(other_publication, 1)).to eq 'Second None'
+    end
+  end
+
+  describe '#author_comma(publication, position)' do
+    it 'returns the author comma separated for a specific position in a string' do
+      expect(helper.author_comma(other_publication, 1)).to eq 'None, Second'
+    end
+  end
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'books/new', type: :view do
   before(:each) do
-    assign(:book, FactoryBot.build(:book))
+    @book = FactoryBot.build(:book)
   end
 
   it 'renders new book form' do

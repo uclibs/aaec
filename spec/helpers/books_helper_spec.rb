@@ -2,16 +2,12 @@
 
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the BooksHelper. For example:
-#
-# describe BooksHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe BooksHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:book) { FactoryBot.create(:book) }
+
+  describe '#find_books(id)' do
+    it 'returns the requested book in an array' do
+      expect(helper.find_books(book.submitter_id)).to eq Array.wrap(book)
+    end
+  end
 end

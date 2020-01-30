@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'publications/index', type: :view do
   before(:each) do
-    assign(:submitters, [ FactoryBot.create(:submitter) ])
+    assign(:submitters, [FactoryBot.create(:submitter)])
   end
 
   before do
@@ -17,7 +17,7 @@ RSpec.describe 'publications/index', type: :view do
     render
     expect(rendered).to have_content('First', count: 1)
     expect(rendered).to have_content('Last', count: 1)
-    expect(rendered).to have_content('2', count: 1)
+    expect(rendered).to have_content('Arts and Sciences', count: 1)
     expect(rendered).to have_content('Department', count: 1)
     expect(rendered).to have_content('Home Address', count: 1)
     expect(rendered).to have_content('111-111-1111', count: 1)

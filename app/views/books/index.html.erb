@@ -33,7 +33,7 @@
       <% @books.each do |book| %>
         <tr>
           <td><%= all_authors(book) %></td>
-          <td><%= list_colleges(book) %></td>
+          <td><%= all_colleges(book.college_ids) %></td>
           <td><%= book.uc_department %></td>
           <td><%= book.work_title %></td>
           <td><%= book.other_title %></td>

@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-collegeArray = []
+college_array = []
 
-College.all.each { |college|
-    collegeArray.push(college.name)
-}
+College.all.each do |college|
+  college_array.push(college.name)
+end
 
-if collegeArray.exclude? 'Allied Health Sciences' then College.create(name: 'Allied Health Sciences') end
-if collegeArray.exclude? 'Arts and Sciences' then College.create(name: 'Arts and Sciences') end
-if collegeArray.exclude? 'Business' then College.create(name: 'Business') end
-if collegeArray.exclude? 'Conservatory of Music' then College.create(name: 'Conservatory of Music') end
-if collegeArray.exclude? 'Design, Architecture, Art, and Planning' then College.create(name: 'Design, Architecture, Art, and Planning') end
-if collegeArray.exclude? 'Education, Criminal Justice, and Human Services' then College.create(name: 'Education, Criminal Justice, and Human Services') end
-if collegeArray.exclude? 'Engineering and Applied Science' then College.create(name: 'Engineering and Applied Science') end
-if collegeArray.exclude? 'The Graduate School' then College.create(name: 'The Graduate School') end
-if collegeArray.exclude? 'Law' then College.create(name: 'Law') end
-if collegeArray.exclude? 'Medicine' then College.create(name: 'Medicine') end
-if collegeArray.exclude? 'Nursing' then College.create(name: 'Nursing') end
-if collegeArray.exclude? 'Pharmacy' then College.create(name: 'Pharmacy') end
-if collegeArray.exclude? 'UCBA' then College.create(name: 'UCBA') end
-if collegeArray.exclude? 'UC Clermont' then College.create(name: 'UC Clermont') end
-if collegeArray.exclude? 'UC Libraries' then College.create(name: 'UC Libraries') end
-if collegeArray.exclude? 'Other' then College.create(name: 'Other') end
+College.create(name: 'Allied Health Sciences') if college_array.exclude? 'Allied Health Sciences'
+College.create(name: 'Arts and Sciences') if college_array.exclude? 'Arts and Sciences'
+College.create(name: 'Business') if college_array.exclude? 'Business'
+College.create(name: 'Conservatory of Music') if college_array.exclude? 'Conservatory of Music'
+College.create(name: 'Design, Architecture, Art, and Planning') if college_array.exclude? 'Design, Architecture, Art, and Planning'
+College.create(name: 'Education, Criminal Justice, and Human Services') if college_array.exclude? 'Education, Criminal Justice, and Human Services'
+College.create(name: 'Engineering and Applied Science') if college_array.exclude? 'Engineering and Applied Science'
+College.create(name: 'The Graduate School') if college_array.exclude? 'The Graduate School'
+College.create(name: 'Law') if college_array.exclude? 'Law'
+College.create(name: 'Medicine') if college_array.exclude? 'Medicine'
+College.create(name: 'Nursing') if college_array.exclude? 'Nursing'
+College.create(name: 'Pharmacy') if college_array.exclude? 'Pharmacy'
+College.create(name: 'UCBA') if college_array.exclude? 'UCBA'
+College.create(name: 'UC Clermont') if college_array.exclude? 'UC Clermont'
+College.create(name: 'UC Libraries') if college_array.exclude? 'UC Libraries'
+College.create(name: 'Other') if college_array.exclude? 'Other'

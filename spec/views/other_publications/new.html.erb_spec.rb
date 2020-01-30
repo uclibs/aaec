@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'other_publications/new', type: :view do
   before(:each) do
-    assign(:other_publication, FactoryBot.build(:other_publication))
+    @other_publication = FactoryBot.build(:other_publication)
   end
 
   it 'renders new other_publication form' do
