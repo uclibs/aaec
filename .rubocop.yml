@@ -8,6 +8,7 @@ Metrics/AbcSize:
         - 'db/migrate/*'
         - 'app/controllers/publications_controller.rb'
         - 'app/controllers/submitters_controller.rb'
+        - 'spec/rails_helper.rb'
 
 Metrics/BlockLength:
     Max: 125

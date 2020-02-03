@@ -16,6 +16,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'simplecov'
+require 'capybara/rspec'
 SimpleCov.start 'rails'
 
 SimpleCov.at_exit do

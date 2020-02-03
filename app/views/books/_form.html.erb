@@ -10,57 +10,78 @@
   <% end %>
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-5", id="author_first_div">
       <%= form.label :author_first_name %>
-      <%= form.text_field :author_first_name, required: true, class: "form-control" %>
+      <% count = 1 %>
+      <% @book.author_first_name.each do | indiv_author | %>
+        <%= text_field_tag "book[author_first_name][]", indiv_author, id: "first_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @book.author_first_name == [] %>
+        <%= text_field_tag "book[author_first_name][]", nil, required: true, class: "form-control form-group" %>
+      <% end %>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-5" id="author_last_div">
       <%= form.label :author_last_name %>
-      <%= form.text_field :author_last_name, required: true, class: "form-control" %>
+      <% count = 1 %>
+      <% @book.author_last_name.each do | indiv_author | %>
+        <%= text_field_tag "book[author_last_name][]", indiv_author, id: "last_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @book.author_last_name == [] %>
+          <%= text_field_tag "book[author_last_name][]", nil, required: true, class: "form-control form-group" %>
+        <% end %>
+    </div>
+
+    <div class="form-group col-md-2" id="author_delete_div">
+      <%= form.label :delete, class: "invisible" %>
+      <% count = 1 %>
+      <% @book.author_first_name.each do | indiv_author | %>
+        <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor(#{count});", id: "delete_#{count}", class: "form-control form-group bg-danger text-white" %>
+        <% count += 1%>
+      <% end %>
+      <% if @book.author_first_name == [] %>
+        <%= button_tag "Remove Author", type: "button", class: "form-control form-group bg-danger text-white invisible" %>
+      <% end %>
     </div>
   </div>
-
+  <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('book');", class: "btn btn-primary" %>
+  <hr>
   <div class="form-row">
     <div class="form-group col-md-6">
       <%= form.label(:college_ids, "UC College") %><br />
       <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-        <div class="form-check form-check-inline">
+        <div class="form-check">
           <%= c.check_box class: "form-check-input" %>
           <%= c.label class: "form-check-label" %>
         </div>
       <% end %>
       </div>
 
-      <div class="form-group col-md-6">
-        <%= form.label(:uc_department, "UC Department or Division") %>
-        <%= form.text_field :uc_department, class: "form-control" %>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label(:uc_department, "UC Department or Division") %>
+          <%= form.text_field :uc_department, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :work_title %>
+          <%= form.text_field :work_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :other_title %>
+          <%= form.text_field :other_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :publisher %>
+          <%= form.text_field :publisher, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :city %>
+          <%= form.text_field :city, class: "form-control" %>
+        </div>
       </div>
     </div>
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label :work_title %>
-      <%= form.text_field :work_title, class: "form-control" %>
-    </div>
-
-    <div class="form-group col-md-6">
-      <%= form.label :other_title %>
-      <%= form.text_field :other_title, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-row"> 
-    <div class="form-group col-md-6">
-      <%= form.label :publisher %>
-      <%= form.text_field :publisher, class: "form-control" %>
-    </div>
-
-    <div class="form-group col-md-6">
-      <%= form.label :city %>
-      <%= form.text_field :city, class: "form-control" %>
-    </div>
-  </div>  
 
   <div class="form-row">  
     <div class="form-group col-md-6">

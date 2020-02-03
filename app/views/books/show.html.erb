@@ -14,18 +14,15 @@
     <table class="table table-hover">
       <tbody>
         <tr>
-          <th scope="row">Author first name:</th>
-          <td><%= @book.author_first_name %></td>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@book) %>
+          </td>
         </tr>
 
         <tr>
-          <th scope="row">Author last name:</th>
-          <td><%= @book.author_last_name %></td>
-        </tr>
-
-        <tr>
-          <th scope="row">UC College:</th>
-          <td><%= @book.college_ids %></td>
+          <th scope="row">UC College(s):</th>
+          <td><%= all_colleges(@book.college_ids) %></td>
         </tr>
 
         <tr>

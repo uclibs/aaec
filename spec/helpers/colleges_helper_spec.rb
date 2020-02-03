@@ -2,16 +2,16 @@
 
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the CollegesHelper. For example:
-#
-# describe CollegesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe CollegesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#all_colleges(colleges)' do
+    it 'returns the requested colleges in a string' do
+      expect(helper.all_colleges([1, 2])).to eq 'Allied Health Sciences, Arts and Sciences '
+    end
+  end
+
+  describe '#college_name(id)' do
+    it 'returns the requested college as a string' do
+      expect(helper.college_name(1)).to eq 'Allied Health Sciences'
+    end
+  end
 end

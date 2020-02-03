@@ -4,29 +4,16 @@ require 'rails_helper'
 
 RSpec.describe 'books/new', type: :view do
   before(:each) do
-    assign(:book, Book.new(
-                    author_first_name: 'MyString',
-                    author_last_name: 'MyString',
-                    college_ids: [1],
-                    uc_department: 'MyString',
-                    work_title: 'MyString',
-                    other_title: 'MyString',
-                    publisher: 'MyString',
-                    city: 'MyString',
-                    publication_date: 'MyString',
-                    url: 'MyString',
-                    doi: 'MyString',
-                    submitter_id: 'MyString'
-                  ))
+    @book = FactoryBot.build(:book)
   end
 
   it 'renders new book form' do
     render
 
     assert_select 'form[action=?][method=?]', books_path, 'post' do
-      assert_select 'input[name=?]', 'book[author_first_name]'
+      assert_select 'input[name=?]', 'book[author_first_name][]'
 
-      assert_select 'input[name=?]', 'book[author_last_name]'
+      assert_select 'input[name=?]', 'book[author_last_name][]'
 
       assert_select 'input[name=?]', 'book[college_ids][]'
 
