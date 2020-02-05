@@ -7,7 +7,7 @@ class PublicationsController < ApplicationController
 
   def index
     redirect_to publications_path if request.fullpath != '/publications'
-    @submitters = helpers.find_submitter(session[:submitter_id])
+    @submitters = helpers.find_submitters(session[:submitter_id])
     @books = helpers.find_books(session[:submitter_id])
     @other_publications = helpers.find_other_publications(session[:submitter_id])
   end
@@ -25,6 +25,7 @@ class PublicationsController < ApplicationController
     instance_variable = instance_variable_get("@#{controller_name.singularize}")
     respond_to do |format|
       if instance_variable.save
+        PublicationMailer.publication_submit(helpers.find_submitter(session[:submitter_id]), instance_variable).deliver_now
         format.html { redirect_to publications_path, notice: "#{controller_name.classify} was successfully created." }
         format.json { render :show, status: :created, location: instance_variable }
       else
