@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SubmittersController < ApplicationController
-  before_action :set_submitter, only: %i[edit update destroy]
+  before_action :set_submitter, only: %i[show edit update destroy]
 
   # GET /submitters/1
   # GET /submitters/1.json
@@ -24,7 +24,7 @@ class SubmittersController < ApplicationController
       if @submitter.save
         session[:submitter_id] = @submitter.id
         # Change to home page
-        format.html { redirect_to other_publications_path, notice: 'Submitter was successfully created.' }
+        format.html { redirect_to publications_path, notice: 'Your account was successfully created.' }
         format.json { render :show, status: :created, location: @submitter }
       else
         format.html { render :new }
@@ -38,13 +38,18 @@ class SubmittersController < ApplicationController
   def update
     respond_to do |format|
       if @submitter.update(submitter_params)
-        format.html { redirect_to publications_path, notice: 'Submitter was successfully updated.' }
+        format.html { redirect_to publications_path, notice: 'Your account was successfully updated.' }
         format.json { render :show, status: :ok, location: @submitter }
       else
         format.html { render :edit }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def sign_out
+    reset_session
+    redirect_to root_path
   end
 
   private

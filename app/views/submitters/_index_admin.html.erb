@@ -1,11 +1,15 @@
-<div class="row pl-2">
-  <h1>Your Information</h1>
+<div class="row">
+  <h1 class="pl-2">Submitters <%= "(#{@submitter_count})" %></h1>
+  <div class="ml-auto my-auto pl-3">
+    <%= pagy_bootstrap_nav(@pagy_submitters).html_safe %>
+  </div>
 </div>
 
 <div class="row table-responsive">
   <table class="table table-hover">
     <thead>
       <tr>
+        <th>ID</th>
         <th>First name</th>
         <th>Last name</th>
         <th>UC College</th>
@@ -20,6 +24,7 @@
     <tbody>
       <% @submitters.each do |submitter| %>
         <tr>
+          <td><%= link_to submitter.id.to_s, publications_id(submitter.id)  %></td>
           <td><%= submitter.first_name %></td>
           <td><%= submitter.last_name %></td>
           <td><%= submitter.college %></td>

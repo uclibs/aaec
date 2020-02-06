@@ -1,11 +1,15 @@
 <div class="row mt-4">
   <div class="col-xs-auto pl-2">
-    <h1 class="my-auto">Other Publications</h1>
+    <h1 class="my-auto">Other Publications<%= if session[:admin] then " (#{@other_publication_count})" end %></h1>
   </div>
-  <% if @other_publications.count < 3 %>
-  <div class="my-auto pl-3">
-      <%= link_to 'New', new_other_publication_path, class: "btn btn-primary" %>
-  </div>
+  <% if @other_publications.count < 3 && session[:admin] != true %>
+    <div class="my-auto pl-3">
+        <%= link_to 'New', new_other_publication_path, class: "btn btn-primary" %>
+    </div>
+  <% elsif params[:id].nil? && session[:admin]  %>
+    <div class=" ml-auto my-auto pl-3">
+      <%= pagy_bootstrap_nav(@pagy_other_publications).html_safe %>
+    </div>
   <% end %>
 </div>
 

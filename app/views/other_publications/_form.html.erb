@@ -119,7 +119,7 @@
     </div>
   </div>
   <%# Note: This may need to be changed since it will always use the logged in submitters id %>
-  <%= hidden_field_tag "other_publication[submitter_id]", session[:submitter_id] %>
+  <%= hidden_field_tag "other_publication[submitter_id]", session[:submitter_id] || @other_publication.submitter_id %>
 
   <div class="actions">
     <%= form.submit "Submit", class: "btn btn-primary" %>

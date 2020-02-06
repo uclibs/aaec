@@ -16,6 +16,6 @@ FactoryBot.define do
     publication_date { 'Publication Date' }
     url  { 'URL' }
     doi  { 'DOI' }
-    submitter_id { 'Submitter ID' }
+    submitter_id { '1' }
   end
 end

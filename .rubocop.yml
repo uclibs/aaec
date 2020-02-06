@@ -2,6 +2,11 @@ AllCops:
     Exclude:
         - 'db/schema.rb'
         - 'vendor/**/*'
+            
+Layout/LineLength:
+    Max: 275
+    Exclude:
+        - 'spec/controllers/*'
 
 Metrics/AbcSize:
     Exclude:
@@ -17,13 +22,16 @@ Metrics/BlockLength:
         - 'spec/routing/submitters_routing_spec.rb'
         - 'spec/views/submitters/index.html.erb_spec.rb'
 
+Metrics/CyclomaticComplexity:
+    Exclude:
+        - 'app/controllers/publications_controller.rb'
+
 Metrics/MethodLength:
     Max: 20
-    
-Metrics/LineLength:
-    Max: 275
+
+Metrics/PerceivedComplexity:
     Exclude:
-        - 'spec/controllers/*'
+        - 'app/controllers/publications_controller.rb'
 
 Style/ClassAndModuleChildren:
     Exclude:

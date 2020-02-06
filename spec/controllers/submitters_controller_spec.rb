@@ -46,7 +46,7 @@ RSpec.describe SubmittersController, type: :controller do
 
       it 'redirects to the publications show page' do
         post :create, params: { submitter: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(other_publications_path)
+        expect(response).to redirect_to(publications_path)
       end
     end
 
