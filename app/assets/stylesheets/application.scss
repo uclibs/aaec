@@ -14,6 +14,28 @@
 /* Custom bootstrap variables must be set or imported *before* bootstrap. */
  @import "bootstrap";
 
+ .required:after {
+   content:" *";
+   color: red;
+ }
+
+ .navbar    {
+    background-color: #e00122;
+    color: #fff;
+ }
+
+ .nav-sub-bar  {
+    background-color: #b8011c;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
  .offset-footer {
      margin-bottom: 100px;
+ }
+
+ .svg   {
+    fill: #fff;
  }

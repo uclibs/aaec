@@ -16,6 +16,10 @@ module CollegesHelper
   end
 
   def college_name(id)
-    College.find(id).name
+    if id.nil?
+      ''
+    else
+      College.find(id).name
+    end
   end
 end
