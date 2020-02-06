@@ -22,6 +22,5 @@ RSpec.describe 'other_publications/index', type: :view do
     assert_select 'tr>td', text: 'Publication Date'.to_s, count: 2
     assert_select 'tr>td', text: 'URL'.to_s, count: 2
     assert_select 'tr>td', text: 'DOI'.to_s, count: 2
-    assert_select 'tr>td', text: 'Submitter ID'.to_s, count: 2
   end
 end

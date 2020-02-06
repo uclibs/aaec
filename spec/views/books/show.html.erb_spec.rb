@@ -20,6 +20,5 @@ RSpec.describe 'books/show', type: :view do
     expect(rendered).to match(/Publication Date/)
     expect(rendered).to match(/URL/)
     expect(rendered).to match(/DOI/)
-    expect(rendered).to match(/Submitter ID/)
   end
 end

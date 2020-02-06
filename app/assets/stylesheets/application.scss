@@ -14,6 +14,11 @@
 /* Custom bootstrap variables must be set or imported *before* bootstrap. */
  @import "bootstrap";
 
+ .required:after {
+   content:" *";
+   color: red;
+ }
+
  .navbar    {
     background-color: #e00122;
     color: #fff;

@@ -11,7 +11,7 @@
 
   <div class="form-row">
     <div class="form-group col-md-5", id="author_first_div">
-      <%= form.label :author_first_name %>
+      <%= form.label :author_first_name, 'Author First Name', class: "required" %>
       <% count = 1 %>
       <% @other_publication.author_first_name.each do | indiv_author | %>
         <%= text_field_tag "other_publication[author_first_name][]", indiv_author, id: "first_#{count}", required: true, class: "form-control form-group" %>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="form-group col-md-5" id="author_last_div">
-      <%= form.label :author_last_name %>
+      <%= form.label :author_last_name, 'Author Last Name', class: "required" %>
       <% count = 1 %>
       <% @other_publication.author_last_name.each do | indiv_author | %>
         <%= text_field_tag "other_publication[author_last_name][]", indiv_author, id: "last_#{count}", required: true, class: "form-control form-group" %>
@@ -66,11 +66,11 @@
           <%= form.text_field :uc_department, class: "form-control" %>
         </div>
         <div class="form-group">
-          <%= form.label :work_title %>
+          <%= form.label :work_title, 'Work Title', class: "required" %>
           <%= form.text_field :work_title, class: "form-control" %>
         </div>
         <div class="form-group">
-          <%= form.label :other_title %>
+          <%= form.label :other_title, 'Other Title' %>
           <%= form.text_field :other_title, class: "form-control" %>
         </div>
         <div class="form-group">
@@ -85,7 +85,7 @@
     </div>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label :page_numbers %>
+      <%= form.label :page_numbers, 'Page Numbers' %>
       <%= form.text_field :page_numbers, class: "form-control" %>
     </div>
 
@@ -102,19 +102,19 @@
     </div>
 
     <div class="form-group col-md-6">
-      <%= form.label :publication_date %>
+      <%= form.label :publication_date, 'Publisher Date' %>
       <%= form.text_field :publication_date, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label :url %>
+      <%= form.label :url, 'URL' %>
       <%= form.text_field :url, class: "form-control" %>
     </div>
 
     <div class="form-group col-md-6">
-      <%= form.label :doi %>
+      <%= form.label :doi, 'DOI' %>
       <%= form.text_field :doi, class: "form-control" %>
     </div>
   </div>
