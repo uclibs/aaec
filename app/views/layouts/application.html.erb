@@ -38,13 +38,17 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <% if session[:submitter_id] %>
+          <% if signed_in %>
           <li class="nav-item">
-            <%= link_to "My Publications", publications_path, class: "nav-link text-white" %>
+            <% if session[:admin] then @link_text = "All Publications" else @link_text = "My Publications" end %>
+            <%= link_to @link_text, publications_path, class: "nav-link text-white" %>
           </li>
-          <% end %>
+          <li class="nav-item">
+            <%= link_to "Sign Out", signout_path, class: "nav-link text-white" %>
+          </li>
+        <% end %>
         </ul>
       </div>
       </div>

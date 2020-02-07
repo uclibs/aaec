@@ -6,10 +6,26 @@ class PublicationsController < ApplicationController
   before_action :check_max_submissions, only: %i[new]
 
   def index
-    redirect_to publications_path if request.fullpath != '/publications'
-    @submitters = helpers.find_submitters(session[:submitter_id])
-    @books = helpers.find_books(session[:submitter_id])
-    @other_publications = helpers.find_other_publications(session[:submitter_id])
+    redirect_to publications_path unless request.path.include? publications_path
+    if session[:admin] && params[:id].nil?
+      @pagy_submitters, @submitters = pagy(Submitter.all, page_param: :page_submitters)
+      @pagy_books, @books = pagy(Book.all, page_param: :page_books)
+      @pagy_other_publications, @other_publications = pagy(OtherPublication.all, page_param: :page_other_publications)
+      @submitter_count = Submitter.all.count
+      @book_count = Book.all.count
+      @other_publication_count = OtherPublication.all.count
+    elsif session[:admin] && params[:id]
+      @submitter = helpers.find_submitter(params[:id])
+      @books = helpers.find_books(params[:id])
+      @other_publications = helpers.find_other_publications(params[:id])
+      @book_count = helpers.find_books(params[:id]).count
+      @other_publication_count = helpers.find_other_publications(params[:id]).count
+    else
+      redirect_to publications_path if params[:id]
+      @submitter = helpers.find_submitter(session[:submitter_id])
+      @books = helpers.find_books(session[:submitter_id])
+      @other_publications = helpers.find_other_publications(session[:submitter_id])
+    end
   end
 
   def show; end
@@ -64,7 +80,7 @@ class PublicationsController < ApplicationController
   end
 
   def signed_in
-    redirect_to new_submitter_path if session[:submitter_id].nil?
+    redirect_to root_path unless session[:admin] || session[:submitter_id]
   end
 
   def check_max_submissions

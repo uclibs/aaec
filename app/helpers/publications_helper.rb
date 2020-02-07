@@ -22,4 +22,8 @@ module PublicationsHelper
   def author_comma(publication, position)
     publication.author_last_name[position] + ', ' + publication.author_first_name[position]
   end
+
+  def publications_id(id)
+    publications_path + '/' + id.to_s
+  end
 end

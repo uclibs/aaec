@@ -6,7 +6,15 @@
         </div>
     <% end %>
 
-    <%= render 'submitters/index', submitters: @submitters %>
+    <% if session[:admin] && params[:id].nil? %>
+
+        <%= render 'submitters/index_admin', submitters: @submitters %>
+
+    <% else %>
+
+        <%= render 'submitters/index', submitters: @submitters %>
+
+    <% end %>
 
     <%= render 'books/index', books: @books %>
 
