@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   def validate
     if check_credentials(params[:username], params[:password])
       session[:admin] = true
-      redirect_to publications_path, notice: 'Valid Credentails'
+      redirect_to publications_path
     else
       redirect_to admin_path, notice: 'Invalid Credentails'
     end

@@ -38,7 +38,7 @@ describe 'Create Admin', :feature, js: true do
     expect(page).not_to have_css('.pagination')
 
     # Signout
-    visit signout_path
+    visit finished_path
     expect(page).to have_current_path(root_path)
     visit publications_path
     expect(page).to have_current_path(root_path)

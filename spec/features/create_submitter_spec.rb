@@ -27,5 +27,11 @@ describe 'Create submitter', :feature, js: true do
     expect(page).to have_text 'Home Address'
     expect(page).to have_text '111-111-1111'
     expect(page).to have_text 'test@mail.uc.edu'
+
+    # Signout
+    visit finished_path
+    expect(page).to have_current_path('/finished')
+    visit publications_path
+    expect(page).to have_current_path(root_path)
   end
 end
