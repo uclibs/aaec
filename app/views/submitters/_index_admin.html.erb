@@ -31,7 +31,7 @@
           <td><%= submitter.department %></td>
           <td><%= submitter.mailing_address %></td>
           <td><%= submitter.phone_number %></td>
-          <td><%= submitter.email_address %></td>
+          <td><%= mail_to submitter.email_address %></td>
           <td><%= link_to 'Show', submitter %></td>
           <td><%= link_to 'Edit', edit_submitter_path(submitter) %></td>
         </tr>

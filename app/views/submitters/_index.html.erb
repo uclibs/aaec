@@ -7,7 +7,7 @@
 <% else %>
 
 <div class="row pl-2">
-  <h1>Your Information</h1>
+  <h1>Contact Information</h1>
 </div>
 
 <% end %>
@@ -18,7 +18,7 @@
     <div class="col text-center my-auto"><%= @submitter.department %></div>
     <div class="col text-center my-auto"><%= @submitter.mailing_address %></div>
     <div class="col text-center my-auto"><%= @submitter.phone_number %></div>
-    <div class="col text-center my-auto"><%= @submitter.email_address %></div>
+    <div class="col text-center my-auto"><%= mail_to @submitter.email_address %></div>
     <div class="col text-center my-auto"><%= link_to 'Edit', edit_submitter_path(@submitter) %></div>
 </div>
 
