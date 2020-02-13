@@ -10,6 +10,10 @@ RSpec.describe CollegesHelper, type: :helper do
   end
 
   describe '#college_name(id)' do
+    it 'returns nil as empty sting' do
+      expect(helper.college_name(nil)).to eq ''
+    end
+
     it 'returns the requested college as a string' do
       expect(helper.college_name(1)).to eq 'Allied Health Sciences'
     end

@@ -47,9 +47,13 @@ class SubmittersController < ApplicationController
     end
   end
 
-  def sign_out
+  def finished
+    if session[:admin].nil?
+      render '/pages/finished'
+    else
+      redirect_to root_path
+    end
     reset_session
-    redirect_to root_path
   end
 
   private

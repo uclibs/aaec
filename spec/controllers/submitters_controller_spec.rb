@@ -92,4 +92,36 @@ RSpec.describe SubmittersController, type: :controller do
       end
     end
   end
+
+  describe 'Sign out' do
+    render_views
+    it 'as admin' do
+      get :finished, session: { submitter_id: 1 }
+      expect(response.body).to have_text('Your submission(s) was received.')
+    end
+  end
+
+  describe 'Check date in a valid timeframe' do
+    render_views
+    before do
+      allow(Date).to receive(:current).and_return Date.new(2020, 1, 1)
+    end
+
+    it 'Visit root path' do
+      get :new
+      expect(response.body).to have_text('Please complete a form for each work submitted')
+    end
+  end
+
+  describe 'Check date in an invalid timeframe' do
+    render_views
+    before do
+      allow(Date).to receive(:current).and_return Date.new(2020, 5, 16)
+    end
+
+    it 'Visit root path' do
+      get :new
+      expect(response.body).to have_text('You are being redirected')
+    end
+  end
 end

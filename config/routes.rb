@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get 'publications', to: 'publications#index'
   get 'publications/:id', to: 'publications#index'
   get 'admin', to: 'admin#login'
-  get 'signout', to: 'submitters#sign_out'
   post 'admin/validate', to: 'admin#validate'
+  get 'finished', to: 'submitters#finished'
+  get '/pages/:page' => 'pages#show'
   root 'submitters#new'
 end
