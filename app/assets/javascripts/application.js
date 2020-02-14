@@ -18,6 +18,10 @@
 //= require popper
 //= require bootstrap-sprockets
 
+$(document).on('turbolinks:load', function() {
+    $('[data-toggle="tooltip"]').tooltip();
+})
+
 function addAuthor(type, count)    {
     var count = count || 1;
     var firstI = document.createElement("input");

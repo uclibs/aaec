@@ -10,14 +10,11 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>First name</th>
-        <th>Last name</th>
+        <th>Name</th>
         <th>UC College</th>
-        <th>UC Department or Division</th>
-        <th>Mail Location</th>
-        <th>Phone number</th>
+        <th>UC Department(s) or Division(s)</th>
         <th>Email address</th>
-        <th colspan="2"></th>
+        <th colspan="1"></th>
       </tr>
     </thead>
 
@@ -25,15 +22,11 @@
       <% @submitters.each do |submitter| %>
         <tr>
           <td><%= link_to submitter.id.to_s, publications_id(submitter.id)  %></td>
-          <td><%= submitter.first_name %></td>
-          <td><%= submitter.last_name %></td>
-          <td><%= submitter.college %></td>
-          <td><%= submitter.department %></td>
-          <td><%= submitter.mailing_address %></td>
-          <td><%= submitter.phone_number %></td>
-          <td><%= mail_to submitter.email_address %></td>
-          <td><%= link_to 'Show', submitter %></td>
-          <td><%= link_to 'Edit', edit_submitter_path(submitter) %></td>
+          <td><%= link_to (Truncato.truncate "#{submitter_name(submitter)}", max_length: 20), submitter %></td>
+          <td><%= college_name(submitter.college) %></td>
+          <td><%= shorten_long(submitter.department) %></td>
+          <td><%= mail_to submitter.email_address, (Truncato.truncate "#{submitter.email_address}", max_length: 16) %></td>
+          <td><%= link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, edit_submitter_path(submitter) %></td>
         </tr>
       <% end %>
     </tbody>

@@ -22,4 +22,13 @@ module CollegesHelper
       College.find(id).name
     end
   end
+
+  def college_array(publication)
+    college_array = []
+    size = [0, (publication.college_ids.count - 1)].max
+    (0..size).each do |i|
+      college_array << college_name(publication.college_ids[i])
+    end
+    college_array
+  end
 end

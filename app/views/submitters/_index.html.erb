@@ -13,12 +13,10 @@
 <% end %>
 
 <div class="row">
-    <div class="col text-center my-auto"><%= @submitter.first_name %> <%= @submitter.last_name %></div>
+    <div class="col text-center my-auto"><%= filter_name(submitter_name(@submitter)) %></div>
     <div class="col text-center my-auto"><%= college_name(@submitter.college) %></div>
-    <div class="col text-center my-auto"><%= @submitter.department %></div>
-    <div class="col text-center my-auto"><%= @submitter.mailing_address %></div>
-    <div class="col text-center my-auto"><%= @submitter.phone_number %></div>
-    <div class="col text-center my-auto"><%= mail_to @submitter.email_address %></div>
-    <div class="col text-center my-auto"><%= link_to 'Edit', edit_submitter_path(@submitter) %></div>
+    <div class="col text-center my-auto"><%= shorten_long(@submitter.department) %></div>
+    <div class="col text-center my-auto"><%= mail_to @submitter.email_address, (Truncato.truncate "#{@submitter.email_address}", max_length: 16) %></div>
+    <div class="col text-center my-auto"><%= link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, edit_submitter_path(@submitter) %></div>
 </div>
 

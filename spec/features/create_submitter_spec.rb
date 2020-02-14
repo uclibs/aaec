@@ -24,9 +24,9 @@ describe 'Create submitter', :feature, js: true do
     expect(page).to have_text 'First Last'
     expect(page).to have_text 'Arts and Sciences'
     expect(page).to have_text 'Department'
-    expect(page).to have_text 'Home Address'
-    expect(page).to have_text '111-111-1111'
-    expect(page).to have_text 'test@mail.uc.edu'
+    expect(page).not_to have_text 'Home Address'
+    expect(page).not_to have_text '111-111-1111'
+    expect(page).to have_text 'test@mail.uc.edu...'
 
     # Signout
     visit finished_path
