@@ -42,6 +42,7 @@ gem 'coveralls', require: false
 gem 'dotenv-rails'
 gem 'jquery-rails'
 gem 'pagy', '~> 3.7'
+gem 'truncato'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

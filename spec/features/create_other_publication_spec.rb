@@ -37,18 +37,19 @@ describe 'Create a Other Publication', :feature, js: true do
     expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
 
     # Check values
-    expect(page).to have_text 'First Last, Second None'
+    expect(page).to have_text 'First Last'
+    expect(page).to have_text 'Second None'
     expect(page).to have_text 'Arts and Sciences'
     expect(page).to have_text 'Department'
     expect(page).to have_text 'Title'
-    expect(page).to have_text 'Subtitle'
-    expect(page).to have_text 'Volume'
-    expect(page).to have_text 'Issue'
-    expect(page).to have_text 'Page Numbers'
-    expect(page).to have_text 'Publisher'
-    expect(page).to have_text 'City'
-    expect(page).to have_text 'Publication Date'
-    expect(page).to have_text 'URL'
-    expect(page).to have_text 'DOI'
+    expect(page).not_to have_text 'Subtitle'
+    expect(page).not_to have_text 'Volume'
+    expect(page).not_to have_text 'Issue'
+    expect(page).not_to have_text 'Page Numbers'
+    expect(page).not_to have_text 'Publisher'
+    expect(page).not_to have_text 'City'
+    expect(page).not_to have_text 'Publication Date'
+    expect(page).not_to have_text 'URL'
+    expect(page).not_to have_text 'DOI'
   end
 end
