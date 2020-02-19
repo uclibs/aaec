@@ -13,6 +13,7 @@ Metrics/AbcSize:
         - 'db/migrate/*'
         - 'app/controllers/publications_controller.rb'
         - 'app/controllers/submitters_controller.rb'
+        - 'app/helpers/colleges_helper.rb'
         - 'spec/rails_helper.rb'
 
 Metrics/BlockLength:

@@ -9,7 +9,7 @@ module CollegesHelper
       college_list += if i != size
                         ', '
                       else
-                        ' '
+                        ''
                       end
     end
     college_list
@@ -27,7 +27,11 @@ module CollegesHelper
     college_array = []
     size = [0, (publication.college_ids.count - 1)].max
     (0..size).each do |i|
-      college_array << college_name(publication.college_ids[i])
+      college_array << if publication.college_ids[i] == 16
+                         college_name(publication.college_ids[i]) + ": #{publication.other_college}"
+                       else
+                         college_name(publication.college_ids[i])
+                       end
     end
     college_array
   end

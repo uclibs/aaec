@@ -21,6 +21,7 @@ describe 'Create a Other Publication', :feature, js: true do
     (0..other_publication.college_ids.count - 1).each do |i|
       check "other_publication_college_ids_#{other_publication.college_ids[i]}"
     end
+    fill_in('other_publication[other_college]', with: other_publication.other_college)
     fill_in('other_publication[uc_department]', with: other_publication.uc_department)
     fill_in('other_publication[work_title]', with: other_publication.work_title)
     fill_in('other_publication[other_title]', with: other_publication.other_title)
@@ -40,6 +41,7 @@ describe 'Create a Other Publication', :feature, js: true do
     expect(page).to have_text 'First Last'
     expect(page).to have_text 'Second None'
     expect(page).to have_text 'Arts and Sciences'
+    expect(page).to have_text 'Other: Test'
     expect(page).to have_text 'Department'
     expect(page).to have_text 'Title'
     expect(page).not_to have_text 'Subtitle'

@@ -17,6 +17,8 @@ RSpec.describe 'other_publications/new', type: :view do
 
       assert_select 'input[name=?]', 'other_publication[college_ids][]'
 
+      assert_select 'input[name=?]', 'other_publication[other_college]'
+
       assert_select 'input[name=?]', 'other_publication[uc_department]'
 
       assert_select 'input[name=?]', 'other_publication[work_title]'
