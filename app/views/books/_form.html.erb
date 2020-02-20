@@ -50,7 +50,7 @@
   <hr>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label(:college_ids, "UC College") %><br />
+      <%= form.label(:college_ids, "Author College(s)") %><br />
       <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
         <div class="form-check">
           <%= c.check_box class: "form-check-input" %>
