@@ -79,6 +79,19 @@
           <th scope="row">DOI:</th>
           <td><%= @other_publication.doi %></td>
         </tr>
+
+        <% if session[:admin] %>
+        
+          <tr>
+            <th scope="row">Submitter ID:</th>
+            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+          </tr>
+          <tr>
+            <th scope="row">Submitter Name:</th>
+            <td><%= submitter_name(@submitter) %></td>
+          </tr>
+
+        <% end %>
       </tbody>
       </table>
     </div>

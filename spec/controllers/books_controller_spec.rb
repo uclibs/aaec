@@ -33,6 +33,16 @@ RSpec.describe BooksController, type: :controller do
     end
   end
 
+  describe 'GET #show as admin' do
+    it 'returns a success response' do
+      FactoryBot.create(:submitter)
+      session[:admin] = true
+      book = Book.create! valid_attributes
+      get :show, params: { id: book.to_param }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
   describe 'GET #new' do
     it 'returns a success response' do
       get :new, params: {}, session: valid_session
