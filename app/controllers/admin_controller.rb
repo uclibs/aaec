@@ -8,7 +8,7 @@ class AdminController < ApplicationController
       session[:admin] = true
       redirect_to publications_path
     else
-      redirect_to admin_path, notice: 'Invalid Credentails'
+      redirect_to manage_path, notice: 'Invalid Credentails'
     end
   end
 

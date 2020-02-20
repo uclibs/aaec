@@ -12,8 +12,8 @@ describe 'Create Admin', :feature, js: true do
   end
 
   it 'from admin path' do
-    # Note: There is no link from any page to the admin_path
-    visit admin_path
+    # Note: There is no link from any page to the manage_path
+    visit manage_path
 
     # Admin Login Page
     fill_in('username', with: ENV['ADMIN_USERNAME'])
