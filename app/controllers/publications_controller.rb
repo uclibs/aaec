@@ -28,7 +28,9 @@ class PublicationsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @submitter = helpers.find_submitter(instance_variable_get("@#{controller_name.singularize}").id) if session[:admin]
+  end
 
   def new
     instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).new)
