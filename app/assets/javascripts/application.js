@@ -47,7 +47,7 @@ function addAuthor(type, count)    {
     document.getElementById("author_last_div").appendChild(lastI);
     document.getElementById("author_delete_div").appendChild(deleteB);
     count++;
-    document.getElementById("add_author_btn").setAttribute("onClick", "addAuthor('other_publication', " + count + ")");
+    document.getElementById("add_author_btn").setAttribute("onClick", `addAuthor('${type}', ${count})`);
 }
 
 function removeAuthor(idToDelete)     {

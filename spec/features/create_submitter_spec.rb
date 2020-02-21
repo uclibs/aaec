@@ -17,7 +17,7 @@ describe 'Create submitter', :feature, js: true do
     fill_in('submitter[mailing_address]', with: submitter.mailing_address)
     fill_in('submitter[phone_number]', with: submitter.phone_number)
     fill_in('submitter[email_address]', with: submitter.email_address)
-    click_on('Submit')
+    click_on('Next')
 
     # Valid Submission Redirect
     expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)

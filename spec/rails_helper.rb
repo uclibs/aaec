@@ -84,5 +84,5 @@ def create_submitter(submitter)
   fill_in('submitter[mailing_address]', with: submitter.mailing_address)
   fill_in('submitter[phone_number]', with: submitter.phone_number)
   fill_in('submitter[email_address]', with: submitter.email_address)
-  click_on('Submit')
+  click_on('Next')
 end
