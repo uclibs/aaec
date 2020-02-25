@@ -17,7 +17,7 @@ RSpec.describe PagesController, type: :controller do
 
     it 'with invalid params' do
       get :show, params: { page: 'bad' }
-      expect(response.body).to have_text("The page you were looking for doesn't exist")
+      expect(response.body).to have_text('The page you requested cannot be found')
     end
   end
 end
