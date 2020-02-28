@@ -9,8 +9,8 @@ RSpec.describe 'other_publications/show', type: :view do
 
   it 'renders attributes in <p>' do
     render
-    expect(rendered).to match(/First Last/)
-    expect(rendered).to match(/Arts and Sciences/)
+    expect(rendered).to match(/First Last, Second None/)
+    expect(rendered).to match(/Arts and Sciences, Other: Test/)
     expect(rendered).to match(/Department/)
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/Subtitle/)

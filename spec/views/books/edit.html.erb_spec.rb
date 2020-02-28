@@ -17,6 +17,8 @@ RSpec.describe 'books/edit', type: :view do
 
       assert_select 'input[name=?]', 'book[college_ids][]'
 
+      assert_select 'input[name=?]', 'book[other_college]'
+
       assert_select 'input[name=?]', 'book[uc_department]'
 
       assert_select 'input[name=?]', 'book[work_title]'

@@ -21,6 +21,7 @@ describe 'Create a Book', :feature, js: true do
     (0..book.college_ids.count - 1).each do |i|
       check "book_college_ids_#{book.college_ids[i]}"
     end
+    fill_in('book[other_college]', with: book.other_college)
     fill_in('book[uc_department]', with: book.uc_department)
     fill_in('book[work_title]', with: book.work_title)
     fill_in('book[other_title]', with: book.other_title)
@@ -37,6 +38,7 @@ describe 'Create a Book', :feature, js: true do
     expect(page).to have_text 'First Last'
     expect(page).to have_text 'Second None'
     expect(page).to have_text 'Arts and Sciences'
+    expect(page).to have_text 'Other: Test'
     expect(page).to have_text 'Department'
     expect(page).to have_text 'Title'
     expect(page).not_to have_text 'Subtitle'
