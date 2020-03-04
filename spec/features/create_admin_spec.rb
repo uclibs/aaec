@@ -8,6 +8,17 @@ describe 'Create Admin', :feature, js: true do
       FactoryBot.create(:submitter)
       FactoryBot.create(:book)
       FactoryBot.create(:other_publication)
+      FactoryBot.create(:journal_article)
+      FactoryBot.create(:editing)
+      FactoryBot.create(:artwork)
+      FactoryBot.create(:book_chapter)
+      FactoryBot.create(:photography)
+      FactoryBot.create(:play)
+      FactoryBot.create(:musical_score)
+      FactoryBot.create(:physical_medium)
+      FactoryBot.create(:digital_project)
+      FactoryBot.create(:public_performance)
+      FactoryBot.create(:film)
     end
   end
 
@@ -26,6 +37,17 @@ describe 'Create Admin', :feature, js: true do
     expect(page).to have_text 'Submitters (20)'
     expect(page).to have_text 'Books (20)'
     expect(page).to have_text 'Other Publications (20)'
+    expect(page).to have_text 'Artworks (20)'
+    expect(page).to have_text 'Book Chapters (20)'
+    expect(page).to have_text 'Editings (20)'
+    expect(page).to have_text 'Journal Articles (20)'
+    expect(page).to have_text 'Photographies (20)'
+    expect(page).to have_text 'Plays (20)'
+    expect(page).to have_text 'Musical Scores (20)'
+    expect(page).to have_text 'Physical Media (20)'
+    expect(page).to have_text 'Digital Projects (20)'
+    expect(page).to have_text 'Public Performances (20)'
+    expect(page).to have_text 'Films (20)'
     expect(page).to have_css('.pagination', text: '1')
     expect(page).not_to have_css('.pagination', text: '3')
 
@@ -34,6 +56,17 @@ describe 'Create Admin', :feature, js: true do
     expect(page).to have_text 'Submitter #2'
     expect(page).to have_text 'Books (0)'
     expect(page).to have_text 'Other Publications (0)'
+    expect(page).to have_text 'Artworks (0)'
+    expect(page).to have_text 'Book Chapters (0)'
+    expect(page).to have_text 'Editings (0)'
+    expect(page).to have_text 'Journal Articles (0)'
+    expect(page).to have_text 'Photographies (0)'
+    expect(page).to have_text 'Plays (0)'
+    expect(page).to have_text 'Musical Scores (0)'
+    expect(page).to have_text 'Physical Media (0)'
+    expect(page).to have_text 'Digital Projects (0)'
+    expect(page).to have_text 'Public Performances (0)'
+    expect(page).to have_text 'Films (0)'
     expect(page).not_to have_css('.btn', text: 'New')
     expect(page).not_to have_css('.pagination')
 

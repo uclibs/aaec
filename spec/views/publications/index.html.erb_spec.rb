@@ -7,7 +7,18 @@ RSpec.describe 'publications/index', type: :view do
     before do
       assign(:submitter, FactoryBot.create(:submitter))
       controller.params[:submitter_id] = 1
+      @artworks = []
       @books = []
+      @book_chapters = []
+      @editings = []
+      @journal_articles = []
+      @photographies = []
+      @plays = []
+      @musical_scores = []
+      @physical_media = []
+      @digital_projects = []
+      @public_performances = []
+      @films = []
       @other_publications = []
     end
 

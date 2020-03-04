@@ -1,0 +1,98 @@
+<%= form_with(model: public_performance, local: true) do |form| %>
+  <% if public_performance.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= pluralize(public_performance.errors.count, "error") %> found:</h4>
+      <hr>
+      <% public_performance.errors.full_messages.each do |message| %>
+        <p class="mb-0"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="form-row">
+    <div class="form-group col-md-5", id="author_first_div">
+      <%= form.label :author_first_name, 'Author First Name', class: "required" %>
+      <% count = 1 %>
+      <% @public_performance.author_first_name.each do | indiv_author | %>
+        <%= text_field_tag "public_performance[author_first_name][]", indiv_author, id: "first_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @public_performance.author_first_name == [] %>
+        <%= text_field_tag "public_performance[author_first_name][]", nil, required: true, class: "form-control form-group" %>
+      <% end %>
+    </div>
+
+    <div class="form-group col-md-5" id="author_last_div">
+      <%= form.label :author_last_name, 'Author Last Name', class: "required" %>
+      <% count = 1 %>
+      <% @public_performance.author_last_name.each do | indiv_author | %>
+        <%= text_field_tag "public_performance[author_last_name][]", indiv_author, id: "last_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @public_performance.author_last_name == [] %>
+          <%= text_field_tag "public_performance[author_last_name][]", nil, required: true, class: "form-control form-group" %>
+        <% end %>
+    </div>
+
+    <div class="form-group col-md-2" id="author_delete_div">
+      <%= form.label :delete, class: "invisible" %>
+      <% count = 1 %>
+      <% @public_performance.author_first_name.each do | indiv_author | %>
+        <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor(#{count});", id: "delete_#{count}", class: "form-control form-group bg-danger text-white" %>
+        <% count += 1%>
+      <% end %>
+      <% if @public_performance.author_first_name == [] %>
+        <%= button_tag "Remove Author", type: "button", class: "form-control form-group bg-danger text-white invisible" %>
+      <% end %>
+    </div>
+  </div>
+  <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('public_performance');", class: "btn btn-primary" %>
+  <hr>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label(:college_ids, "Author College(s)") %><br />
+      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
+        <div class="form-check">
+          <%= c.check_box class: "form-check-input" %>
+          <%= c.label class: "form-check-label" %>
+        </div>
+      <% end %>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
+          <%= form.text_field :uc_department, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :work_title, 'Work Title', class: "required" %>
+          <%= form.text_field :work_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :other_title, 'Other Title' %>
+          <%= form.text_field :other_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :location %>
+          <%= form.text_field :location, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :time %>
+          <%= form.text_field :time, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">  
+      <div class="form-group col-md-6">
+        <%= form.label :date %>
+        <%= form.text_field :date, class: "form-control" %>
+      </div>
+    </div>
+
+<%= hidden_field_tag "public_performance[submitter_id]", session[:submitter_id] || @public_performance.submitter_id %>
+
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

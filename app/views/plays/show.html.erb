@@ -1,0 +1,90 @@
+<div class="container offset-footer">
+
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
+
+  <div class="row pl-2">
+    <h1>Show Play</h1>
+  </div>
+
+  <div class="row pl-2">
+    <p>Your publication's details are displayed below. Click <%= link_to "here", publications_path %> to return to your list of publications.</p>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@play) %>
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">Author College(s):</th>
+          <td><%= all_colleges(@play.college_ids) %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC Department(s) or Division(s):</th>
+          <td><%= @play.uc_department %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Work Title:</th>
+          <td><%= @play.work_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Other Title:</th>
+          <td><%= @play.other_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @play.publisher %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @play.city %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publication Date:</th>
+          <td><%= @play.publication_date %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">URL:</th>
+          <td><%= @play.url %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">DOI:</th>
+          <td><%= @play.doi %></td>
+        </tr>
+
+        <% if session[:admin] %>
+        
+          <tr>
+            <th scope="row">Submitter ID:</th>
+            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+          </tr>
+          <tr>
+            <th scope="row">Submitter Name:</th>
+            <td><%= submitter_name(@submitter) %></td>
+          </tr>
+
+        <% end %>
+      </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <%= link_to 'Edit', edit_play_path(@play), class: "btn btn-primary" %>
+    </div>

@@ -1,0 +1,77 @@
+<div class="container offset-footer">
+
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
+
+  <div class="row pl-2">
+    <h1>Show Photography</h1>
+  </div>
+
+  <div class="row pl-2">
+    <p>Your publication's details are displayed below. Click <%= link_to "here", publications_path %> to return to your list of publications.</p>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@photography) %>
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC College(s):</th>
+          <td><%= all_colleges(@photography.college_ids) %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC Department(s) or Division(s):</th>
+          <td><%= @photography.uc_department %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Work Title:</th>
+          <td><%= @photography.work_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Other Title:</th>
+          <td><%= @photography.other_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @photography.publisher %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @photography.city %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publication Date:</th>
+          <td><%= @photography.publication_date %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">URL:</th>
+          <td><%= @photography.url %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">DOI:</th>
+          <td><%= @photography.doi %></td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <%= link_to 'Edit', edit_photography_path(@photography), class: "btn btn-primary" %>
+    </div>

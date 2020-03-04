@@ -1,0 +1,52 @@
+<div class="row mt-4">
+  <div class="col-xs-auto pl-2">
+    <h1 class="my-auto">Digital Projects<%= if session[:admin] then " (#{@digital_project_count})" end %></h1>
+  </div>
+  <% if @digital_projects.count < 3 && session[:admin] != true %>
+    <div class="my-auto pl-3">
+        <%= link_to 'New', new_digital_project_path, class: "btn btn-primary" %>
+    </div>
+  <% elsif params[:id].nil? && session[:admin]  %>
+    <div class=" ml-auto my-auto pl-3">
+      <%= pagy_bootstrap_nav(@pagy_digital_projects).html_safe %>
+    </div>
+  <% end %>
+</div>
+
+<% if @digital_projects.count != 0 %>
+<div class="row table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+      <th>Work Title</th>
+      <th>Author(s)</th>
+      <th>Author College(s)</th>
+      <th>UC Department(s) or Division(s)</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @digital_projects.each do |digital_project| %>
+      <tr>
+        <td><%= link_to shorten_long(digital_project.work_title), digital_project %></td>
+        <td>
+        <% authors_array(digital_project).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td>
+        <% college_array(digital_project).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td><%= shorten_long(digital_project.uc_department) %></td>
+        <td><%= link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, edit_digital_project_path(digital_project) %></td>
+        <td><%= link_to '<i class="fas fa-trash icon-red" data-toggle="tooltip" data-placement="top" title="Delete"></i>'.html_safe, digital_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>

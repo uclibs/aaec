@@ -22,7 +22,29 @@
 
     <% end %>
 
+    <%= render 'artworks/index', artworks: @artworks %>
+
     <%= render 'books/index', books: @books %>
+
+    <%= render 'book_chapters/index', book_chapters: @book_chapters %>
+    
+    <%= render 'digital_projects/index', digital_projects: @digital_projects %>
+
+    <%= render 'editings/index', editings: @editings %>
+
+    <%= render 'films/index', films: @films %>
+
+    <%= render 'journal_articles/index', journal_articles: @journal_articles %>
+
+    <%= render 'musical_scores/index', musical_scores: @musical_scores %>
+
+    <%= render 'photographies/index', photographies: @photographies %>
+
+    <%= render 'physical_media/index', physical_media: @physical_media %>
+    
+    <%= render 'plays/index', plays: @plays %>
+
+    <%= render 'public_performances/index', public_performances: @public_performances %>
 
     <%= render 'other_publications/index', other_publications: @other_publications %>
 
