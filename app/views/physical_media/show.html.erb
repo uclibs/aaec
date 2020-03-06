@@ -26,7 +26,7 @@
 
         <tr>
           <th scope="row">Author College(s):</th>
-          <td><%= all_colleges(@physical_medium.college_ids) %></td>
+          <td><%= all_colleges(@physical_medium.college_ids) + check_other_college(@physical_medium) %></td>
         </tr>
 
         <tr>
@@ -60,12 +60,12 @@
         </tr>
 
         <tr>
-          <th scope="row">URL:</th>
+          <th scope="row">URL (if this publication is available online):</th>
           <td><%= @physical_medium.url %></td>
         </tr>
 
         <tr>
-          <th scope="row">DOI:</th>
+          <th scope="row">DOI (Digital Object Identifier):</th>
           <td><%= @physical_medium.doi %></td>
         </tr>
 

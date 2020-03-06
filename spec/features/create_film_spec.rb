@@ -25,6 +25,7 @@ describe 'Create a film', :feature, js: true do
     fill_in('film[work_title]', with: film.work_title)
     fill_in('film[other_title]', with: film.other_title)
     fill_in('film[director]', with: film.director)
+    fill_in('film[producer]', with: film.producer)
     fill_in('film[release_year]', with: film.release_year)
     click_on('Submit')
 

@@ -16,6 +16,7 @@ RSpec.describe 'films/show', type: :view do
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/Subtitle/)
     expect(rendered).to match(/Director/)
+    expect(rendered).to match(/Producer/)
     expect(rendered).to match(/Release year/)
   end
 end

@@ -26,7 +26,7 @@
 
         <tr>
           <th scope="row">Author College(s):</th>
-          <td><%= all_colleges(@public_performance.college_ids) %></td>
+          <td><%= all_colleges(@public_performance.college_ids) + check_other_college(@public_performance) %></td>
         </tr>
 
         <tr>
@@ -45,7 +45,7 @@
         </tr>
 
         <tr>
-          <th scope="row">Location:</th>
+          <th scope="row">Location (of showing/performance):</th>
           <td><%= @public_performance.location %></td>
         </tr>
 

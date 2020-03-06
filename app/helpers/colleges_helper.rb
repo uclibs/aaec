@@ -15,6 +15,12 @@ module CollegesHelper
     college_list
   end
 
+  def check_other_college(publication)
+    return_string = ''
+    return_string = ": #{publication.other_college}" if 16.in? publication.college_ids
+    return_string
+  end
+
   def college_name(id)
     if id.nil?
       ''

@@ -26,7 +26,7 @@
 
         <tr>
           <th scope="row">Author College(s):</th>
-          <td><%= all_colleges(@artwork.college_ids) %></td>
+          <td><%= all_colleges(@artwork.college_ids) + check_other_college(@artwork) %></td>
         </tr>
 
         <tr>
@@ -45,12 +45,12 @@
         </tr>
 
         <tr>
-          <th scope="row">Location:</th>
+          <th scope="row">Location of the Institution:</th>
           <td><%= @artwork.location %></td>
         </tr>
 
         <tr>
-          <th scope="row">Date:</th>
+          <th scope="row">Date of Composition:</th>
           <td><%= @artwork.date %></td>
         </tr>
 

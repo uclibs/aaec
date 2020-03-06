@@ -73,15 +73,22 @@
           <%= form.text_field :other_title, class: "form-control" %>
         </div>
         <div class="form-group">
-          <%= form.label :location %>
+          <%= form.label :location, 'Location of the Institution' %>
           <%= form.text_field :location, class: "form-control" %>
         </div>
         <div class="form-group">
-          <%= form.label :date %>
+          <%= form.label :date, 'Date of Composition' %>
           <%= form.text_field :date, class: "form-control" %>
         </div>
       </div>
     </div>
+
+  <div class="form-row">  
+    <div id="other_college_group" class="form-group col-md-6">
+      <%= form.label :other_college, 'Other College' %>
+      <%= form.text_field :other_college, class: "form-control" %>
+    </div>
+  </div>  
 
 <%= hidden_field_tag "artwork[submitter_id]", session[:submitter_id] || @artwork.submitter_id %>
 

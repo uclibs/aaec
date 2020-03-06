@@ -25,6 +25,8 @@ RSpec.describe 'films/new', type: :view do
 
       assert_select 'input[name=?]', 'film[director]'
 
+      assert_select 'input[name=?]', 'film[producer]'
+
       assert_select 'input[name=?]', 'film[release_year]'
 
       assert_select 'input[name=?]', 'film[submitter_id]'

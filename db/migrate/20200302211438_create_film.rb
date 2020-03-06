@@ -10,6 +10,7 @@ class CreateFilm < ActiveRecord::Migration[5.2]
       t.string :uc_department
       t.string :work_title
       t.string :other_title
+      t.string :producer
       t.string :director
       t.string :release_year
       t.string :submitter_id

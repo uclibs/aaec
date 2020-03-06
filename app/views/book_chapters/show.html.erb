@@ -26,7 +26,7 @@
 
         <tr>
           <th scope="row">UC College(s):</th>
-          <td><%= all_colleges(@book_chapter.college_ids) %></td>
+          <td><%= all_colleges(@book_chapter.college_ids) + check_other_college(@book_chapter) %></td>
         </tr>
 
         <tr>
@@ -60,12 +60,12 @@
         </tr>
 
         <tr>
-          <th scope="row">URL:</th>
+          <th scope="row">URL (if this publication is available online):</th>
           <td><%= @book_chapter.url %></td>
         </tr>
 
         <tr>
-          <th scope="row">DOI:</th>
+          <th scope="row">DOI (Digital Object Identifier):</th>
           <td><%= @book_chapter.doi %></td>
         </tr>
       </tbody>

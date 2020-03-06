@@ -26,7 +26,7 @@
 
         <tr>
           <th scope="row">Author College(s):</th>
-          <td><%= all_colleges(@film.college_ids) %></td>
+          <td><%= all_colleges(@film.college_ids) + check_other_college(@film) %></td>
         </tr>
 
         <tr>
@@ -47,6 +47,11 @@
         <tr>
           <th scope="row">Director:</th>
           <td><%= @film.director %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Producer:</th>
+          <td><%= @film.producer %></td>
         </tr>
 
         <tr>

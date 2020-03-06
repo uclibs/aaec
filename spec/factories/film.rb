@@ -9,6 +9,7 @@ FactoryBot.define do
     work_title { 'Title' }
     other_title { 'Subtitle' }
     director { 'Director' }
+    producer { 'Producer' }
     release_year { 'Release year' }
     submitter_id { '1' }
   end

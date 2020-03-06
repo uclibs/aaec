@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "submitter_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "other_college"
   end
 
   create_table "books_colleges", id: false, force: :cascade do |t|
@@ -173,6 +174,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "uc_department"
     t.string "work_title"
     t.string "other_title"
+    t.string "producer"
     t.string "director"
     t.string "release_year"
     t.string "submitter_id"
@@ -231,6 +233,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "submitter_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "other_college"
   end
 
   create_table "photographies", force: :cascade do |t|

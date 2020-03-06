@@ -83,21 +83,24 @@
       </div>
     </div>
 
-  <div class="form-row">  
+  <div class="form-row">
+    <div id="other_college_group" class="form-group col-md-6">
+      <%= form.label :other_college, 'Other College' %>
+      <%= form.text_field :other_college, class: "form-control" %>
+    </div>  
     <div class="form-group col-md-6">
       <%= form.label :publication_date, 'Publication Date' %>
       <%= form.text_field :publication_date, class: "form-control" %>
     </div>
-
-    <div class="form-group col-md-6">
-      <%= form.label :url, 'URL' %>
-      <%= form.text_field :url, class: "form-control" %>
-    </div>
   </div>  
 
-  <div class="form-row">  
+  <div class="form-row">
     <div class="form-group col-md-6">
-      <%= form.label :doi, 'DOI' %>
+      <%= form.label :url, 'URL (if this publication is available online)' %>
+      <%= form.text_field :url, class: "form-control" %>
+    </div>  
+    <div class="form-group col-md-6">
+      <%= form.label :doi, 'DOI (Digital Object Identifier)' %>
       <%= form.text_field :doi, class: "form-control" %>
     </div>
   </div>
