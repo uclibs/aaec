@@ -61,10 +61,17 @@
     </div>
     <%= yield %>
 
-    <footer class="footer" >
-      <nav class="navbar fixed-bottom justify-content-center" style="background-color: #000 !important;">
-        <span class="navbar-text text-white">Developed by the <%= link_to "University of Cincinnati Libraries", "https://libraries.uc.edu/", target: "_blank", class: "text-white" %>: <%= link_to "Application Development Unit", "https://github.com/uclibs", target: "_blank", class: "text-white" %></span>
-      </nav>
+    <footer class="footer fixed-bottom" style="background-color: #000 !important;">
+      <div class="pt-2 container d-flex justify-content-center">
+      <span class="text-white">Developed by the <%= link_to "University of Cincinnati Libraries", "https://libraries.uc.edu/", target: "_blank", class: "text-white" %>: <%= link_to "Application Development Unit", "https://github.com/uclibs", target: "_blank", class: "text-white" %></span>
+      </div>
+      <div class="py-1 container d-flex justify-content-center">
+        <a class="text-white px-2" href="https://www.uc.edu/alert.html">Alerts </a> 
+        <a class="text-white px-2" href="https://www.uc.edu/publicsafety/annual-security-report.html">Clery and HEOA Notice </a> 
+        <a class="text-white px-2" href="https://uc.edu/about/policies/non-discrimination.html">Notice of Non-Discrimination </a>
+        <a class="text-white px-2" href="https://www.uc.edu/ucit/community/accessibility/eAccessibility-form.html">eAccessibility Concern </a> 
+        <a class="text-white px-2" href="https://www.ipo.uc.edu/index.cfm?fuseaction=home.infringement">Copyright Information </a>
+      </div>
     </footer>
   </body>
 </html>
