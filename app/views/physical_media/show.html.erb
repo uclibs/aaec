@@ -1,0 +1,90 @@
+<div class="container offset-footer">
+
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
+
+  <div class="row pl-2">
+    <h1>Show Physical Medium</h1>
+  </div>
+
+  <div class="row pl-2">
+    <p>Your publication's details are displayed below. Click <%= link_to "here", publications_path %> to return to your list of publications.</p>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@physical_medium) %>
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">Author College(s):</th>
+          <td><%= all_colleges(@physical_medium.college_ids) + check_other_college(@physical_medium) %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC Department(s) or Division(s):</th>
+          <td><%= @physical_medium.uc_department %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Work Title:</th>
+          <td><%= @physical_medium.work_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Other Title:</th>
+          <td><%= @physical_medium.other_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @physical_medium.publisher %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @physical_medium.city %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publication Date:</th>
+          <td><%= @physical_medium.publication_date %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">URL (if this publication is available online):</th>
+          <td><%= @physical_medium.url %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">DOI (Digital Object Identifier):</th>
+          <td><%= @physical_medium.doi %></td>
+        </tr>
+
+        <% if session[:admin] %>
+        
+          <tr>
+            <th scope="row">Submitter ID:</th>
+            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+          </tr>
+          <tr>
+            <th scope="row">Submitter Name:</th>
+            <td><%= submitter_name(@submitter) %></td>
+          </tr>
+
+        <% end %>
+      </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <%= link_to 'Edit', edit_physical_medium_path(@physical_medium), class: "btn btn-primary" %>
+    </div>

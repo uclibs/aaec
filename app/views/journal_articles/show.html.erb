@@ -1,0 +1,105 @@
+<div class="container offset-footer">
+
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
+
+  <div class="row pl-2">
+    <h1>Show Journal Article</h1>
+  </div>
+
+  <div class="row pl-2">
+    <p>Your publication's details are displayed below. Click <%= link_to "here", publications_path %> to return to your list of publications.</p>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@journal_article) %>
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">Author College(s):</th>
+          <td><%= all_colleges(@journal_article.college_ids) + check_other_college(@journal_article) %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC Department(s) or Division(s):</th>
+          <td><%= @journal_article.uc_department %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Work Title:</th>
+          <td><%= @journal_article.work_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Other Title:</th>
+          <td><%= @journal_article.other_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Volume:</th>
+          <td><%= @journal_article.volume %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Issue:</th>
+          <td><%= @journal_article.issue %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Page Numbers:</th>
+          <td><%= @journal_article.page_numbers %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publisher:</th>
+          <td><%= @journal_article.publisher %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">City:</th>
+          <td><%= @journal_article.city %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Publication Date:</th>
+          <td><%= @journal_article.publication_date %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">URL (if this publication is available online):</th>
+          <td><%= @journal_article.url %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">DOI (Digital Object Identifier):</th>
+          <td><%= @journal_article.doi %></td>
+        </tr>
+
+        <% if session[:admin] %>
+        
+          <tr>
+            <th scope="row">Submitter ID:</th>
+            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+          </tr>
+          <tr>
+            <th scope="row">Submitter Name:</th>
+            <td><%= submitter_name(@submitter) %></td>
+          </tr>
+
+        <% end %>
+      </tbody>
+      </table>
+    </div>
+    
+    <div class="row">
+      <%= link_to 'Edit', edit_journal_article_path(@journal_article), class: "btn btn-primary" %>
+    </div>

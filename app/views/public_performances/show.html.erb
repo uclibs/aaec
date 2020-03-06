@@ -1,0 +1,80 @@
+<div class="container offset-footer">
+
+  <% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+  <% end %>
+
+  <div class="row pl-2">
+    <h1>Show Public Performance</h1>
+  </div>
+
+  <div class="row pl-2">
+    <p>Your publication's details are displayed below. Click <%= link_to "here", publications_path %> to return to your list of publications.</p>
+  </div>
+
+  <div class="row table-responsive">
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th scope="row">Author(s):</th>
+          <td>
+          <%= all_authors(@public_performance) %>
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">Author College(s):</th>
+          <td><%= all_colleges(@public_performance.college_ids) + check_other_college(@public_performance) %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">UC Department(s) or Division(s):</th>
+          <td><%= @public_performance.uc_department %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Work Title:</th>
+          <td><%= @public_performance.work_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Other Title:</th>
+          <td><%= @public_performance.other_title %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Location (of showing/performance):</th>
+          <td><%= @public_performance.location %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Time:</th>
+          <td><%= @public_performance.time %></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Date:</th>
+          <td><%= @public_performance.date %></td>
+        </tr>
+
+        <% if session[:admin] %>
+        
+          <tr>
+            <th scope="row">Submitter ID:</th>
+            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+          </tr>
+          <tr>
+            <th scope="row">Submitter Name:</th>
+            <td><%= submitter_name(@submitter) %></td>
+          </tr>
+
+        <% end %>
+      </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <%= link_to 'Edit', edit_public_performance_path(@public_performance), class: "btn btn-primary" %>
+    </div>

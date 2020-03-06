@@ -2,7 +2,18 @@
 
 Rails.application.routes.draw do
   resources :colleges
+  resources :artworks
   resources :books
+  resources :book_chapters
+  resources :digital_projects
+  resources :editings
+  resources :films
+  resources :journal_articles
+  resources :musical_scores
+  resources :photographies
+  resources :physical_media
+  resources :plays
+  resources :public_performances
   resources :other_publications
   resources :submitters
   get 'publications', to: 'publications#index'

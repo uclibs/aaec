@@ -1,0 +1,52 @@
+<div class="row mt-4">
+  <div class="col-xs-auto pl-2">
+    <h1 class="my-auto">Photographies<%= if session[:admin] then " (#{@photography_count})" end %></h1>
+  </div>
+  <% if @photographies.count < 3 && session[:admin] != true %>
+    <div class="my-auto pl-3">
+        <%= link_to 'New', new_photography_path, class: "btn btn-primary" %>
+    </div>
+  <% elsif params[:id].nil? && session[:admin]  %>
+    <div class=" ml-auto my-auto pl-3">
+      <%= pagy_bootstrap_nav(@pagy_photographies).html_safe %>
+    </div>
+  <% end %>
+</div>
+
+<% if @photographies.count != 0 %>
+<div class="row table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+      <th>Work Title</th>
+      <th>Author(s)</th>
+      <th>UC College(s)</th>
+      <th>UC Department(s) or Division(s)</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @photographies.each do |photography| %>
+      <tr>
+        <td><%= link_to shorten_long(photography.work_title), photography %></td>
+        <td>
+        <% authors_array(photography).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td>
+        <% college_array(photography).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td><%= shorten_long(photography.uc_department) %></td>
+        <td><%= link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, edit_photography_path(photography) %></td>
+        <td><%= link_to '<i class="fas fa-trash icon-red" data-toggle="tooltip" data-placement="top" title="Delete"></i>'.html_safe, photography, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>

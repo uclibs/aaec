@@ -1,0 +1,52 @@
+<div class="row mt-4">
+  <div class="col-xs-auto pl-2">
+    <h1 class="my-auto">Musical Scores<%= if session[:admin] then " (#{@musical_score_count})" end %></h1>
+  </div>
+  <% if @musical_scores.count < 3 && session[:admin] != true %>
+    <div class="my-auto pl-3">
+        <%= link_to 'New', new_musical_score_path, class: "btn btn-primary" %>
+    </div>
+  <% elsif params[:id].nil? && session[:admin]  %>
+    <div class=" ml-auto my-auto pl-3">
+      <%= pagy_bootstrap_nav(@pagy_musical_scores).html_safe %>
+    </div>
+  <% end %>
+</div>
+
+<% if @musical_scores.count != 0 %>
+<div class="row table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+      <th>Work Title</th>
+      <th>Author(s)</th>
+      <th>Author College(s)</th>
+      <th>UC Department(s) or Division(s)</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @musical_scores.each do |musical_score| %>
+      <tr>
+        <td><%= link_to shorten_long(musical_score.work_title), musical_score %></td>
+        <td>
+        <% authors_array(musical_score).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td>
+        <% college_array(musical_score).each do |item| %>
+        <div><%= item %></div>
+        <% end %>
+        </td>
+        <td><%= shorten_long(musical_score.uc_department) %></td>
+        <td><%= link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, edit_musical_score_path(musical_score) %></td>
+        <td><%= link_to '<i class="fas fa-trash icon-red" data-toggle="tooltip" data-placement="top" title="Delete"></i>'.html_safe, musical_score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>

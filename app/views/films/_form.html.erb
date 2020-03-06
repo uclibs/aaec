@@ -1,0 +1,102 @@
+<%= form_with(model: film, local: true) do |form| %>
+  <% if film.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= pluralize(film.errors.count, "error") %> found:</h4>
+      <hr>
+      <% film.errors.full_messages.each do |message| %>
+        <p class="mb-0"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="form-row">
+    <div class="form-group col-md-5", id="author_first_div">
+      <%= form.label :author_first_name, 'Author First Name', class: "required" %>
+      <% count = 1 %>
+      <% @film.author_first_name.each do | indiv_author | %>
+        <%= text_field_tag "film[author_first_name][]", indiv_author, id: "first_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @film.author_first_name == [] %>
+        <%= text_field_tag "film[author_first_name][]", nil, required: true, class: "form-control form-group" %>
+      <% end %>
+    </div>
+
+    <div class="form-group col-md-5" id="author_last_div">
+      <%= form.label :author_last_name, 'Author Last Name', class: "required" %>
+      <% count = 1 %>
+      <% @film.author_last_name.each do | indiv_author | %>
+        <%= text_field_tag "film[author_last_name][]", indiv_author, id: "last_#{count}", required: true, class: "form-control form-group" %>
+        <% count += 1%>
+      <% end %>
+      <% if @film.author_last_name == [] %>
+          <%= text_field_tag "film[author_last_name][]", nil, required: true, class: "form-control form-group" %>
+        <% end %>
+    </div>
+
+    <div class="form-group col-md-2" id="author_delete_div">
+      <%= form.label :delete, class: "invisible" %>
+      <% count = 1 %>
+      <% @film.author_first_name.each do | indiv_author | %>
+        <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor(#{count});", id: "delete_#{count}", class: "form-control form-group bg-danger text-white" %>
+        <% count += 1%>
+      <% end %>
+      <% if @film.author_first_name == [] %>
+        <%= button_tag "Remove Author", type: "button", class: "form-control form-group bg-danger text-white invisible" %>
+      <% end %>
+    </div>
+  </div>
+  <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('film');", class: "btn btn-primary" %>
+  <hr>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label(:college_ids, "Author College(s)") %><br />
+      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
+        <div class="form-check">
+          <%= c.check_box class: "form-check-input" %>
+          <%= c.label class: "form-check-label" %>
+        </div>
+      <% end %>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
+          <%= form.text_field :uc_department, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :work_title, 'Work Title', class: "required" %>
+          <%= form.text_field :work_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :other_title, 'Other Title' %>
+          <%= form.text_field :other_title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :director %>
+          <%= form.text_field :director, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :producer %>
+          <%= form.text_field :producer, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    
+  <div class="form-row">  
+    <div id="other_college_group" class="form-group col-md-6">
+      <%= form.label :other_college, 'Other College' %>
+      <%= form.text_field :other_college, class: "form-control" %>
+    </div>
+    <div class="form-group">
+          <%= form.label :release_year, 'Release Year' %>
+          <%= form.text_field :release_year, class: "form-control" %>
+    </div>
+  </div>  
+
+<%= hidden_field_tag "film[submitter_id]", session[:submitter_id] || @film.submitter_id %>
+
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
