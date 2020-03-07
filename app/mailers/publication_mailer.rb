@@ -7,6 +7,7 @@ class PublicationMailer < ApplicationMailer
   def publication_submit(submitter, publication)
     @submitter = submitter
     @publication = publication
-    mail(to: submitter.email_address, subject: 'AAEC - Publication received')
+    receivers = "#{submitter.email_address}, #{ENV['MAIL_SENDER']}"
+    mail(to: receivers, subject: 'Publication received for Artists, Authors, Editors & Composers')
   end
 end
