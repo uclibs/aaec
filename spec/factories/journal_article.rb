@@ -11,8 +11,6 @@ FactoryBot.define do
     volume { 'Volume' }
     issue { 'Issue' }
     page_numbers { 'Page Numbers' }
-    publisher { 'Publisher' }
-    city { 'City' }
     publication_date { 'Publication Date' }
     url  { 'URL' }
     doi  { 'DOI' }

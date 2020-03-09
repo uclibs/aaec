@@ -10,7 +10,6 @@ FactoryBot.define do
     other_title { 'Subtitle' }
     volume { 'Volume' }
     issue { 'Issue' }
-    page_numbers { 'Page Numbers' }
     publisher { 'Publisher' }
     city { 'City' }
     publication_date { 'Publication Date' }

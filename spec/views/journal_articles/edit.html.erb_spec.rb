@@ -29,10 +29,6 @@ RSpec.describe 'journal_articles/edit', type: :view do
 
       assert_select 'input[name=?]', 'journal_article[page_numbers]'
 
-      assert_select 'input[name=?]', 'journal_article[publisher]'
-
-      assert_select 'input[name=?]', 'journal_article[city]'
-
       assert_select 'input[name=?]', 'journal_article[publication_date]'
 
       assert_select 'input[name=?]', 'journal_article[url]'

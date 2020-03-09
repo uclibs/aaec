@@ -18,6 +18,7 @@ RSpec.describe 'book_chapters/show', type: :view do
     expect(rendered).to match(/Publisher/)
     expect(rendered).to match(/City/)
     expect(rendered).to match(/Publication Date/)
+    expect(rendered).to match(/Page Numbers/)
     expect(rendered).to match(/URL/)
     expect(rendered).to match(/DOI/)
   end

@@ -27,6 +27,7 @@ describe 'Create a book_chapter', :feature, js: true do
     fill_in('book_chapter[publisher]', with: book_chapter.publisher)
     fill_in('book_chapter[city]', with: book_chapter.city)
     fill_in('book_chapter[publication_date]', with: book_chapter.publication_date)
+    fill_in('book_chapter[page_numbers]', with: book_chapter.page_numbers)
     fill_in('book_chapter[url]', with: book_chapter.url)
     fill_in('book_chapter[doi]', with: book_chapter.doi)
     click_on('Submit')

@@ -17,8 +17,6 @@ RSpec.describe 'journal_articles/show', type: :view do
     expect(rendered).to match(/Volume/)
     expect(rendered).to match(/Issue/)
     expect(rendered).to match(/Page Numbers/)
-    expect(rendered).to match(/Publisher/)
-    expect(rendered).to match(/City/)
     expect(rendered).to match(/Publication Date/)
     expect(rendered).to match(/URL/)
     expect(rendered).to match(/DOI/)

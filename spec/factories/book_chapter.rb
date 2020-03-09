@@ -10,6 +10,7 @@ FactoryBot.define do
     other_title { 'Subtitle' }
     publisher { 'Publisher' }
     city { 'City' }
+    page_numbers { 'Page Numbers' }
     publication_date { 'Publication Date' }
     url  { 'URL' }
     doi  { 'DOI' }

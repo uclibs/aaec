@@ -26,7 +26,6 @@ describe 'Create a Editing', :feature, js: true do
     fill_in('editing[other_title]', with: editing.other_title)
     fill_in('editing[volume]', with: editing.volume)
     fill_in('editing[issue]', with: editing.issue)
-    fill_in('editing[page_numbers]', with: editing.page_numbers)
     fill_in('editing[publisher]', with: editing.publisher)
     fill_in('editing[city]', with: editing.city)
     fill_in('editing[publication_date]', with: editing.publication_date)

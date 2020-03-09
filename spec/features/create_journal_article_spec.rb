@@ -27,8 +27,6 @@ describe 'Create a Journal Article', :feature, js: true do
     fill_in('journal_article[volume]', with: journal_article.volume)
     fill_in('journal_article[issue]', with: journal_article.issue)
     fill_in('journal_article[page_numbers]', with: journal_article.page_numbers)
-    fill_in('journal_article[publisher]', with: journal_article.publisher)
-    fill_in('journal_article[city]', with: journal_article.city)
     fill_in('journal_article[publication_date]', with: journal_article.publication_date)
     fill_in('journal_article[url]', with: journal_article.url)
     fill_in('journal_article[doi]', with: journal_article.doi)
