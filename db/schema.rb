@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_02_211439) do
+ActiveRecord::Schema.define(version: 2020_03_09_170706) do
 
   create_table "artworks", force: :cascade do |t|
     t.string "author_first_name"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "url"
     t.string "doi"
     t.string "submitter_id"
+    t.string "page_numbers"
   end
 
   create_table "book_chapters_colleges", id: false, force: :cascade do |t|
@@ -157,7 +158,6 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "other_title"
     t.string "volume"
     t.string "issue"
-    t.string "page_numbers"
     t.string "publisher"
     t.string "city"
     t.string "publication_date"
@@ -191,8 +191,6 @@ ActiveRecord::Schema.define(version: 2020_03_02_211439) do
     t.string "volume"
     t.string "issue"
     t.string "page_numbers"
-    t.string "publisher"
-    t.string "city"
     t.string "publication_date"
     t.string "url"
     t.string "doi"

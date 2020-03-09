@@ -27,6 +27,8 @@ RSpec.describe 'book_chapters/new', type: :view do
 
       assert_select 'input[name=?]', 'book_chapter[city]'
 
+      assert_select 'input[name=?]', 'book_chapter[page_numbers]'
+
       assert_select 'input[name=?]', 'book_chapter[publication_date]'
 
       assert_select 'input[name=?]', 'book_chapter[url]'

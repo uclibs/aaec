@@ -1,6 +1,6 @@
 <div class="row mt-4">
   <div class="col-xs-auto pl-2">
-    <h1 class="my-auto">Photographies<%= if session[:admin] then " (#{@photography_count})" end %></h1>
+    <h1 class="my-auto">Photography<%= if session[:admin] then " (#{@photography_count})" end %></h1>
   </div>
   <% if @photographies.count < 3 && session[:admin] != true %>
     <div class="my-auto pl-3">
