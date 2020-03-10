@@ -57,6 +57,10 @@ Style/Documentation:
         - 'app/helpers/submitters_helper.rb'
         - 'app/models/submitter.rb'
 
+Style/ExpandPathArguments:
+    Exclude:
+        - 'config/puma.rb'
+
 Style/MixinUsage:
     Exclude:
         - 'bin/setup'
