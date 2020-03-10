@@ -18,16 +18,13 @@ app_dir = File.expand_path('../..', __FILE__)
 if ENV.fetch('RAILS_ENV') == 'production'
   # Set up socket location
   bind "unix://#{app_dir}/tmp/puma/puma.sock"
+
+  # Logs
+  stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 else
   # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
   port ENV.fetch('PORT') { 3000 }
 end
-
-# Specifies the `pidfile` that Puma will use.
-pidfile ENV.fetch('PIDFILE') { 'tmp/pids/server.pid' }
-
-# Logs
-stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 
 # Set master PID and state locations
 pidfile "#{app_dir}/tmp/puma/pid"
