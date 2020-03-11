@@ -1,0 +1,44 @@
+<%# Take in the name, and publication object %>
+<span id="author_group">
+    <div class="form-row">
+            <div class="col-md-5">
+                <%= label_tag(:author_first_name, 'Author First Name', class: "required") %>
+            </div>
+            <div class="col-md-5">
+                <%= label_tag(:author_last_name, 'Author Last Name', class: "required") %>
+            </div>
+            <div class="col-md-2">
+                <!-- Empty for Delete button -->
+            </div>
+    </div>
+    <% (0..publication.author_first_name.count-1).to_a.each do | count | %>
+        <div class="form-row" id="<%= "author_" + count.to_s %>" >
+            <div class="col-md-5">
+                <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[count], required: true, class: "form-control form-group" %>
+            </div>
+            <div class="col-md-5">
+                <%= text_field_tag "#{name}[author_last_name][]", publication.author_last_name[count], required: true, class: "form-control form-group" %>
+            </div>
+            <div class="col-md-2">
+                <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_#{count}');", class: "form-control form-group bg-danger text-white" %>
+            </div>
+        </div>
+    <% end %>
+
+    <% if publication.author_first_name.count == 0 %>
+
+        <div class="form-row" id="author_0">
+            <div class="col-md-5">
+                <%= text_field_tag "#{name}[author_first_name][]", nil, required: true, class: "form-control form-group" %>
+            </div>
+            <div class="col-md-5">
+                <%= text_field_tag "#{name}[author_last_name][]", nil, required: true, class: "form-control form-group" %>
+            </div>
+            <div class="col-md-2">
+                <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_0');", id: "first_author", class: "form-control form-group bg-danger text-white invisible" %>
+            </div>
+        </div>
+
+    <% end %>
+</span>
+<%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}');", class: "btn btn-primary" %>
