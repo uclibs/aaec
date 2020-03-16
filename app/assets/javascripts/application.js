@@ -24,36 +24,28 @@ $(document).on('turbolinks:load', function() {
 
 function addAuthor(type, count)    {
     var count = count || 1;
-    var firstI = document.createElement("input");
-    var lastI = document.createElement("input");
-    var deleteB = document.createElement("button");
-    firstI.setAttribute("type", "text");
-    lastI.setAttribute("type", "text");
-    deleteB.setAttribute("type", "button");
-    firstI.setAttribute("name", type + "[author_first_name][]");
-    lastI.setAttribute("name", type + "[author_last_name][]");
-    deleteB.setAttribute("onclick", "removeAuthor('added_" + count +"');")
-    firstI.setAttribute("id", "first_added_" + count);
-    lastI.setAttribute("id", "last_added_" + count);
-    deleteB.setAttribute("id", "delete_added_" + count);
-    firstI.setAttribute("class", "form-control form-group");
-    lastI.setAttribute("class", "form-control form-group");
-    firstI.setAttribute("required", "required");
-    lastI.setAttribute("required", "required");
-    deleteB.setAttribute("class", "form-control form-group bg-danger text-white");
-    deleteB.textContent = "Remove Author";
-
-    document.getElementById("author_first_div").appendChild(firstI);
-    document.getElementById("author_last_div").appendChild(lastI);
-    document.getElementById("author_delete_div").appendChild(deleteB);
+    var newAuthor = document.createElement("div");
+    var firstI = document.createElement("div");
+    var lastI = document.createElement("div");
+    var deleteB = document.createElement("div");
+    newAuthor.setAttribute("class", "form-row");
+    firstI.setAttribute("class", "col-md-5");
+    lastI.setAttribute("class", "col-md-5");
+    deleteB.setAttribute("class", "col-md-2");
+    firstI.innerHTML = `<input type="text" name="${type}[author_first_name][]" id="${type}_author_first_name_" required="required" class="form-control form-group">`;
+    lastI.innerHTML = `<input type="text" name="${type}[author_last_name][]" id="${type}_author_last_name_" required="required" class="form-control form-group">`;
+    deleteB.innerHTML = `<button name="button" type="button" onclick="removeAuthor('added_${count}');" class="form-control form-group bg-danger text-white">Remove Author</button>`;
+    newAuthor.setAttribute("id", "added_" + count);
+    newAuthor.appendChild(firstI);
+    newAuthor.appendChild(lastI);
+    newAuthor.appendChild(deleteB);
+    document.getElementById("author_group").appendChild(newAuthor);
     count++;
     document.getElementById("add_author_btn").setAttribute("onClick", `addAuthor('${type}', ${count})`);
 }
 
 function removeAuthor(idToDelete)     {
-    document.getElementById('first_' + idToDelete).outerHTML = '';
-    document.getElementById('last_' + idToDelete).outerHTML = '';
-    document.getElementById('delete_' + idToDelete).outerHTML = '';
+    document.getElementById(idToDelete).outerHTML = '';
 }
 
 $(document).on('turbolinks:load', function() {
