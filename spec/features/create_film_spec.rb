@@ -38,7 +38,6 @@ describe 'Create a film', :feature, js: true do
     expect(page).to have_text 'Department'
     expect(page).to have_text 'Title'
     expect(page).not_to have_text 'Subtitle'
-    expect(page).not_to have_text 'Director'
     expect(page).not_to have_text 'Release year'
   end
 end
