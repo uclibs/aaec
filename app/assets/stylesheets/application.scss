@@ -12,44 +12,96 @@
  */
 
 /* Custom bootstrap variables must be set or imported *before* bootstrap. */
- @import "bootstrap";
+@import "bootstrap";
 
- .required:after {
-   content:" *";
+.required:after {
+   content: " *";
    color: red;
- }
-
- .navbar    {
-    background-color: #e00122;
-    color: #fff;
- }
-
- .nav-sub-bar  {
-    background-color: #b8011c;
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
- .offset-footer {
-     margin-bottom: 100px;
- }
+.navbar {
+   background-color: #e00122;
+   color: #fff;
+}
 
- .pagination    {
-    margin-bottom: 0;
- }
+.nav-sub-bar {
+   background-color: #b8011c;
+   font-size: 1.2rem;
+   font-weight: 700;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
 
- .svg   {
-    fill: #fff;
- }
+.offset-footer {
+   margin-bottom: 40px;
+}
 
- .icon-black   {
-    font-size: 1.5em;
-    color: black;
- }
+.pagination {
+   margin-bottom: 0;
+}
 
- .icon-red   {
+.svg {
+   fill: #fff;
+}
+
+.icon-black {
+   font-size: 1.5em;
+   color: black;
+}
+
+.icon-red {
    font-size: 1.5em;
    color: red;
+}
+
+.footer-top {
+   background-color: #e00122;
+   color: #fff;
+   font-size: 18px;
+}
+
+.footer-top a,
+.footer-top a:hover,
+.footer-top a:active,
+.footer-top a:visited {
+   color: white;
+}
+
+.contact {
+   background-color: #000;
+}
+
+.footer-title {
+   font-size: 1.25rem;
+   margin: 0;
+}
+
+.footer-padding {
+   padding: 40px 40px 0 40px;
+}
+
+.footer-bottom {
+   margin: 20px;
+   font-size: .95rem;
+}
+
+.footer-bottom p {
+   margin: .25rem;
+}
+
+.footer-bottom a:link {
+   color: #000;
+   text-decoration: underline;
+}
+
+.footer-bottom a,
+.footer-bottom a:hover,
+.footer-bottom a:active,
+.footer-bottom a:visited {
+   color: #000;
+   text-decoration: none;
+}
+
+.thin-text {
+   font-weight: 100;
 }
