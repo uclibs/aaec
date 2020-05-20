@@ -11,10 +11,12 @@ Layout/LineLength:
 
 Metrics/AbcSize:
     Exclude:
+        - 'app/models/*'
         - 'db/migrate/*'
         - 'app/controllers/publications_controller.rb'
         - 'app/controllers/submitters_controller.rb'
         - 'app/helpers/colleges_helper.rb'
+        - 'app/controllers/admin_controller.rb'
         - 'spec/rails_helper.rb'
 
 Metrics/BlockLength:

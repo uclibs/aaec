@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   post 'manage/validate', to: 'admin#validate'
   get 'finished', to: 'submitters#finished'
   get '/pages/:page' => 'pages#show'
+  get '/csv/:controller_name', to: 'admin#csv', as: 'controller_name'
   root 'submitters#new'
 end

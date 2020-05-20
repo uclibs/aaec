@@ -1,12 +1,13 @@
 <div class="row mt-4">
-  <div class="col-xs-auto pl-2">
-    <h1 class="my-auto">Physical Media<%= if session[:admin] then " (#{@physical_medium_count})" end %></h1>
-  </div>
+  <h1 class="pl-2">Physical Media<%= if session[:admin] then " (#{@physical_medium_count})" end %></h1>
   <% if @physical_media.count < 3 && session[:admin] != true %>
     <div class="my-auto pl-3">
         <%= link_to 'New', new_physical_medium_path, class: "btn btn-primary" %>
     </div>
   <% elsif params[:id].nil? && session[:admin]  %>
+    <div class="my-auto pl-3">
+      <%= link_to '<i class="fas fa-file-download icon-blue" data-toggle="tooltip" data-placement="top" title="Download CSV"></i>'.html_safe, '/csv/physical_media.csv' %>
+    </div>
     <div class=" ml-auto my-auto pl-3">
       <%= pagy_bootstrap_nav(@pagy_physical_media).html_safe %>
     </div>

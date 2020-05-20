@@ -1,12 +1,13 @@
 <div class="row mt-4">
-  <div class="col-xs-auto pl-2">
-    <h1 class="my-auto">Public Performances<%= if session[:admin] then " (#{@public_performance_count})" end %></h1>
-  </div>
+  <h1 class="pl-2">Public Performances<%= if session[:admin] then " (#{@public_performance_count})" end %></h1>
   <% if @public_performances.count < 3 && session[:admin] != true %>
     <div class="my-auto pl-3">
         <%= link_to 'New', new_public_performance_path, class: "btn btn-primary" %>
     </div>
   <% elsif params[:id].nil? && session[:admin]  %>
+    <div class="my-auto pl-3">
+      <%= link_to '<i class="fas fa-file-download icon-blue" data-toggle="tooltip" data-placement="top" title="Download CSV"></i>'.html_safe, '/csv/public_performances.csv' %>
+    </div>
     <div class=" ml-auto my-auto pl-3">
       <%= pagy_bootstrap_nav(@pagy_public_performances).html_safe %>
     </div>
