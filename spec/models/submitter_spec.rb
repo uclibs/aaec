@@ -45,4 +45,18 @@ RSpec.describe Submitter, type: :model do
     subject.email_address = 'testfake.com'
     expect(subject).to_not be_valid
   end
+
+  it 'generates a valid csv' do
+    submitter = FactoryBot.create(:submitter)
+    csv = Submitter.to_csv
+    expect(csv).to include('first_name')
+    expect(csv).to include('last_name')
+    expect(csv).to include('college')
+    expect(csv).to include('department')
+    expect(csv).to include('mailing_address')
+    expect(csv).to include('phone_number')
+    expect(csv).to include('email_address')
+
+    expect(csv).to include(submitter.first_name)
+  end
 end

@@ -1,12 +1,13 @@
 <div class="row mt-4">
-  <div class="col-xs-auto pl-2">
-    <h1 class="my-auto">Book Chapters<%= if session[:admin] then " (#{@book_chapter_count})" end %></h1>
-  </div>
+  <h1 class="pl-2">Book Chapters<%= if session[:admin] then " (#{@book_chapter_count})" end %></h1>
   <% if @book_chapters.count < 3 && session[:admin] != true %>
     <div class="my-auto pl-3">
         <%= link_to 'New', new_book_chapter_path, class: "btn btn-primary" %>
     </div>
   <% elsif params[:id].nil? && session[:admin]  %>
+    <div class="my-auto pl-3">
+      <%= link_to '<i class="fas fa-file-download icon-blue" data-toggle="tooltip" data-placement="top" title="Download CSV"></i>'.html_safe, '/csv/book_chapters.csv' %>
+    </div>
     <div class=" ml-auto my-auto pl-3">
       <%= pagy_bootstrap_nav(@pagy_book_chapters).html_safe %>
     </div>
