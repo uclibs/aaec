@@ -6,7 +6,7 @@
     </div>
   <% elsif params[:id].nil? && session[:admin]  %>
     <div class="my-auto pl-3">
-      <%= link_to '<i class="fas fa-file-download icon-blue" data-toggle="tooltip" data-placement="top" title="Download CSV"></i>'.html_safe, '/csv/physical_media.csv' %>
+      <%= link_to '<i class="fas fa-file-download icon-blue" data-toggle="tooltip" data-placement="top" title="Download CSV"></i>'.html_safe, csv_route("physical_media") %>
     </div>
     <div class=" ml-auto my-auto pl-3">
       <%= pagy_bootstrap_nav(@pagy_physical_media).html_safe %>
