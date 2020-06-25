@@ -15,4 +15,8 @@ module ApplicationHelper
     end
     return_string
   end
+
+  def csv_route(type)
+    ENV['RAILS_RELATIVE_URL_ROOT'].to_s + "/csv/#{type}.csv"
+  end
 end
