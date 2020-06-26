@@ -116,7 +116,7 @@ RSpec.describe SubmittersController, type: :controller do
   describe 'Check date in an invalid timeframe' do
     render_views
     before do
-      allow(Date).to receive(:current).and_return Date.new(2020, 7, 1)
+      allow(Date).to receive(:current).and_return Date.new(2020, 7, 16)
     end
 
     it 'Visit root path' do
