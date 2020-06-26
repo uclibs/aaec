@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def check_date
-    @expiration_date = Date.new(2020, 6, 30)
+    @expiration_date = Date.new(2020, 7, 15)
     redirect_to '/pages/closed' if @expiration_date.past?
   end
 end
