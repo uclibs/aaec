@@ -16,6 +16,7 @@ Metrics/AbcSize:
         - 'app/controllers/publications_controller.rb'
         - 'app/controllers/submitters_controller.rb'
         - 'app/helpers/colleges_helper.rb'
+        - 'app/helpers/publications_helper.rb'
         - 'app/controllers/admin_controller.rb'
         - 'spec/rails_helper.rb'
 
@@ -29,6 +30,7 @@ Metrics/BlockLength:
 Metrics/CyclomaticComplexity:
     Exclude:
         - 'app/controllers/publications_controller.rb'
+        - 'app/helpers/publications_helper.rb'
 
 Metrics/ClassLength:
     Max: 150
@@ -39,6 +41,7 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
     Exclude:
         - 'app/controllers/publications_controller.rb'
+        - 'app/helpers/publications_helper.rb'
 
 Style/ClassAndModuleChildren:
     Exclude:
