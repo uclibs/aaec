@@ -25,6 +25,10 @@ class AdminController < ApplicationController
     end
   end
 
+  def citations
+    @all = Artwork.all + Book.all + BookChapter.all + DigitalProject.all + Editing.all + Film.all + JournalArticle.all + MusicalScore.all + Photography.all + PhysicalMedium.all + Play.all + PublicPerformance.all + OtherPublication.all
+  end
+
   private
 
   def check_credentials(username, password)

@@ -1,0 +1,9 @@
+<div class="container offset-footer">
+
+    <div>
+        <% @all.each do |item| %>
+        <p><%= sanitize create_citation(item) %></p>
+        <% end %>
+    </div>
+
+</div>
