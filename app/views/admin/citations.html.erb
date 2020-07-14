@@ -1,8 +1,17 @@
 <div class="container offset-footer">
 
     <div>
-        <% @all.each do |item| %>
-        <p><%= sanitize create_citation(item) %></p>
+        <% @college_array.each do |array_item| %>
+            <%# Name of college %>
+            <h2><u><%= college_name(array_item[0])%></u></h2> 
+            <%# Hash of uc_department %>
+            <% array_item[1].each do | hash_item, hash_value | %>
+                <h5>Department: <%= hash_item%></h5>
+                <%# byebug %>
+                <% hash_value.each do | publication | %>
+                    <p><%= sanitize create_citation(publication) %></p>
+                <% end %>
+            <% end %>
         <% end %>
     </div>
 

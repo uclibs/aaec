@@ -65,6 +65,8 @@ module PublicationsHelper
   end
 
   def create_citation(publication)
+    return if publication.nil?
+
     return_string = ''
     return_string += author_citation(publication) + '. '
     return_string += "(#{publication.publication_date.last(4)}). " if (publication.publication_date != '' if publication.respond_to? :publication_date)
