@@ -46,6 +46,11 @@
             <% if session[:admin] then @link_text = "All Publications" else @link_text = "My Publications" end %>
             <%= link_to @link_text, publications_path, class: "nav-link text-white" %>
           </li>
+          <% if session[:admin] %>
+          <li class="nav-item">
+            <%= link_to "Citations", citations_path, class: "nav-link text-white" %>
+          </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "I'm Finished", finished_path, class: "nav-link text-white" %>
           </li>
