@@ -27,7 +27,7 @@ module PublicationsHelper
         author_list += author_name_citation(publication, i)
         author_list += if i != size
                          if i == (size - 1)
-                           " & #{author_name(publication, size)}"
+                           ", #{author_name_citation(publication, size)}"
                          else
                            ', '
                          end
@@ -69,7 +69,7 @@ module PublicationsHelper
 
     return_string = ''
     return_string += author_citation(publication) + '. '
-    return_string += "(#{publication.publication_date.last(4)}). " if (publication.publication_date != '' if publication.respond_to? :publication_date)
+    # return_string += "(#{publication.publication_date.last(4)}). " if (publication.publication_date != '' if publication.respond_to? :publication_date)
     return_string += '<i>' + publication.work_title
     # return_string += ": #{publication.other_title}" unless publication.other_title.blank?
     return_string += '</i>'
