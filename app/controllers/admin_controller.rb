@@ -37,6 +37,11 @@ class AdminController < ApplicationController
     end
   end
 
+  def toggle_links
+    session[:links] = session[:links] == false
+    redirect_to citations_path
+  end
+
   private
 
   def check_credentials(username, password)
