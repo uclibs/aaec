@@ -1,5 +1,5 @@
 <div class="container offset-footer">
-
+    <%= link_to '<u>Toggle links</u>'.html_safe,  toggle_links_url %>
     <div>
         <% @college_array.each do |array_item| %>
             <%# Name of college %>
@@ -9,7 +9,8 @@
                 <h5>Department: <%= hash_item%></h5>
                 <%# byebug %>
                 <% hash_value.each do | publication | %>
-                    <p><%= sanitize create_citation(publication) %></p>
+                    <p><%= sanitize create_citation(publication) %> &nbsp;
+                    <%= if session[:links] == true then link_to '<i class="fas fa-edit icon-black" data-toggle="tooltip" data-placement="top" title="Edit"></i>'.html_safe, eval("edit_#{publication.class.name.underscore}_path(#{publication.id})") end %></p>
                 <% end %>
             <% end %>
         <% end %>
