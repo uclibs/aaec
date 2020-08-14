@@ -69,31 +69,27 @@ module PublicationsHelper
 
     return_string = ''
     return_string += author_citation(publication) + '. '
-    # return_string += "(#{publication.publication_date.last(4)}). " if (publication.publication_date != '' if publication.respond_to? :publication_date)
-    return_string += '“' + publication.work_title
-    # return_string += ": #{publication.other_title}" unless publication.other_title.blank?
-    return_string += '”'
-    if (publication.page_numbers != '' if publication.respond_to? :page_numbers)
-      return_string += ' ('
-      return_string += "Vol. #{publication.volume}, " if (publication.volume != '' if publication.respond_to? :volume)
-      return_string += "pp. #{publication.page_numbers}). "
-    else
-      return_string += '. '
-    end
-    if (publication.date != '' if publication.respond_to? :date) && (publication.location != '' if publication.respond_to? :location)
-      return_string += "#{publication.location}, #{publication.date.last(4)}."
-    elsif (publication.date != '' if publication.respond_to? :date)
-      return_string += "(#{publication.date.last(4)}). "
-    elsif (publication.location != '' if publication.respond_to? :location)
-      return_string += "#{publication.location}. "
-    end
-    return_string += "#{publication.publisher}. " if (publication.publisher != '' if publication.respond_to? :publisher)
-    return_string += "#{publication.name_of_site}. " if (publication.name_of_site != '' if publication.respond_to? :name_of_site)
+    return_string += "“#{publication.other_title}”. " unless publication.other_title.blank?
+    return_string += '<i>' + publication.work_title
+    return_string += '</i>'
+    @loc_city = publication.location if publication.respond_to? :location
+    @loc_city = publication.city if publication.respond_to? :city
+    return_string += ", #{@loc_city}" if @loc_city != ''
+    return_string += ", #{publication.publisher}" if (publication.publisher != '' if publication.respond_to? :publisher)
+    return_string += ", vol. #{publication.volume}" if (publication.volume != '' if publication.respond_to? :volume)
+    return_string += ", no. #{publication.issue}" if (publication.issue != '' if publication.respond_to? :issue)
+    @date = publication.date if publication.respond_to? :date
+    @date = publication.publication_date if publication.respond_to? :publication_date
+    return_string += ", #{@date.last(4)}" if @date != ''
+    return_string += ", pp. #{publication.page_numbers}" if (publication.page_numbers != '' if publication.respond_to? :page_numbers)
     if (publication.doi != '' if publication.respond_to? :doi)
-      return_string += "#{publication.doi}. "
+      return_string += ". #{publication.doi}"
     elsif (publication.url != '' if publication.respond_to? :url)
-      return_string += "#{publication.url}. "
+      return_string += ". #{publication.url}"
     end
+    @loc_city = ''
+    @date = ''
+    return_string += '.'
     return_string
   end
 end
