@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AdminController < ApplicationController
+  skip_before_action :check_date
   def login; end
 
   def validate

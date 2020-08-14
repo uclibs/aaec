@@ -19,4 +19,8 @@ module ApplicationHelper
   def csv_route(type)
     ENV['RAILS_RELATIVE_URL_ROOT'].to_s + "/csv/#{type}.csv"
   end
+
+  def page_route(page)
+    ENV['RAILS_RELATIVE_URL_ROOT'].to_s + "/pages/#{page}"
+  end
 end

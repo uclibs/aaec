@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
 
   def check_date
     @expiration_date = Date.new(2020, 7, 15)
-    redirect_to '/pages/closed' if @expiration_date.past?
+    redirect_to helpers.page_route("closed") if @expiration_date.past? unless session[:admin] == true
   end
 end
