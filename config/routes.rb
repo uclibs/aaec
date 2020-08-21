@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   resources :public_performances
   resources :other_publications
   resources :submitters
+  get 'citations', to: 'admin#citations'
+  get 'toggle_links', to: 'admin#toggle_links'
   get 'publications', to: 'publications#index'
   get 'publications/:id', to: 'publications#index'
   get 'manage', to: 'admin#login'
