@@ -37,7 +37,6 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.4.1'
-gem 'coveralls', require: false
 gem 'dotenv-rails'
 gem 'jquery-rails'
 gem 'pagy', '~> 3.7'
@@ -68,6 +67,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'capybara-selenium', '~> 0.0.6'
+  gem 'coveralls', require: false
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'webdrivers'
