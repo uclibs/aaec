@@ -22,6 +22,14 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+# Use rails-controller-testing for testing a controller
+gem 'rails-controller-testing'
+# Use coveralls for code-coverage
+gem 'coveralls', '~> 0.8.22', require: false
+# Use rubocop for static code analysis
+gem 'rubocop'
+# Use simplecov to generate the coveralls report in .html format
+gem 'simplecov', require: false
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -45,9 +53,8 @@ gem 'truncato'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'rspec-rails'
-  gem 'rubocop', '~> 0.85.1', require: false
-  gem 'sqlite3'
+  gem 'rspec_junit_formatter'
+  gem 'rspec-rails', '~> 3.8'
 end
 
 group :development do
@@ -66,8 +73,6 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'capybara-selenium', '~> 0.0.6'
-  gem 'coveralls', require: false
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'webdrivers'

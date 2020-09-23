@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -15,6 +15,15 @@ jobs:
       # - image: circleci/postgres:9.4
     
     environment:
+      BUNDLE_PATH: vendor/bundle
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      RAILS_ENV: test
+      RACK_ENV: test
+      SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+      WORKING_PATH: /tmp
+      UPLOAD_PATH: /tmp
+      CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
     working_directory: ~/aaec
@@ -55,22 +64,23 @@ jobs:
             gem install rubocop
             bundle exec rubocop
       - deploy:
+          name: Update Coveralls
           command: curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_BUILD_NUM&payload[status]=done"
       # run tests!
       - run:
-          name: Run Tests
+          name: Run rspec in parallel
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-            bundle exec rspec \
-              --format progress \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
       # collect reports
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+workflows:
+    version: 2
+    ci:
+        jobs:
+            - build:
+                name: ruby2-6-5
