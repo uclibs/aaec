@@ -33,15 +33,30 @@ end
 
 # Include coveralls for code-coverage
 require 'coveralls'
-Coveralls.wear!
+Coveralls.wear!('rails')
+
+require 'byebug'
+require 'devise'
+require 'database_cleaner'
+def sign_in(user)
+  post user_session_path \
+    'user[email]' => user.email,
+    'user[password]' => user.password
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
-  config.before(:suite) do
-    Rails.application.load_seed # loading seeds
+  config.before do |example|
+    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
   end
+ 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
@@ -109,11 +124,11 @@ RSpec.configure do |config|
   #   # order dependency and want to debug it, you can fix the order by providing
   #   # the seed, which is printed after each run.
   #   #     --seed 1234
-  #   config.order = :random
+     config.order = :random
   #
   #   # Seed global randomization in this process using the `--seed` CLI option.
   #   # Setting this allows you to use `--seed` to deterministically reproduce
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
-  #   Kernel.srand config.seed
+     Kernel.srand config.seed
 end
