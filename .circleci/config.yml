@@ -42,7 +42,7 @@ jobs:
           command: |
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
-            gem install bundler -v 2.0.1
+            gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
       - run:
           name: Install Dependencies
           command: |
@@ -57,12 +57,13 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-
+      
       - run:
           name: Rubocop
           command: |
             gem install rubocop
             bundle exec rubocop --require rubocop-rails
+      
       # run tests!
       - run:
           name: Run rspec in parallel
