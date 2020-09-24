@@ -18,7 +18,7 @@ module Csv
   end
 
   def author_name(position)
-    author_first_name[position] + ' ' + author_last_name[position]
+    "#{author_first_name[position]} #{author_last_name[position]}"
   end
 
   def college_name(id)

@@ -52,7 +52,7 @@ describe 'Create Admin', :feature, js: true do
     expect(page).not_to have_css('.pagination', text: '3')
 
     # Test Admin Submitter Filter
-    visit publications_path + '/2'
+    visit "#{publications_path}/2"
     expect(page).to have_text 'Submitter #2'
     expect(page).to have_text 'Books (0)'
     expect(page).to have_text 'Other Publications (0)'

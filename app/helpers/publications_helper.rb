@@ -49,28 +49,28 @@ module PublicationsHelper
   end
 
   def author_name(publication, position)
-    publication.author_first_name[position] + ' ' + publication.author_last_name[position]
+    "#{publication.author_first_name[position]} #{publication.author_last_name[position]}"
   end
 
   def author_name_citation(publication, position)
-    publication.author_last_name[position] + ', ' + publication.author_first_name[position]
+    "#{publication.author_last_name[position]}, #{publication.author_first_name[position]}"
   end
 
   def author_comma(publication, position)
-    publication.author_last_name[position] + ', ' + publication.author_first_name[position]
+    "#{publication.author_last_name[position]}, #{publication.author_first_name[position]}"
   end
 
   def publications_id(id)
-    publications_path + '/' + id.to_s
+    "#{publications_path}/#{id}"
   end
 
   def create_citation(publication)
     return if publication.nil?
 
     return_string = ''
-    return_string += author_citation(publication) + '. '
+    return_string += "#{author_citation(publication)}. "
     return_string += "“#{publication.other_title}”. " unless publication.other_title.blank?
-    return_string += '<i>' + publication.work_title
+    return_string += "'<i>'#{publication.work_title}"
     return_string += '</i>'
     @loc_city = publication.location if publication.respond_to? :location
     @loc_city = publication.city if publication.respond_to? :city
