@@ -21,6 +21,12 @@ SimpleCov.start 'rails'
 
 SimpleCov.at_exit do
   SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+    [
+      SimpleCov::Formatter::HTMLFormatter,
+      Coveralls::SimpleCov::Formatter
+    ]
+  )
   SimpleCov.result.format!
 end
 
