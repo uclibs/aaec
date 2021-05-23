@@ -24,7 +24,6 @@ describe 'Create a Artwork', :feature, js: true do
     fill_in('artwork[uc_department]', with: artwork.uc_department)
     fill_in('artwork[work_title]', with: artwork.work_title)
     fill_in('artwork[other_title]', with: artwork.other_title)
-    fill_in('artwork[location]', with: artwork.location)
     fill_in('artwork[date]', with: artwork.date)
     click_on('Submit')
 

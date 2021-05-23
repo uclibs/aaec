@@ -17,7 +17,7 @@ module SubmittersHelper
     name_array = name.strip.split(/\s+/)
     return_string = ''
     name_array.each do |item|
-      return_string << ("#{(Truncato.truncate item, max_length: 16)} ")
+      return_string << ("#{Truncato.truncate item, max_length: 16} ")
     end
     return_string
   end

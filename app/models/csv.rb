@@ -8,10 +8,10 @@ module Csv
     size = [0, (author_first_name.count - 1)].max
     (0..size).each do |i|
       author_list += author_name(i)
-      author_list += if i != size
-                       ', '
-                     else
+      author_list += if i == size
                        ''
+                     else
+                       ', '
                      end
     end
     author_list

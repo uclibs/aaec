@@ -6,10 +6,10 @@ module PublicationsHelper
     size = [0, (publication.author_first_name.count - 1)].max
     (0..size).each do |i|
       author_list += author_name(publication, i)
-      author_list += if i != size
-                       ', '
-                     else
+      author_list += if i == size
                        ' '
+                     else
+                       ', '
                      end
     end
     author_list
@@ -25,14 +25,12 @@ module PublicationsHelper
         next unless i != size
 
         author_list += author_name_citation(publication, i)
-        author_list += if i != size
-                         if i == (size - 1)
-                           " and #{author_name(publication, size)}"
-                         else
-                           ', '
-                         end
-                       else
+        author_list += if i == size
                          ''
+                       elsif i == (size - 1)
+                         " and #{author_name(publication, size)}"
+                       else
+                         ', '
                        end
       end
     end
@@ -91,5 +89,9 @@ module PublicationsHelper
     @date = ''
     return_string += '.'
     return_string
+  end
+
+  def author_or_artist_label
+    params['controller'] == 'artworks' ? 'Artist' : 'Author'
   end
 end

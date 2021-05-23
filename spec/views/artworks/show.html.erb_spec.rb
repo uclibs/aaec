@@ -15,7 +15,7 @@ RSpec.describe 'artworks/show', type: :view do
     expect(rendered).to match(/Department/)
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/Subtitle/)
-    expect(rendered).to match(/Location/)
+    expect(rendered).not_to match(/Location/)
     expect(rendered).to match(/Date/)
   end
 end
