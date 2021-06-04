@@ -51,7 +51,7 @@ class SubmittersController < ApplicationController
     admin = session[:admin]
     reset_session
     if admin.nil?
-      render helpers.page_route('finished')
+      render 'pages/finished'
     else
       redirect_to root_path
     end

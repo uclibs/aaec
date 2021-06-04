@@ -22,4 +22,26 @@ RSpec.describe PublicationsHelper, type: :helper do
       expect(helper.author_comma(other_publication, 1)).to eq 'None, Second'
     end
   end
+
+  describe '#author_or_artist_label' do
+    context 'when the work is an artwork' do
+      before do
+        allow(helper).to receive(:params).and_return('controller' => 'artworks')
+      end
+
+      it 'returns "Artist"' do
+        expect(helper.author_or_artist_label).to eq 'Artist'
+      end
+    end
+
+    context 'when the work is not an artwork' do
+      before do
+        allow(helper).to receive(:params).and_return('controller' => 'something')
+      end
+
+      it 'returns "Author"' do
+        expect(helper.author_or_artist_label).to eq 'Author'
+      end
+    end
+  end
 end

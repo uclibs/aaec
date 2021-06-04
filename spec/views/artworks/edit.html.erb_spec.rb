@@ -23,8 +23,6 @@ RSpec.describe 'artworks/edit', type: :view do
 
       assert_select 'input[name=?]', 'artwork[other_title]'
 
-      assert_select 'input[name=?]', 'artwork[location]'
-
       assert_select 'input[name=?]', 'artwork[date]'
 
       assert_select 'input[name=?]', 'artwork[submitter_id]'

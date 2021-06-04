@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 college_array = []
-# Note: This will add 20 of each publication to the first submitter created
+# NOTE: This will add 20 of each publication to the first submitter created
 add_publications = false
 
 College.all.each do |college|

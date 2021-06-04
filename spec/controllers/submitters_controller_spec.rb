@@ -95,9 +95,19 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe 'Sign out' do
     render_views
-    it 'as admin' do
-      get :finished, session: { submitter_id: 1 }
-      expect(response.body).to have_text('Your submission(s) was received.')
+
+    context 'when a manager is logged in' do
+      it 'it redirects to root path when finished' do
+        get :finished, session: { admin: true }
+        expect(response.body).to have_text('You are being redirected')
+      end
+    end
+
+    context 'when a manager is not logged in' do
+      it 'redirects to finished page when finished' do
+        get :finished, session: { admin: nil }
+        expect(response.body).to have_text('Your submission(s) was received')
+      end
     end
   end
 

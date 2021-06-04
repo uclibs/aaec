@@ -6,10 +6,10 @@ module CollegesHelper
     size = [0, (colleges.count - 1)].max
     (0..size).each do |i|
       college_list += college_name(colleges[i])
-      college_list += if i != size
-                        ', '
-                      else
+      college_list += if i == size
                         ''
+                      else
+                        ', '
                       end
     end
     college_list

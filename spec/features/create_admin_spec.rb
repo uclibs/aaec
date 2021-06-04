@@ -23,7 +23,7 @@ describe 'Create Admin', :feature, js: true do
   end
 
   it 'from admin path' do
-    # Note: There is no link from any page to the manage_path
+    # NOTE: There is no link from any page to the manage_path
     visit manage_path
 
     # Admin Login Page
