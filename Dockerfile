@@ -1,10 +1,10 @@
-FROM ruby:2.6.5
+FROM ruby:2.7.5
 # Install apt based dependencies required to run Rails as
 # well as RubyGems. As the Ruby image itself is based on a
 # Debian image, we use apt-get to install those.
 RUN apt-get update && apt-get install -yqq --no-install-recommends build-essential zip unzip libpq-dev libaio1 libaio-dev nodejs
 
-# install chrome (https://github.com/CircleCI-Public/circleci-dockerfiles/blob/master/ruby/images/2.6.5-stretch/browsers/Dockerfile)
+# install chrome (https://github.com/CircleCI-Public/circleci-dockerfiles/blob/master/ruby/images/2.7.5-stretch/browsers/Dockerfile)
 
 RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && ( dpkg -i /tmp/google-chrome-stable_current_amd64.deb ||  apt-get -fy install)  \

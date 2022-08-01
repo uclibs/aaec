@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   get '/pages/:page' => 'pages#show'
   get '/csv/:controller_name', to: 'admin#csv', as: 'controller_name'
   root 'submitters#new'
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Prerequisites
 ```
-Ruby Version 2.6.5
+Ruby Version 2.7.5
 SQLite 3
 ```
 
