@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.6'
 # gem 'sqlite3'
 
 # Use Puma as the app server
@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 gem 'coveralls', '~> 0.8.22', require: false
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -47,6 +47,7 @@ gem 'dotenv-rails'
 gem 'jquery-rails'
 gem 'pagy', '~> 3.7'
 gem 'truncato'
+gem 'webpacker'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
