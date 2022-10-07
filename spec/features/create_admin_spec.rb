@@ -30,11 +30,13 @@ describe 'Create Admin', :feature, js: true do
     fill_in('username', with: ENV.fetch('ADMIN_USERNAME', nil))
     fill_in('password', with: ENV.fetch('ADMIN_PASSWORD', nil))
     click_on('Submit')
-
     expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
 
     # Check values
-    find('h1', text: 'Submitters (20)')
+    page.current_window.resize_to(1920, 1080)
+    page.save_screenshot('~/screenshot.png')
+    expect(page).to have_css('#publications_link', text: 'All Publications')
+    expect(page).to have_text 'Submitters (20)'
     expect(page).to have_text 'Books (20)'
     expect(page).to have_text 'Other Publications (20)'
     expect(page).to have_text 'Artworks (20)'
