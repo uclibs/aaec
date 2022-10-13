@@ -16,5 +16,4 @@ task :use_rvm do
   require 'capistrano/rvm'
 end
 
-task local: :use_rvm
-task curly: :use_rvm
+# task local: :use_rvm
