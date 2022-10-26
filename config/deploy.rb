@@ -6,6 +6,12 @@ lock '~> 3.17.1'
 set :application, 'AAEC'
 set :repo_url, 'https://github.com/uclibs/aaec.git'
 
+set :rbenv_type, :user
+set :rbenv_ruby, '3.0.4'
+# set :rbenv_ruby, File.read('.ruby-version').strip
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
+
 task :shared_db do
   on roles(:all) do
     execute "mkdir -p #{fetch(:deploy_to)}/shared/db/ && touch #{fetch(:deploy_to)}/shared/db/development.sqlite3"
@@ -16,8 +22,8 @@ end
 
 task :init_local do
   on roles(:all) do
-    execute 'gem install bundler'
-    execute 'bundle update --bundler'
+    # execute "pwd"
+    # execute "cd #{fetch(:release_path)} && gem install bundler -v $(tail -n1 Gemfile.lock)"
     execute "bundle config path 'vendor/bundle' --local"
   end
 end
@@ -31,8 +37,7 @@ end
 
 task :init_qp do
   on roles(:all) do
-    execute 'gem install bundler'
-    execute 'bundle update --bundler'
+    execute "gem install bundler -v $(tail -n1 #{fetch(:release_path)}/Gemfile.lock)"
     execute "bundle config path 'vendor/bundle' --local"
     execute "mkdir -p #{fetch(:deploy_to)}/static"
     execute "cp #{fetch(:deploy_to)}/static/.env.production #{fetch(:release_path)}/ || true"

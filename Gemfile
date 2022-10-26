@@ -65,6 +65,8 @@ group :development do
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-rbenv', '~> 2.0' # required
+  gem 'capistrano-rbenv-install', '~> 1.2.0'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'

@@ -2,9 +2,10 @@
 
 set :rails_env, :production
 set :bundle_without, %w[development test].join(' ')
-set :branch, 'main'
+set :branch, 'update-rails'
 set :default_env, path: '$PATH:/usr/local/bin'
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 append :linked_dirs, 'tmp', 'log'
 ask(:username, nil)
 ask(:password, nil, echo: false)
