@@ -9,7 +9,7 @@ set :repo_url, 'https://github.com/uclibs/aaec.git'
 set :rbenv_type, :user
 set :rbenv_ruby, '3.0.4'
 # set :rbenv_ruby, File.read('.ruby-version').strip
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all # default value
 
 task :shared_db do
@@ -40,7 +40,7 @@ task :init_qp do
     execute "gem install bundler -v $(tail -n1 #{fetch(:release_path)}/Gemfile.lock)"
     execute "bundle config path 'vendor/bundle' --local"
     execute "mkdir -p #{fetch(:deploy_to)}/static"
-    execute "cp #{fetch(:deploy_to)}/static/.env.production #{fetch(:release_path)}/ || true"
+    execute "cp #{fetch(:deploy_to)}/static/.env.production.local #{fetch(:release_path)}/ || true"
   end
 end
 

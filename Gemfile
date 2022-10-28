@@ -43,7 +43,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.4.1'
 
+gem 'bcrypt_pbkdf'
 gem 'dotenv-rails'
+gem 'ed25519'
 gem 'jquery-rails'
 gem 'pagy', '~> 3.7'
 gem 'truncato'
@@ -64,9 +66,9 @@ group :development do
   gem 'capistrano', '~> 3.17.1', require: false
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
-  gem 'capistrano-rvm', require: false
   gem 'capistrano-rbenv', '~> 2.0' # required
   gem 'capistrano-rbenv-install', '~> 1.2.0'
+  gem 'capistrano-rvm', require: false
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'

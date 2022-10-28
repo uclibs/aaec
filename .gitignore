@@ -53,3 +53,7 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Ignore Vendor Local
+/vendor/bundle --local
+/vendor/bundle
