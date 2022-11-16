@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '3.0.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.6'
 # gem 'sqlite3'
 
 # Use Puma as the app server
@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 gem 'coveralls', '~> 0.8.22', require: false
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -43,10 +43,13 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.4.1'
 
+gem 'bcrypt_pbkdf'
 gem 'dotenv-rails'
+gem 'ed25519'
 gem 'jquery-rails'
 gem 'pagy', '~> 3.7'
 gem 'truncato'
+gem 'webpacker'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -60,9 +63,11 @@ group :development, :test do
 end
 
 group :development do
-  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano', '~> 3.17.1', require: false
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano-rbenv', '~> 2.0' # required
+  gem 'capistrano-rbenv-install', '~> 1.2.0'
   gem 'capistrano-rvm', require: false
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'

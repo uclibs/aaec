@@ -10,8 +10,8 @@ RSpec.describe PublicationMailer, type: :mailer do
       book = FactoryBot.create(:book)
       mail = described_class.publication_submit(submitter, book).deliver_now
       expect(mail.subject).to eq('Publication received for Artists, Authors, Editors & Composers')
-      expect(mail.to).to eq([submitter.email_address, ENV['MAIL_SENDER']])
-      expect(mail.from).to eq([ENV['MAIL_SENDER']])
+      expect(mail.to).to eq([submitter.email_address, ENV.fetch('MAIL_SENDER', nil)])
+      expect(mail.from).to eq([ENV.fetch('MAIL_SENDER', nil)])
       expect(mail.body.encoded).to match(book.work_title)
       expect(mail.body.encoded).to match("More information about this year's event is forthcoming")
     end

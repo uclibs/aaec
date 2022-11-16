@@ -16,5 +16,11 @@ task :use_rvm do
   require 'capistrano/rvm'
 end
 
-task local: :use_rvm
-task curly: :use_rvm
+task :use_rbenv do
+  require 'capistrano/rbenv'
+  # require 'capistrano/rbenv_install'
+end
+
+task local: :use_rbenv
+task qa: :use_rbenv
+task production: :use_rbenv

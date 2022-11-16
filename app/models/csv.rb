@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# /lib/foo.rb
-
 module Csv
   def authors
     author_list = ''
