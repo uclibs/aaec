@@ -34,7 +34,6 @@ describe 'Create Admin', :feature, js: true do
 
     # Check values
     page.current_window.resize_to(1920, 1080)
-    page.save_screenshot('~/screenshot.png')
     expect(page).to have_css('#publications_link', text: 'All Publications')
     expect(page).to have_text 'Submitters (20)'
     expect(page).to have_text 'Books (20)'
