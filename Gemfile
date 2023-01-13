@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.4'
+ruby '3.0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.6'
+gem 'rails', '~> 6.1'
 # gem 'sqlite3'
 
 # Use Puma as the app server
@@ -20,7 +20,8 @@ gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 5.0'
-gem 'coveralls', '~> 0.8.22', require: false
+# gem 'coveralls', '~> 0.8.22', require: false
+gem 'coveralls_reborn'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -47,6 +48,7 @@ gem 'bcrypt_pbkdf'
 gem 'dotenv-rails'
 gem 'ed25519'
 gem 'jquery-rails'
+gem 'net-smtp'
 gem 'pagy', '~> 3.7'
 gem 'truncato'
 gem 'webpacker'
