@@ -14,6 +14,10 @@ RSpec.describe PublicationMailer, type: :mailer do
       expect(mail.from).to eq([ENV.fetch('MAIL_SENDER', nil)])
       expect(mail.body.encoded).to match(book.work_title)
       expect(mail.body.encoded).to match("More information about this year's event is forthcoming")
+      expect(mail.body.encoded).to include('<html>').once
+      expect(mail.body.encoded).to include('<head>').once
+      expect(mail.body.encoded).to include('<body>').once
+      expect(mail.body.encoded).to include('<!DOCTYPE html>').once
     end
   end
 end
