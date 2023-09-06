@@ -44,6 +44,9 @@ jobs:
 
     steps:
       - checkout
+      - run: 
+        name: Check Node.js version
+        command: node -v
       # - browser-tools/install-chrome # TODO: change the following 2 lines to this after fixing the orb issue #75.
       - browser-tools/install-browser-tools:
           chrome-version: 114.0.5735.90 # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
