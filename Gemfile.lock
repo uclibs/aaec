@@ -65,7 +65,7 @@ GEM
     airbrussh (1.4.2)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
-    autoprefixer-rails (10.4.13.0)
+    autoprefixer-rails (10.4.15.0)
       execjs (~> 2)
     base64 (0.1.1)
     bcrypt_pbkdf (1.1.0)
@@ -168,7 +168,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.5)
-    minitest (5.19.0)
+    minitest (5.20.0)
     msgpack (1.7.2)
     mysql2 (0.5.5)
     net-imap (0.3.7)
@@ -185,8 +185,6 @@ GEM
     net-ssh (7.2.0)
     nio4r (2.5.9)
     nokogiri (1.15.4-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
     pagy (3.11.0)
     parallel (1.23.0)
@@ -319,7 +317,6 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.6.4-arm64-darwin)
-    sqlite3 (1.6.4-x86_64-darwin)
     sshkit (1.21.5)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -362,7 +359,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
-  x86_64-darwin-21
 
 DEPENDENCIES
   bcrypt_pbkdf

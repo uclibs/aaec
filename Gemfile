@@ -84,7 +84,6 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'capybara-selenium', '~> 0.0.6'
   gem 'selenium-webdriver', '~> 4.12.0'
-  # Easy installation and use of chromedriver to run system tests with Chrome
 end
 
 group :production do
