@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
-
   describe 'GET #show' do
     render_views
 
@@ -30,9 +29,9 @@ RSpec.describe PagesController, type: :controller do
   describe 'VALID_PAGES' do
     it 'contains all the pages in app/views/pages' do
       view_pages = Dir[Rails.root.join('app', 'views', 'pages', '*.html.erb')]
-                    .map { |path| File.basename(path, '.html.erb') }
+                   .map { |path| File.basename(path, '.html.erb') }
 
-      expect(::PagesController::VALID_PAGES).to match_array(view_pages)
+      expect(PagesController::VALID_PAGES).to match_array(view_pages)
     end
   end
 end
