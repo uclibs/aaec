@@ -2,6 +2,7 @@
 
 class PagesController < ApplicationController
   skip_before_action :check_date
+  VALID_PAGES = %w[closed finished].freeze # Add or remove pages as needed
 
   def show
     if valid_page?
@@ -14,6 +15,6 @@ class PagesController < ApplicationController
   private
 
   def valid_page?
-    File.exist?(Pathname.new(Rails.root + "app/views/pages/#{params[:page]}.html.erb"))
+    VALID_PAGES.include?(params[:page])
   end
 end
