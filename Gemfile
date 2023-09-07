@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.5'
+ruby '3.2.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1.7.6'
 # gem 'sqlite3'
 
 # Use Puma as the app server
@@ -83,7 +83,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'capybara-selenium', '~> 0.0.6'
-  gem 'selenium-webdriver', '>=4.11.0'
+  gem 'selenium-webdriver', '~> 4.12.0'
 end
 
 group :production do
