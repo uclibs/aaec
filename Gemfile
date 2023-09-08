@@ -10,7 +10,7 @@ gem 'rails', '~> 6.1.7.6'
 # gem 'sqlite3'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.12.4'
+gem 'puma', '>= 6.3.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -54,6 +54,7 @@ gem 'truncato'
 gem 'webpacker'
 
 group :development, :test do
+  gem 'bundler-audit', '~> 0.9.1'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
