@@ -34,4 +34,14 @@ RSpec.describe PagesController, type: :controller do
       expect(PagesController::VALID_PAGES).to match_array(view_pages)
     end
   end
+
+  describe 'ALLOWED_PAGES constant' do
+    it 'contains all the valid pages in app/views/pages' do
+      page_files = Dir.glob('app/views/pages/*.html.erb').map do |file|
+        File.basename(file, '.html.erb')
+      end
+
+      expect(PagesController::ALLOWED_PAGES).to match_array(page_files)
+    end
+  end
 end
