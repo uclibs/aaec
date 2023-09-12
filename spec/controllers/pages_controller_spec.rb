@@ -23,18 +23,9 @@ RSpec.describe PagesController, type: :controller do
     end
   end
 
-  # When adding a new page, you need to add it to the VALID_PAGES constant in
+  # When adding a new page, you need to add it to the ALLOWED_PAGES constant in
   # app/controllers/pages_controller.rb. This test ensures that the constant
   # is kept up to date.
-  describe 'VALID_PAGES' do
-    it 'contains all the pages in app/views/pages' do
-      view_pages = Dir[Rails.root.join('app', 'views', 'pages', '*.html.erb')]
-                   .map { |path| File.basename(path, '.html.erb') }
-
-      expect(PagesController::VALID_PAGES).to match_array(view_pages)
-    end
-  end
-
   describe 'ALLOWED_PAGES constant' do
     it 'contains all the valid pages in app/views/pages' do
       page_files = Dir.glob('app/views/pages/*.html.erb').map do |file|

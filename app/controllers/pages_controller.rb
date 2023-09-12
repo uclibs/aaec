@@ -2,10 +2,8 @@
 
 # app/controllers/pages_controller.rb
 class PagesController < ApplicationController
-  ALLOWED_PAGES = %w[closed finished].freeze
-
   skip_before_action :check_date
-  VALID_PAGES = %w[closed finished].freeze # Add or remove pages as needed
+  ALLOWED_PAGES = %w[closed finished].freeze
 
   def show
     if valid_page?
