@@ -7,4 +7,5 @@ fi
 
 # Kill rails server if exists
 kill -9 $(lsof -i tcp:3000 -t) 2> /dev/null
-source "$HOME/.rvm/scripts/rvm" && bundle exec rails server -p 3000 -b 0.0.0.0 -d
+export RBENV_VERSION=3.2.2
+bundle exec rails server -p 3000 -b 0.0.0.0 -d
