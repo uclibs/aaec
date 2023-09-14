@@ -7,7 +7,7 @@ class PagesController < ApplicationController
 
   def show
     if valid_page?
-      render template: "pages/#{ALLOWED_PAGES.find { |page| page == params[:page].to_s }}"
+      render template: "pages/#{safe_page}"
     else
       render file: 'public/404.html', status: :not_found
     end
@@ -17,5 +17,9 @@ class PagesController < ApplicationController
 
   def valid_page?
     params[:page].is_a?(String) && ALLOWED_PAGES.include?(params[:page])
+  end
+
+  def safe_page
+    ALLOWED_PAGES.find { |page| page == params[:page].to_s }
   end
 end

@@ -35,4 +35,24 @@ RSpec.describe PagesController, type: :controller do
       expect(PagesController::ALLOWED_PAGES).to match_array(page_files)
     end
   end
+
+  describe '#safe_page' do
+    let(:params) { {} }
+    let(:allowed_pages) { %w[home about contact] }
+
+    before do
+      allow(controller).to receive(:params).and_return(params)
+      stub_const("#{PagesController}::ALLOWED_PAGES", allowed_pages)
+    end
+
+    it 'returns nil if the page is not in ALLOWED_PAGES' do
+      params[:page] = 'unallowed_page'
+      expect(controller.send(:safe_page)).to be_nil
+    end
+
+    it 'returns the page if it is in ALLOWED_PAGES' do
+      params[:page] = 'home'
+      expect(controller.send(:safe_page)).to eq('home')
+    end
+  end
 end
