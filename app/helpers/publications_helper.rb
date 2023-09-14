@@ -72,10 +72,10 @@ module PublicationsHelper
     return_string = "#{author_citation(publication)}. "
 
     # Prefer the city over the location
-    location_or_city = preprocess_attr(publication, :city, :location)
+    city_or_location = preprocess_attr(publication, :city, :location)
 
     # Prefer the publication date over the date
-    date_or_publication_date = preprocess_attr(publication, :publication_date, :date)
+    publication_date_or_date = preprocess_attr(publication, :publication_date, :date)
 
     # Prefer the DOI over the URL
     doi_or_url = preprocess_attr(publication, :doi, :url)
@@ -83,11 +83,11 @@ module PublicationsHelper
     attributes_to_check = [
       { attr: preprocess_attr(publication, :other_title), format: '“%s”. ' },
       { attr: preprocess_attr(publication, :work_title), format: '<i>%s</i>' },
-      { attr: location_or_city, format: ', %s' },
+      { attr: city_or_location, format: ', %s' },
       { attr: preprocess_attr(publication, :publisher), format: ', %s' },
       { attr: preprocess_attr(publication, :volume), format: ', vol. %s' },
       { attr: preprocess_attr(publication, :issue), format: ', no. %s' },
-      { attr: date_or_publication_date, format: ', %s' },
+      { attr: publication_date_or_date, format: ', %s' },
       { attr: preprocess_attr(publication, :page_numbers), format: ', pp. %s' },
       { attr: doi_or_url, format: '. %s' }
     ].compact
