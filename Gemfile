@@ -9,6 +9,8 @@ ruby '3.2.2'
 gem 'rails', '~> 6.1.7.6'
 # gem 'sqlite3'
 
+gem 'jsbundling-rails'
+
 # Use Puma as the app server
 gem 'puma', '>= 6.3.1'
 # Use SCSS for stylesheets
@@ -51,7 +53,6 @@ gem 'jquery-rails'
 gem 'net-smtp'
 gem 'pagy', '~> 3.7'
 gem 'truncato'
-gem 'webpacker'
 
 group :development, :test do
   gem 'bundler-audit', '~> 0.9.1'
