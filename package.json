@@ -1,12 +1,12 @@
 {
   "name": "aaec",
   "private": true,
-  "dependencies": {
-    "@rails/webpacker": "5.4.4",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^4.10.0"
+  "dependencies": {},
+  "scripts": {
+    "build": "webpack --config ./config/webpack/webpack.config.js"
   },
   "devDependencies": {
-    "webpack-dev-server": "^4"
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
