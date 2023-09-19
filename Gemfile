@@ -52,7 +52,7 @@ gem 'dotenv-rails'
 gem 'ed25519'
 gem 'jquery-rails'
 gem 'net-smtp'
-gem 'pagy', '~> 3.7'
+gem 'pagy', '~> 6.0'
 gem 'truncato'
 
 group :development, :test do
