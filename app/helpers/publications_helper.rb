@@ -16,6 +16,8 @@ module PublicationsHelper
   end
 
   def author_citation(publication)
+    return '' if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
+
     author_list = ''
     size = [0, (publication.author_first_name.count - 1)].max
     if size.zero?
@@ -38,6 +40,8 @@ module PublicationsHelper
   end
 
   def authors_array(publication)
+    return [] if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
+
     author_array = []
     size = [0, (publication.author_first_name.count - 1)].max
     (0..size).each do |i|
@@ -65,33 +69,52 @@ module PublicationsHelper
   def create_citation(publication)
     return if publication.nil?
 
-    return_string = ''
-    return_string += "#{author_citation(publication)}. "
-    return_string += "“#{publication.other_title}”. " unless publication.other_title.blank?
-    return_string += "'<i>'#{publication.work_title}"
-    return_string += '</i>'
-    @loc_city = publication.location if publication.respond_to? :location
-    @loc_city = publication.city if publication.respond_to? :city
-    return_string += ", #{@loc_city}" if @loc_city != ''
-    return_string += ", #{publication.publisher}" if (publication.publisher != '' if publication.respond_to? :publisher)
-    return_string += ", vol. #{publication.volume}" if (publication.volume != '' if publication.respond_to? :volume)
-    return_string += ", no. #{publication.issue}" if (publication.issue != '' if publication.respond_to? :issue)
-    @date = publication.date if publication.respond_to? :date
-    @date = publication.publication_date if publication.respond_to? :publication_date
-    return_string += ", #{@date.last(4)}" if @date != ''
-    return_string += ", pp. #{publication.page_numbers}" if (publication.page_numbers != '' if publication.respond_to? :page_numbers)
-    if (publication.doi != '' if publication.respond_to? :doi)
-      return_string += ". #{publication.doi}"
-    elsif (publication.url != '' if publication.respond_to? :url)
-      return_string += ". #{publication.url}"
+    return_string = "#{author_citation(publication)}. "
+
+    # Prefer the city over the location
+    city_or_location = preprocess_attr(publication, :city, :location)
+
+    # Prefer the publication date over the date
+    publication_date_or_date = preprocess_attr(publication, :publication_date, :date)
+
+    # Prefer the DOI over the URL
+    doi_or_url = preprocess_attr(publication, :doi, :url)
+
+    attributes_to_check = [
+      { attr: preprocess_attr(publication, :other_title), format: '“%s”. ' },
+      { attr: preprocess_attr(publication, :work_title), format: '<i>%s</i>' },
+      { attr: city_or_location, format: ', %s' },
+      { attr: preprocess_attr(publication, :publisher), format: ', %s' },
+      { attr: preprocess_attr(publication, :volume), format: ', vol. %s' },
+      { attr: preprocess_attr(publication, :issue), format: ', no. %s' },
+      { attr: publication_date_or_date, format: ', %s' },
+      { attr: preprocess_attr(publication, :page_numbers), format: ', pp. %s' },
+      { attr: doi_or_url, format: '. %s' }
+    ].compact
+
+    attributes_to_check.each do |item|
+      return_string << (item[:format] % item[:attr]) if item[:attr]
     end
-    @loc_city = ''
-    @date = ''
-    return_string += '.'
+
+    return_string.chomp!(', ')
+    return_string << '.'
+
     return_string
   end
 
   def author_or_artist_label
     params['controller'] == 'artworks' ? 'Artist' : 'Author'
+  end
+
+  private
+
+  def preprocess_attr(publication, *attrs)
+    attrs.each do |attr|
+      if publication.respond_to?(attr) && publication.send(attr).present?
+        value = publication.send(attr)
+        return value.is_a?(String) ? value.strip : nil
+      end
+    end
+    nil
   end
 end
