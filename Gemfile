@@ -56,6 +56,7 @@ gem 'pagy', '~> 6.0.4'
 gem 'truncato'
 
 group :development, :test do
+  gem 'brakeman', '~> 6.0'
   gem 'bundler-audit', '~> 0.9.1'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
@@ -68,7 +69,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '~> 6.0'
   gem 'capistrano', '~> 3.17.1', require: false
   gem 'capistrano-bundler', '~> 2.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
