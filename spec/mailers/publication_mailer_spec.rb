@@ -71,6 +71,16 @@ RSpec.describe PublicationMailer, type: :mailer do
       it 'raises an error' do
         expect { described_class.publication_submit(submitter, publication).deliver_now }.to raise_error(ArgumentError, /SMTP From address may not be blank/)
       end
+      publication.author_last_name.each do |last_name|
+        expect(mail.body.encoded).to include(last_name)
+      end
+      expect(mail.body.encoded).to match(publication.work_title)
+      expect(mail.body.encoded).to match("More information about this year's event is forthcoming")
+      expect(mail.body.encoded).to include('<html>').once
+      expect(mail.body.encoded).to include('<head>').once
+      expect(mail.body.encoded).to include('<body>').once
+      expect(mail.body.encoded).to include('<!DOCTYPE html>').once
+
     end
   end
 end
