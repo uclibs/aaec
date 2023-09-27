@@ -12,10 +12,6 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe 'before_action :check_date' do
-<<<<<<<< HEAD:spec/controllers/application_controller/application_controller_check_date_spec.rb
-========
-
->>>>>>>> 22b3ff0 (wip, broken rescue_from):spec/controllers/application_controller/application_controller_spec.rb
     it 'should be called before every action' do
       expect(controller).to receive(:check_date)
       get :index
@@ -50,15 +46,6 @@ RSpec.describe ApplicationController, type: :controller do
       it 'raises a KeyError' do
         # Stub ENV to simulate KeyError
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_raise(KeyError)
-<<<<<<<< HEAD:spec/controllers/application_controller/application_controller_check_date_spec.rb
-========
-        
-        # Temporarily modify the behavior of rescue_from
-        allow(controller).to receive(:render_500) do |error|
-          raise error
-        end
->>>>>>>> 22b3ff0 (wip, broken rescue_from):spec/controllers/application_controller/application_controller_spec.rb
-
         expect { get :index }.to raise_error(KeyError)
       end
     end
