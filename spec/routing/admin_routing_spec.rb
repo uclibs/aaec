@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/routes/admin_routes_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe 'Admin Routes', type: :routing do

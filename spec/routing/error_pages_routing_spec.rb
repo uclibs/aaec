@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/routing/error_pages_routing_spec.rb
-
 require 'rails_helper'
 
 # per Infosec, all errors should route to the 404 page, not the 422 or 500 pages
