@@ -12,7 +12,6 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe 'before_action :check_date' do
-
     it 'should be called before every action' do
       expect(controller).to receive(:check_date)
       get :index
@@ -47,11 +46,6 @@ RSpec.describe ApplicationController, type: :controller do
       it 'raises a KeyError' do
         # Stub ENV to simulate KeyError
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_raise(KeyError)
-        
-        # Temporarily modify the behavior of rescue_from
-        allow(controller).to receive(:render_500) do |error|
-          raise error
-        end
 
         expect { get :index }.to raise_error(KeyError)
       end

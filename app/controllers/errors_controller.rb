@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # app/controllers/errors_controller.rb
 class ErrorsController < ApplicationController
   def not_found

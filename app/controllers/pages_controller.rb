@@ -9,7 +9,7 @@ class PagesController < ApplicationController
     if valid_page?
       render template: "pages/#{safe_page}"
     else
-      render status: :not_found
+      render template: 'errors/404', status: :not_found
     end
   end
 

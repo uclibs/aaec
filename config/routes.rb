@@ -25,12 +25,10 @@ Rails.application.routes.draw do
   post 'manage/validate', to: 'admin#validate'
   get '/csv/:controller_name', to: 'admin#csv', as: 'controller_name'
 
-
   # Publications and submission routes
   get 'publications', to: 'publications#index'
   get 'publications/:id', to: 'publications#index'
   get 'finished', to: 'submitters#finished'
-
 
   # Dynamic pages
   get '/pages/:page' => 'pages#show'
@@ -39,7 +37,7 @@ Rails.application.routes.draw do
   root 'submitters#new'
 
   # Custom Error Pages
-  match "/404", to: "errors#not_found", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
-  match "/422", to: "errors#unprocessable_entity", via: :all
+  match '/404', to: 'errors#not_found', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
+  match '/422', to: 'errors#unprocessable_entity', via: :all
 end

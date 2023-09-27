@@ -15,10 +15,14 @@ RSpec.describe PagesController, type: :controller do
     end
 
     context 'when page is invalid' do
-      it 'with invalid params' do
+      it 'returns a 404 status' do
         get :show, params: { page: 'bad' }
         expect(response.status).to eq(404)
-        expect(response.body).to have_text('The page you requested cannot be found')
+      end
+
+      it 'renders the 404 template' do
+        get :show, params: { page: 'bad' }
+        expect(response).to render_template('errors/404')
       end
     end
   end

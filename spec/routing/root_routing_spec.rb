@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/routing/root_routing_spec.rb
 
 require 'rails_helper'
