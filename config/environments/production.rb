@@ -68,6 +68,27 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+
+  # Configure the delivery method for ActionMailer to use SMTP.
+  # This tells Rails to send emails using the Simple Mail Transfer Protocol.
+  config.action_mailer.delivery_method = :smtp
+
+  # Configure the SMTP settings for sending email.
+  # These settings are specific to the production environment and utilize Postfix running on the same server.
+  config.action_mailer.smtp_settings = {
+    # 'address' specifies the address of the server that will handle email sending.
+    # In this case, Postfix is running on the same machine as the Rails app, so we use 'localhost'.
+    address: 'localhost',
+    
+    # 'port' specifies which port to use on the SMTP server.
+    # Port 25 is the default port for SMTP servers like Postfix.
+    port: 25, 
+    
+    # 'ca_file' is the path to the certificate authority file.
+    # In our case, it's a self-signed certificate. This tells Rails to trust this specific certificate.
+    ca_file: '/path/to/your/self-signed-certificate.crt' 
+  }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
