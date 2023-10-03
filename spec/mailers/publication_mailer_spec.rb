@@ -80,7 +80,6 @@ RSpec.describe PublicationMailer, type: :mailer do
       expect(mail.body.encoded).to include('<head>').once
       expect(mail.body.encoded).to include('<body>').once
       expect(mail.body.encoded).to include('<!DOCTYPE html>').once
-
     end
   end
 end
