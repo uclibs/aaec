@@ -5,13 +5,18 @@ require 'rails_helper'
 RSpec.describe ApplicationController, type: :controller do
   include ApplicationHelper
 
-  controller do
+  controller(ApplicationController) do
     def index
       render plain: 'Hello, world!'
     end
   end
 
   describe 'before_action :check_date' do
+    it 'should be called before every action' do
+      expect(controller).to receive(:check_date)
+      get :index
+    end
+
     context 'when EXPIRATION_DATE is in the past and user is not admin' do
       it 'redirects to the closed page' do
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_return('2000-01-01')
@@ -39,7 +44,9 @@ RSpec.describe ApplicationController, type: :controller do
 
     context 'when EXPIRATION_DATE is missing' do
       it 'raises a KeyError' do
+        # Stub ENV to simulate KeyError
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_raise(KeyError)
+
         expect { get :index }.to raise_error(KeyError)
       end
     end

@@ -1,29 +1,43 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :colleges
+  # Resource routes
   resources :artworks
-  resources :books
   resources :book_chapters
+  resources :books
+  resources :colleges
   resources :digital_projects
   resources :editings
   resources :films
   resources :journal_articles
   resources :musical_scores
+  resources :other_publications
   resources :photographies
   resources :physical_media
   resources :plays
   resources :public_performances
-  resources :other_publications
   resources :submitters
+
+  # Admin-related routes
   get 'citations', to: 'admin#citations'
   get 'toggle_links', to: 'admin#toggle_links'
-  get 'publications', to: 'publications#index'
-  get 'publications/:id', to: 'publications#index'
   get 'manage', to: 'admin#login'
   post 'manage/validate', to: 'admin#validate'
-  get 'finished', to: 'submitters#finished'
-  get '/pages/:page' => 'pages#show'
   get '/csv/:controller_name', to: 'admin#csv', as: 'controller_name'
+
+  # Publications and submission routes
+  get 'publications', to: 'publications#index'
+  get 'publications/:id', to: 'publications#index'
+  get 'finished', to: 'submitters#finished'
+
+  # Dynamic pages
+  get '/pages/:page' => 'pages#show'
+
+  # Root URL
   root 'submitters#new'
+
+  # Custom Error Pages
+  match '/404', to: 'errors#not_found', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
+  match '/422', to: 'errors#unprocessable_entity', via: :all
 end
