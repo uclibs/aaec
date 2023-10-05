@@ -76,8 +76,7 @@ Rails.application.configure do
   # These settings are specific to the production environment and utilize Postfix running on the same server.
   config.action_mailer.smtp_settings = {
     # 'address' specifies the address of the server that will handle email sending.
-    # In this case, Postfix is running on the same machine as the Rails app, so we use 'localhost'.
-    address: 'localhost',
+    address: 'libappstest.libraries.uc.edu',
 
     # 'port' specifies which port to use on the SMTP server.
     # Port 25 is the default port for SMTP servers like Postfix.
@@ -86,8 +85,6 @@ Rails.application.configure do
     # 'ca_file' is the path to the certificate authority file.
     # In our case, it's a self-signed certificate. This tells Rails to trust this specific certificate.
     ca_file: '/etc/ssl/certs/postfix.pem',
-
-    enable_starttls_auto: false
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

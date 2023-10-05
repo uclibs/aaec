@@ -50,7 +50,7 @@ class PublicationMailer < ApplicationMailer
     @publication = publication
     default_sender = ENV.fetch('MAIL_SENDER') || ''
 
-    # parse out the sender name and email address
+    # parse out the sender name and email address from the default sender
     match_data = default_sender.match(/(.+?) <(.+)>/)
 
     if match_data
