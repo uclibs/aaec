@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe PublicationMailer, type: :mailer do
   describe 'submission' do
     let(:submitter) { FactoryBot.create(:submitter) }
-    let(:mock_mail_sender) { "Joe Smith <test@test.com>" }
+    let(:mock_mail_sender) { 'Joe Smith <test@test.com>' }
 
     before do
       # Stub the environment variable to always return the mock_mail_sender value
