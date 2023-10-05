@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+
+# The PublicationMailerPreview class is used to preview email templates for the PublicationMailer.
+# It fetches a real Submitter and Publication from the database if they exist; otherwise, it uses mock objects.
+# This is especially useful for visually testing email layouts and contents in the development environment.
+#
+# Preview all emails at http://localhost:3000/rails/mailers/publication_mailer
+class PublicationMailerPreview < ActionMailer::Preview
+  def publication_submit
+    submitter = Submitter.first || mock_submitter
+    publication = OtherPublication.last || mock_publication
+
+    PublicationMailer.publication_submit(submitter, publication)
+  end
+
+  private
+
+
 # MockSubmitter serves as a stand-in for the Submitter model during testing.
 # It mimics the interface of the real Submitter model, providing the minimum
 # methods and attributes needed for the PublicationMailerPreview.
@@ -26,20 +43,6 @@ class MockPublication
   end
 end
 
-# The PublicationMailerPreview class is used to preview email templates for the PublicationMailer.
-# It fetches a real Submitter and Publication from the database if they exist; otherwise, it uses mock objects.
-# This is especially useful for visually testing email layouts and contents in the development environment.
-#
-# Preview all emails at http://localhost:3000/rails/mailers/publication_mailer
-class PublicationMailerPreview < ActionMailer::Preview
-  def publication_submit
-    submitter = Submitter.first || mock_submitter
-    publication = OtherPublication.last || mock_publication
-
-    PublicationMailer.publication_submit(submitter, publication)
-  end
-
-  private
 
   def mock_submitter
     MockSubmitter.new(
