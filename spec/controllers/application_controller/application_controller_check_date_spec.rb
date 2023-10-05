@@ -46,7 +46,6 @@ RSpec.describe ApplicationController, type: :controller do
       it 'raises a KeyError' do
         # Stub ENV to simulate KeyError
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_raise(KeyError)
-
         expect { get :index }.to raise_error(KeyError)
       end
     end

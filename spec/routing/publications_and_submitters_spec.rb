@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/routes/publications_and_submitters_routes_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe 'Publications and Submitters Routes', type: :routing do
