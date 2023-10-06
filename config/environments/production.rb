@@ -84,7 +84,7 @@ Rails.application.configure do
 
     # 'ca_file' is the path to the certificate authority file.
     # In our case, it's a self-signed certificate. This tells Rails to trust this specific certificate.
-    ca_file: '/etc/ssl/certs/postfix.pem',
+    ca_file: '/etc/ssl/certs/postfix.pem'
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

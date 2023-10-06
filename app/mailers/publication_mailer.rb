@@ -1,66 +1,58 @@
 # frozen_string_literal: true
 
-# PublicationMailer Class
-# ========================
+# PublicationMailer
+# =================
+# This mailer class is responsible for sending email notifications related to
+# publications. It extends the ApplicationMailer, inheriting its default settings, and
+# utilizes the MailerHelper for additional utility functions.
 #
-# The PublicationMailer class is responsible for sending out emails related to
-# the submissions of publications. It extends the ApplicationMailer to inherit
-# the default configurations.
+# Responsibilities:
+# - Send confirmation email notifications when a publication is submitted.
+# - Derive the sender's email and name from an environment variable, ensuring it's formatted correctly.
 #
-# Inherited From:
-# - ApplicationMailer: Inherits default email settings from ApplicationMailer.
+# Usage:
+# Call the `publication_submit` method, providing it with the submitter and the publication.
+# This sends an email to the submitter confirming the submission of their publication.
+# The email also gets BCC'd to the default sender email for tracking purposes.
 #
-# Constants:
-# - None
-#
-# Helpers:
-# - MailerHelper: Provides utility functions to assist in constructing email content.
-#
-# Methods:
-# - publication_submit(submitter, publication): Sends an email notification
-#   when a publication is submitted.
-#
-# Environment Variables:
-# - MAIL_SENDER: The default "from" email address, inherited from ApplicationMailer.
-#
-# Example Usage:
+# Example:
 # ```
 # PublicationMailer.publication_submit(submitter, publication).deliver_now
 # ```
 #
-# Note: This mailer should only be called upon the submission of a new publication.
+# Environment Variables:
+# - MAIL_SENDER: Contains the default sender's email address (and optionally the sender's name).
 
 class PublicationMailer < ApplicationMailer
   helper MailerHelper
 
-  # Sends a publication submission confirmation email.
-  #
-  # This method is responsible for sending an email notification to confirm the
-  # receipt of a new publication submission. The email is sent to the submitter,
-  # and a blind carbon copy (BCC) is sent to a default email address for tracking
-  # purposes.
-  #
-  # @param [Object] submitter The entity responsible for the submission.
-  #                           Must respond to 'email_address' and 'name'.
-  # @param [Object] publication The publication object that has been submitted.
-  # @return [Mail::Message] A Mail::Message object representing the email that will be sent.
+  SUBJECT = 'Publication received for Artists, Authors, Editors & Composers'
 
   def publication_submit(submitter, publication)
     @submitter = submitter
     @publication = publication
-    default_sender = ENV.fetch('MAIL_SENDER') || ''
-
-    # parse out the sender name and email address from the default sender
-    match_data = default_sender.match(/(.+?) <(.+)>/)
-
-    if match_data
-      sender_name, sender_email = match_data.captures
-    else
-      sender_name = ''
-      sender_email = default_sender
-    end
-
+    sender_name, sender_email = parse_default_sender
     submitter_name = "#{submitter.first_name} #{submitter.last_name}"
-    mail(to: email_address_with_name(@submitter.email_address, submitter_name), bcc: default_sender, from: email_address_with_name(sender_email, sender_name), subject: 'Publication received for Artists, Authors, Editors & Composers')
+
+    mail(
+      to: email_address_with_name(@submitter.email_address, submitter_name),
+      bcc: sender_email,
+      from: email_address_with_name(sender_email, sender_name),
+      subject: SUBJECT
+    )
+  end
+
+  private
+
+  def parse_default_sender
+    default_sender = ENV.fetch('MAIL_SENDER')
+    raise ArgumentError, 'SMTP From address may not be blank' if default_sender.blank?
+
+    match_data = default_sender.match(/(.+?) <(.+)>/)
+    if match_data
+      [match_data[1], match_data[2]] # [sender_name, sender_email]
+    else
+      ['', default_sender]
+    end
   end
 end

@@ -38,8 +38,8 @@ RSpec.describe PublicationMailer, type: :mailer do
       end
 
       it 'sends to the correct recipients' do
-        expect(mail.to).to eq(['submitter@example.com', 'sender@example.com'])
-        expect(mail.bcc).to be_nil
+        expect(mail.to).to eq(['submitter@example.com'])
+        expect(mail.bcc).to eq(['sender@example.com'])
       end
 
       it 'has the correct subject' do
@@ -65,21 +65,12 @@ RSpec.describe PublicationMailer, type: :mailer do
 
     context 'when MAIL_SENDER is empty' do
       before do
-        allow(ENV).to receive(:fetch).with('MAIL_SENDER', nil).and_return(nil)
+        allow(ENV).to receive(:fetch).with('MAIL_SENDER').and_return(nil)
       end
 
       it 'raises an error' do
         expect { described_class.publication_submit(submitter, publication).deliver_now }.to raise_error(ArgumentError, /SMTP From address may not be blank/)
       end
-      publication.author_last_name.each do |last_name|
-        expect(mail.body.encoded).to include(last_name)
-      end
-      expect(mail.body.encoded).to match(publication.work_title)
-      expect(mail.body.encoded).to match("More information about this year's event is forthcoming")
-      expect(mail.body.encoded).to include('<html>').once
-      expect(mail.body.encoded).to include('<head>').once
-      expect(mail.body.encoded).to include('<body>').once
-      expect(mail.body.encoded).to include('<!DOCTYPE html>').once
     end
   end
 end
