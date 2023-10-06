@@ -76,7 +76,7 @@ Rails.application.configure do
   # These settings are specific to the production environment and utilize Postfix running on the same server.
   config.action_mailer.smtp_settings = {
     # 'address' specifies the address of the server that will handle email sending.
-    address: ENV['MAIL_SMTP_ADDRESS'],
+    address: ENV.fetch('MAIL_SMTP_ADDRESS', 'localhost').presence || 'localhost',
 
     # 'port' specifies which port to use on the SMTP server.
     # Port 25 is the default port for SMTP servers like Postfix.
