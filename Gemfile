@@ -45,17 +45,18 @@ gem 'jbuilder', '~> 2.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'bootstrap', '~> 4.4.1'
+gem 'bootstrap', '~> 5.3.1'
 
 gem 'bcrypt_pbkdf'
 gem 'dotenv-rails'
 gem 'ed25519'
 gem 'jquery-rails'
 gem 'net-smtp'
-gem 'pagy', '~> 3.7'
+gem 'pagy', '~> 6.1.0'
 gem 'truncato'
 
 group :development, :test do
+  gem 'brakeman', '~> 6.0'
   gem 'bundler-audit', '~> 0.9.1'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
@@ -68,7 +69,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '~> 6.0'
   gem 'capistrano', '~> 3.17.1', require: false
   gem 'capistrano-bundler', '~> 2.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
@@ -79,7 +79,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.9'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen', '~> 2.1.0'
   gem 'web-console', '>= 3.3.0'
 end
 
@@ -87,7 +87,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'capybara-selenium', '~> 0.0.6'
-  gem 'selenium-webdriver', '~> 4.12.0'
+  gem 'selenium-webdriver', '~> 4.13.1'
 end
 
 group :production do

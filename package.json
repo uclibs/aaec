@@ -8,9 +8,6 @@
   "devDependencies": {
     "webpack-dev-server": "^4"
   },
-  "browser": {
-    "[module-name]": false
-  },
   "scripts": {
     "build": "webpack --config ./webpack.config.js"
   }
