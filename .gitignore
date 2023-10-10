@@ -57,3 +57,6 @@ yarn-debug.log*
 # Ignore Vendor Local
 /vendor/bundle --local
 /vendor/bundle
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
