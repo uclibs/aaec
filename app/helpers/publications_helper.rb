@@ -1,6 +1,30 @@
 # frozen_string_literal: true
 
+# PublicationsHelper Module
+#
+# This helper module provides utility functions for handling publications, particularly for formatting and creating
+# publication details such as authors, citations, and other publication attributes.
+#
+# Methods:
+#   - all_authors(publication)          : Constructs a string of all authors for a given publication
+#   - author_citation(publication)      : Constructs a citation style string for authors
+#   - authors_array(publication)        : Returns an array of truncated author names for a given publication
+#   - author_name(publication, position): Returns the name of an author at a specific position
+#   - author_name_citation(publication, position): Returns the citation style name of an author at a specific position
+#   - author_comma(publication, position): Returns the name of an author at a specific position with a comma between the last and first name
+#   - publications_id(id)                : Returns the full URL for a given publication ID
+#   - create_citation(publication)       : Constructs a full citation string for a given publication
+#   - author_or_artist_label             : Returns either 'Artist' or 'Author' based on the context
+#
+# Private Methods:
+#   - preprocess_attr(publication, *attrs) : Utility method to preprocess attributes for a given publication
+#
+
 module PublicationsHelper
+  # Constructs a string of all authors for a given publication.
+  #
+  # @param [Object] publication
+  # @return [String] A string of all authors separated by commas
   def all_authors(publication)
     author_list = ''
     size = [0, (publication.author_first_name.count - 1)].max
@@ -15,6 +39,10 @@ module PublicationsHelper
     author_list
   end
 
+  # Constructs a citation-style string for authors.
+  #
+  # @param [Object] publication
+  # @return [String] A string representation of authors in citation format
   def author_citation(publication)
     return '' if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
 
@@ -39,6 +67,10 @@ module PublicationsHelper
     author_list
   end
 
+  # Returns an array of truncated author names for a given publication.
+  #
+  # @param [Object] publication
+  # @return [Array] An array of author names truncated to 12 characters
   def authors_array(publication)
     return [] if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
 
@@ -50,22 +82,45 @@ module PublicationsHelper
     author_array
   end
 
+  # Returns the full name of an author at a specific position.
+  #
+  # @param [Object] publication
+  # @param [Integer] position The index of the author in the list
+  # @return [String] Full name of the author
   def author_name(publication, position)
     "#{publication.author_first_name[position]} #{publication.author_last_name[position]}"
   end
 
+  # Returns the name of an author at a specific position in citation format.
+  #
+  # @param [Object] publication
+  # @param [Integer] position The index of the author in the list
+  # @return [String] Full name of the author in citation format
   def author_name_citation(publication, position)
     "#{publication.author_last_name[position]}, #{publication.author_first_name[position]}"
   end
 
+  # Returns the name of an author at a specific position with a comma in between the last name and first name.
+  #
+  # @param [Object] publication
+  # @param [Integer] position The index of the author in the list
+  # @return [String] Full name of the author with a comma
   def author_comma(publication, position)
     "#{publication.author_last_name[position]}, #{publication.author_first_name[position]}"
   end
 
+  # Returns the full URL for a given publication ID.
+  #
+  # @param [Integer] id The ID of the publication
+  # @return [String] The full URL for the publication
   def publications_id(id)
     "#{publications_path}/#{id}"
   end
 
+  # Constructs a full citation string for a given publication.
+  #
+  # @param [Object] publication
+  # @return [String] A string representing the full citation
   def create_citation(publication)
     return if publication.nil?
 
@@ -102,12 +157,20 @@ module PublicationsHelper
     return_string
   end
 
+  # Returns either 'Artist' or 'Author' based on the controller context.
+  #
+  # @return [String] Either 'Artist' or 'Author'
   def author_or_artist_label
     params['controller'] == 'artworks' ? 'Artist' : 'Author'
   end
 
   private
 
+  # Utility method to preprocess attributes for a given publication.
+  #
+  # @param [Object] publication
+  # @param [Array] attrs List of attribute names to preprocess
+  # @return [String, nil] Preprocessed attribute value or nil if not found
   def preprocess_attr(publication, *attrs)
     attrs.each do |attr|
       if publication.respond_to?(attr) && publication.send(attr).present?

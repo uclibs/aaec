@@ -12,10 +12,6 @@ require 'capistrano/rails/migrations'
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 
-task :use_rvm do
-  require 'capistrano/rvm'
-end
-
 task :use_rbenv do
   require 'capistrano/rbenv'
   # require 'capistrano/rbenv_install'

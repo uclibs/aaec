@@ -98,9 +98,6 @@ GEM
     capistrano-rbenv-install (1.2.0)
       capistrano (>= 3.0)
       capistrano-rbenv (>= 2.0)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
     capybara (3.39.2)
       addressable
       matrix
@@ -366,7 +363,6 @@ DEPENDENCIES
   capistrano-rails (~> 1.4)
   capistrano-rbenv (~> 2.0)
   capistrano-rbenv-install (~> 1.2.0)
-  capistrano-rvm
   capybara (>= 2.15)
   capybara-selenium (~> 0.0.6)
   coffee-rails (~> 5.0)

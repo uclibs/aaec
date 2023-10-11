@@ -1,5 +1,30 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Controller: PublicationsController
+#
+# Overview:
+# The PublicationsController handles the CRUD operations for various types of
+# publications like Artwork, Book, BookChapter, and so on. It is designed to
+# handle submissions from both admin and regular users.
+#
+# Responsibilities:
+# - Filtering requests based on the logged-in user type (Admin or regular user)
+# - Managing CRUD operations for multiple publication types
+# - Sending notifications via PublicationMailer upon successful publication submission
+# - Redirecting based on various conditions such as user session and max submissions
+#
+# Special Behaviors:
+# - Utilizes dynamic setting of instance variables and object types
+# - Makes extensive use of helpers for finding records
+#
+# Filters:
+# - set_object: Sets the object based on the controller name and params[:id].
+# - signed_in: Checks if the user is signed in before granting access to certain actions.
+# - check_max_submissions: Checks if the maximum submission limit is reached for a given user.
+#
+
 class PublicationsController < ApplicationController
   before_action :set_object, only: %i[show edit update destroy]
   before_action :signed_in, only: %i[index show edit update destroy]

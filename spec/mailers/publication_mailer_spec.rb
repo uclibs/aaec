@@ -38,8 +38,8 @@ RSpec.describe PublicationMailer, type: :mailer do
       end
 
       it 'sends to the correct recipients' do
-        expect(mail.to).to eq(['submitter@example.com', 'sender@example.com'])
-        expect(mail.bcc).to be_nil
+        expect(mail.to).to eq(['submitter@example.com'])
+        expect(mail.bcc).to eq(['sender@example.com'])
       end
 
       it 'has the correct subject' do
@@ -65,7 +65,7 @@ RSpec.describe PublicationMailer, type: :mailer do
 
     context 'when MAIL_SENDER is empty' do
       before do
-        allow(ENV).to receive(:fetch).with('MAIL_SENDER', nil).and_return(nil)
+        allow(ENV).to receive(:fetch).with('MAIL_SENDER').and_return(nil)
       end
 
       it 'raises an error' do
