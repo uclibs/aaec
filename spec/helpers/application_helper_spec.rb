@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-
   describe '#shorten_long' do
     it 'shortens a long string' do
       expect(shorten_long('thisisaverylongstringwithmorecharacters')).to eq('thisisaverylongs... ')

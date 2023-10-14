@@ -3,7 +3,6 @@
 module ApplicationHelper
   include Pagy::Frontend
 
-
   def shorten_long(input)
     input_array = input.strip.split(/\s+/)
     return_string = ''

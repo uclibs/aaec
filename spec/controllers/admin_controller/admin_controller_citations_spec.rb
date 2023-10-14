@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe AdminController, type: :controller do
-
   describe 'GET #citations' do
     context 'when admin is logged in' do
       before do
