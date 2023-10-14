@@ -40,7 +40,8 @@ RSpec.describe CollegesController, type: :controller do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # CollegesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #index' do
     it 'returns a success response' do

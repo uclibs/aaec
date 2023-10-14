@@ -11,7 +11,9 @@ RSpec.describe SubmittersController, type: :controller do
     { first_name: '', last_name: '', college: 1, department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
   end
 
-  let(:valid_session) { {} }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:invalid_session) { { submitter_id: nil } }
 
   describe 'GET #show' do
     it 'returns a success response' do
@@ -40,7 +42,7 @@ RSpec.describe SubmittersController, type: :controller do
     context 'with valid params' do
       it 'creates a new Submitter' do
         expect do
-          post :create, params: { submitter: valid_attributes }, session: valid_session
+          post :create, params: { submitter: valid_attributes }, session: invalid_session
         end.to change(Submitter, :count).by(1)
       end
 
@@ -105,7 +107,7 @@ RSpec.describe SubmittersController, type: :controller do
 
     context 'when a manager is not logged in' do
       it 'redirects to finished page when finished' do
-        get :finished, session: { admin: nil }
+        get :finished, session: valid_session
         expect(response.body).to have_text('Your submission(s) was received')
       end
     end

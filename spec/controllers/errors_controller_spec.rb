@@ -5,17 +5,35 @@
 require 'rails_helper'
 
 RSpec.describe ErrorsController, type: :controller do
-  describe 'GET #not_found' do
-    before do
-      get :not_found
-    end
-    it 'renders the not_found template' do
-      expect(response).to render_template('errors/404')
-      expect(response).to render_template('layouts/application')
-    end
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:invalid_session) { { submitter_id: nil } }
 
-    it 'returns HTTP status 404' do
-      expect(response).to have_http_status(404)
+  # get :show, params: { id: submitter.to_param }, session: valid_session
+  context 'when a user is logged in' do
+    describe 'GET #not_found' do
+      before do
+        get :not_found, session: valid_session
+      end
+      it 'renders the not_found template' do
+        expect(response).to render_template('errors/404')
+        expect(response).to render_template('layouts/application')
+      end
+
+      it 'returns HTTP status 404' do
+        expect(response).to have_http_status(404)
+      end
+    end
+  end
+  context 'when a user is not logged in' do
+    describe 'GET #not_found' do
+      before do
+        get :not_found, session: invalid_session
+      end
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(root_path)
+        expect(response).to have_http_status(302)
+      end
     end
   end
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CollegesController < ApplicationController
+  include UserAuthentication
+
   before_action :set_college, only: %i[show edit update destroy]
 
   # GET /colleges
