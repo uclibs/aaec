@@ -32,9 +32,9 @@ RSpec.describe AdminController, type: :controller do
     end
 
     context 'when the user is not an admin' do
-      it 'redirects even if a valid format is provided' do
+      it 'redirects to the root page even if a valid format is provided' do
         get(:csv, params: common_params.merge({ format: 'csv' }))
-        expect(response).to redirect_to('/publications')
+        expect(response).to redirect_to(root_path)
       end
     end
   end

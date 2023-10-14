@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminController, type: :controller do
+
   describe 'GET #citations' do
     context 'when admin is logged in' do
       before do
@@ -24,9 +25,9 @@ RSpec.describe AdminController, type: :controller do
         allow(controller).to receive(:session).and_return(admin: false)
       end
 
-      it 'redirects to publications_path' do
+      it 'redirects to  root path' do
         get :citations
-        expect(response).to redirect_to(publications_path)
+        expect(response).to redirect_to(root_path)
       end
     end
   end

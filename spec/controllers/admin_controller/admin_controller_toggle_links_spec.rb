@@ -7,6 +7,7 @@ RSpec.describe AdminController, type: :controller do
     context 'when session[:links] is true' do
       before do
         session[:links] = true
+        session[:admin] = true
       end
 
       it 'toggles session[:links] to false' do
@@ -23,6 +24,7 @@ RSpec.describe AdminController, type: :controller do
     context 'when session[:links] is false' do
       before do
         session[:links] = false
+        session[:admin] = true
       end
 
       it 'toggles session[:links] to true' do
