@@ -2,12 +2,14 @@
 
 # UserAuthentication Module
 #
-# This module is intended to be included in controllers that require
-# user authentication and admin check functionalities.
+# This ActiveSupport::Concern module is designed to be included in Rails controllers
+# to provide user authentication features. Once included, it automatically adds
+# before actions to enforce user authentication.
 #
-# It adds a `before_action` that ensures a user is authenticated as either
-# an admin or a regular submitter before accessing any action in the
-# controller.
+# ## Usage
+#
+# To use this module, include it at the top of any Rails controller where you
+# want to enforce user authentication:
 #
 # Example:
 #   class SomeController < ApplicationController
@@ -15,12 +17,16 @@
 #     ...
 #   end
 #
+#
+# This will add the following before actions to the controller:
+# - `require_authenticated_user`: Ensures that a user is authenticated.
+# 
+#
 module UserAuthentication
   extend ActiveSupport::Concern
 
   included do
     before_action :require_authenticated_user
-    before_action :set_cache_headers
   end
 
   private
@@ -37,11 +43,5 @@ module UserAuthentication
 
   def current_submitter
     @current_submitter ||= Submitter.find_by(id: session[:submitter_id])
-  end
-
-  def set_cache_headers
-    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
   end
 end

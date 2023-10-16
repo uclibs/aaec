@@ -3,7 +3,8 @@
 # app/controllers/pages_controller.rb
 class PagesController < ApplicationController
   include UserAuthentication
-
+  include CacheHeaderControl
+  
   skip_before_action :check_date
   ALLOWED_PAGES = %w[closed finished].freeze
 

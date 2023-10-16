@@ -2,9 +2,9 @@
 
 class SubmittersController < ApplicationController
   include UserAuthentication
-  skip_before_action :require_authenticated_user, only: %i[new create]
-  skip_before_action :set_cache_headers, only: %i[new create]
+  include CacheHeaderControl
 
+  skip_before_action :require_authenticated_user, only: %i[new create]
   before_action :set_submitter, only: %i[show edit update destroy]
 
   # GET /submitters/1

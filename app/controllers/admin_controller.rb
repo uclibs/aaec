@@ -2,8 +2,9 @@
 
 class AdminController < ApplicationController
   include UserAuthentication
+  include CacheHeaderControl
+  
   skip_before_action :require_authenticated_user, only: %i[login validate]
-  skip_before_action :set_cache_headers, only: %i[login validate]
   skip_before_action :check_date
 
   ALLOWED_CONTROLLERS_TO_MODELS = {
