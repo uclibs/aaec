@@ -13,6 +13,7 @@ RSpec.describe SubmittersController, type: :controller do
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
+  let(:old_session) { { submitter_id: 'alpha' } }
   let(:invalid_session) { { submitter_id: nil } }
 
   describe 'GET #show' do
@@ -49,6 +50,12 @@ RSpec.describe SubmittersController, type: :controller do
       it 'redirects to the publications show page' do
         post :create, params: { submitter: valid_attributes }, session: valid_session
         expect(response).to redirect_to(publications_path)
+      end
+
+      it 'resets session after successful creation' do
+        post :create, params: { submitter: valid_attributes }, session: old_session
+        expect(session['alpha']).to be_nil
+        expect(session[:submitter_id]).to eq(Submitter.last.id)
       end
     end
 

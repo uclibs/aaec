@@ -26,6 +26,8 @@ class SubmittersController < ApplicationController
 
     respond_to do |format|
       if @submitter.save
+        # Reset the session to prevent session fixation attacks.
+        reset_session
         session[:submitter_id] = @submitter.id
         # Change to home page
         format.html { redirect_to publications_path, notice: 'Your account was successfully created.' }
