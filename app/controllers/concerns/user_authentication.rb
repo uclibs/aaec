@@ -20,7 +20,7 @@
 #
 # This will add the following before actions to the controller:
 # - `require_authenticated_user`: Ensures that a user is authenticated.
-# 
+#
 #
 module UserAuthentication
   extend ActiveSupport::Concern

@@ -27,7 +27,7 @@
 class PublicationsController < ApplicationController
   include UserAuthentication
   include CacheHeaderControl
-  
+
   before_action :set_object, only: %i[show edit update destroy]
   before_action :check_max_submissions, only: %i[new]
 

@@ -3,7 +3,7 @@
 class CollegesController < ApplicationController
   include UserAuthentication
   include CacheHeaderControl
-  
+
   before_action :set_college, only: %i[show edit update destroy]
 
   # GET /colleges
