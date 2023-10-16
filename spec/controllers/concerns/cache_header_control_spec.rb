@@ -22,7 +22,6 @@ RSpec.describe CacheHeaderControl, type: :controller do
 
     it 'sets Cache-Control header' do
       get :index
-      puts response.headers
       expect(response.headers['Cache-Control']).to eq('no-cache')
     end
 
