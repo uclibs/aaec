@@ -44,4 +44,19 @@ RSpec.describe UserAuthentication, type: :controller do
       end
     end
   end
+
+  describe 'handle_invalid_token' do
+    it 'resets the session and redirects to the login path' do
+      routes.draw { get 'index' => 'anonymous#index' }
+
+      # Simulate InvalidAuthenticityToken exception
+      expect(controller).to receive(:index).and_raise(ActionController::InvalidAuthenticityToken)
+
+      session[:admin] = true
+      get :index
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq('Your session has expired. Please log in again.')
+    end
+  end
 end

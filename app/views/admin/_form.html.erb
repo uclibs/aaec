@@ -2,14 +2,14 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <%= form.label :username %>
-      <%= form.text_field :username, required: true, class: "form-control" %>
+      <%= form.text_field :username, required: true, class: "form-control", autocomplete: 'off' %>
     </div>
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-6">
       <%= form.label :password %>
-      <%= form.text_field :password, type: "password",required: true, class: "form-control" %>
+      <%= form.text_field :password, type: "password",required: true, class: "form-control", autocomplete: 'off' %>
     </div>
   </div>
 
