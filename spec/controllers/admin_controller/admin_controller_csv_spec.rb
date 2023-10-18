@@ -26,7 +26,7 @@ RSpec.describe AdminController, type: :controller do
         it 'redirects with a notice' do
           get(:csv, params: common_params.merge({ format: 'csv' }), session: admin_session)
           expect(response).to redirect_to('/publications')
-          expect(flash[:notice]).to eq('Something went wrong while generating the CSV.')
+          expect(flash[:danger]).to eq('Something went wrong while generating the CSV.')
         end
       end
     end

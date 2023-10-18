@@ -31,7 +31,8 @@ class AdminController < ApplicationController
       session[:admin] = true
       redirect_to publications_path
     else
-      redirect_to manage_path, notice: 'Invalid Credentails'
+      flash.keep[:danger] = 'Invalid Credentails'
+      redirect_to manage_path
     end
   end
 
@@ -46,7 +47,8 @@ class AdminController < ApplicationController
       end
     rescue StandardError => e
       logger.error "CSV generation failed: #{e}"
-      redirect_to publications_path, notice: 'Something went wrong while generating the CSV.'
+      flash.keep[:danger] = 'Something went wrong while generating the CSV.'
+      redirect_to publications_path
     end
   end
 

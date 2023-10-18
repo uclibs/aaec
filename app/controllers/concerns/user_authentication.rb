@@ -34,13 +34,15 @@ module UserAuthentication
 
   def handle_invalid_token
     reset_session
-    redirect_to root_path, alert: 'Your session has expired. Please log in again.'
+    flash.keep[:danger] = 'Your session has expired. Please log in again.'
+    redirect_to root_path
   end
 
   def require_authenticated_user
     return if admin_logged_in? || current_submitter
 
-    redirect_to root_path, alert: 'You must submit your information first.'
+    flash.keep[:danger] = 'You must submit your information first.'
+    redirect_to root_path
   end
 
   def admin_logged_in?

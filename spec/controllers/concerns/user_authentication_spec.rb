@@ -23,7 +23,7 @@ RSpec.describe UserAuthentication, type: :controller do
       it 'redirects to the root path with an alert' do
         get :index
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You must submit your information first.')
+        expect(flash[:danger]).to eq('You must submit your information first.')
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe UserAuthentication, type: :controller do
 
     context 'when submitter is logged in' do
       it 'does not redirect and allows access' do
-        submitter = FactoryBot.create(:submitter) # Replace with however you create a Submitter in your tests
+        submitter = FactoryBot.create(:submitter)
         session[:submitter_id] = submitter.id
         get :index
         expect(response).to have_http_status(:ok)
@@ -56,7 +56,7 @@ RSpec.describe UserAuthentication, type: :controller do
       get :index
 
       expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq('Your session has expired. Please log in again.')
+      expect(flash[:danger]).to eq('Your session has expired. Please log in again.')
     end
   end
 end

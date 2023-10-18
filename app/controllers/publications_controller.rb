@@ -125,7 +125,8 @@ class PublicationsController < ApplicationController
     respond_to do |format|
       if instance_variable.save
         PublicationMailer.publication_submit(helpers.find_submitter(session[:submitter_id]), instance_variable).deliver_now
-        format.html { redirect_to publications_path, notice: "#{controller_name.classify} was successfully created." }
+        flash.keep[:success] = "#{controller_name.classify} was successfully created."
+        format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: instance_variable }
       else
         format.html { render :new }
@@ -138,7 +139,8 @@ class PublicationsController < ApplicationController
     instance_variable = instance_variable_get("@#{controller_name.singularize}")
     respond_to do |format|
       if instance_variable.update(allowed_params)
-        format.html { redirect_to instance_variable, notice: "#{controller_name.classify} was successfully updated." }
+        flash.keep[:success] = "#{controller_name.classify} was successfully updated."
+        format.html { redirect_to instance_variable }
         format.json { render :show, status: :created, location: instance_variable }
       else
         format.html { render :new }
@@ -151,7 +153,8 @@ class PublicationsController < ApplicationController
     instance_variable = instance_variable_get("@#{controller_name.singularize}")
     instance_variable.destroy
     respond_to do |format|
-      format.html { redirect_to instance_variable, notice: "#{controller_name.classify} was successfully destroyed." }
+      flash.keep[:warning] = "#{controller_name.classify} was successfully destroyed."
+      format.html { redirect_to instance_variable }
       format.json { head :no_content }
     end
   end
