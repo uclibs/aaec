@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe PublicationsController, type: :controller do
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #index' do
     before do

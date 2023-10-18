@@ -37,4 +37,6 @@ RSpec.describe AdminController, type: :controller do
       expect(all_records).to be_empty
     end
   end
+
+  # allowed_model tested indirectly in admin_controller_csv_spec.rb
 end

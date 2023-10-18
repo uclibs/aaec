@@ -3,12 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+
   describe 'GET #show' do
     render_views
 
     context 'when page is valid' do
       it 'renders the page' do
-        get :show, params: { page: 'closed' }
+        get :show, params: { page: 'closed' }, session: valid_session
         expect(response).to render_template('pages/closed')
         expect(response.body).to have_text('The deadline for submissions has passed')
       end
@@ -16,12 +19,12 @@ RSpec.describe PagesController, type: :controller do
 
     context 'when page is invalid' do
       it 'returns a 404 status' do
-        get :show, params: { page: 'bad' }
+        get :show, params: { page: 'bad' }, session: valid_session
         expect(response.status).to eq(404)
       end
 
       it 'renders the 404 template' do
-        get :show, params: { page: 'bad' }
+        get :show, params: { page: 'bad' }, session: valid_session
         expect(response).to render_template('errors/404')
       end
     end
@@ -55,8 +58,8 @@ RSpec.describe PagesController, type: :controller do
     end
 
     it 'returns the page if it is in ALLOWED_PAGES' do
-      params[:page] = 'home'
-      expect(controller.send(:safe_page)).to eq('home')
+      params[:page] = 'about'
+      expect(controller.send(:safe_page)).to eq('about')
     end
   end
 end

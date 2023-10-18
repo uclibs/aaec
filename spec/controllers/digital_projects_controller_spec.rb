@@ -11,7 +11,8 @@ RSpec.describe DigitalProjectsController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'name_of_site' => '', 'name_of_affiliated_organization' => '', 'publication_date' => '', 'version' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #index' do
     before do

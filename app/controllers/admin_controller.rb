@@ -2,6 +2,7 @@
 
 class AdminController < ApplicationController
   skip_before_action :check_date
+  skip_before_action :require_authenticated_user, only: %i[login validate]
 
   ALLOWED_CONTROLLERS_TO_MODELS = {
     'artworks' => Artwork,
@@ -27,37 +28,36 @@ class AdminController < ApplicationController
       session[:admin] = true
       redirect_to publications_path
     else
-      redirect_to manage_path, notice: 'Invalid Credentails'
+      flash.keep[:danger] = 'Invalid Credentails'
+      redirect_to manage_path
     end
   end
 
   def csv
-    if session[:admin] && params[:id].nil? && allowed_model
-      begin
-        @instance_variable = allowed_model.all
-        respond_to do |format|
-          format.html { redirect_to publications_path }
-          format.csv { send_data @instance_variable.to_csv }
-        end
-      rescue StandardError => e
-        logger.error "CSV generation failed: #{e}"
-        flash.keep[:danger] = 'Something went wrong while generating the CSV.'
-        redirect_to publications_path
+    redirect_to publications_path and return unless allowed_model
+
+    begin
+      @instance_variable = allowed_model.all
+      respond_to do |format|
+        format.html { redirect_to publications_path }
+        format.csv { send_data @instance_variable.to_csv }
       end
-    else
+    rescue StandardError => e
+      logger.error "CSV generation failed: #{e}"
+      flash.keep[:danger] = 'Something went wrong while generating the CSV.'
       redirect_to publications_path
     end
   end
 
   def citations
-    if session[:admin]
-      all = fetch_all_records
-      @college_array = []
-      (1..College.count).each do |i|
-        @college_array << [i, all.select { |p| p.respond_to?(:college_ids) && p.college_ids.include?(i) }.group_by(&:uc_department)]
-      end
-    else
-      redirect_to publications_path
+    all = fetch_all_records
+    @college_array = []
+    (1..College.count).each do |i|
+      @college_array << [
+        i,
+        all.select { |p| p.respond_to?(:college_ids) && p.college_ids.include?(i) }
+           .group_by(&:uc_department)
+      ]
     end
   end
 

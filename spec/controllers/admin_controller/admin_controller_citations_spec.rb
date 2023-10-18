@@ -18,16 +18,5 @@ RSpec.describe AdminController, type: :controller do
         expect(assigns(:college_array)).to eq([[1, { 'Art' => [mocked_records.first] }], [2, { 'Literature' => [mocked_records.last] }]])
       end
     end
-
-    context 'when admin is not logged in' do
-      before do
-        allow(controller).to receive(:session).and_return(admin: false)
-      end
-
-      it 'redirects to publications_path' do
-        get :citations
-        expect(response).to redirect_to(publications_path)
-      end
-    end
   end
 end

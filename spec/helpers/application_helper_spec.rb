@@ -3,22 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-  describe '#signed_in' do
-    it 'returns true if admin is signed in' do
-      session[:admin] = true
-      expect(signed_in).to eq(true)
-    end
-
-    it 'returns submitter_id if submitter is signed in' do
-      session[:submitter_id] = 5
-      expect(signed_in).to eq(5)
-    end
-
-    it 'returns nil if no one is signed in' do
-      expect(signed_in).to be_nil
-    end
-  end
-
   describe '#shorten_long' do
     it 'shortens a long string' do
       expect(shorten_long('thisisaverylongstringwithmorecharacters')).to eq('thisisaverylongs... ')
