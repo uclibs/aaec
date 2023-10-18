@@ -1,11 +1,4 @@
 <div class="container offset-footer">
-
-  <% if notice %>
-  <div class="alert alert-success" role="alert">
-    <%= notice %>
-  </div>
-  <% end %>
-
   <div class="row pl-2">
     <h1>Show College</h1>
   </div>
@@ -18,9 +11,10 @@
           <td><%= @college.name %></td>
         </tr>
       </tbody>
-      </table>
-    </div>
+    </table>
+  </div>
     
-    <div class="row">
-      <%= link_to 'Edit', edit_college_path(@college), class: "btn btn-primary" %>
-    </div>
+  <div class="row">
+    <%= link_to 'Edit', edit_college_path(@college), class: "btn btn-primary" %>
+  </div>
+</div>

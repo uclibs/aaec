@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Artists, Authors, Editors & Composers | UC Libraries</title>
+    <title>Artists, Authors, Editors & Composers | UC Libraries</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
-
   </head>
 
   <body>
@@ -67,6 +64,14 @@
       <div class="container">
         <%= link_to "LIBRARIES", "https://libraries.uc.edu/", target: "_blank", class: "text-white" %>
       </div>
+    </div>
+    <div class="container offset-footer">
+      <% flash.each do |type, message| %>
+        <br/>
+        <div class="alert alert-<%= type %>" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
     </div>
     <%= yield %>
     <%= render partial: 'layouts/footer' %>

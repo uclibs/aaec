@@ -1,11 +1,4 @@
 <div class="container offset-footer">
-
-  <% if notice %>
-  <div class="alert alert-success" role="alert">
-    <%= notice %>
-  </div>
-  <% end %>
-
   <div class="row pl-2">
     <h1>Show Submitter</h1>
   </div>
@@ -48,11 +41,10 @@
           <td><%= mail_to @submitter.email_address %></td>
         </tr>
       </tbody>
-      </table>
+    </table>
   </div>
 
   <div class="row">
     <%= link_to 'Edit', edit_submitter_path(@submitter), class: "btn btn-primary" %>
   </div>
-
 </div>

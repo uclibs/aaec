@@ -28,8 +28,8 @@ class CollegesController < ApplicationController
 
     respond_to do |format|
       if @college.save
-        format.html { redirect_to @college, notice: 'College was successfully created.' }
-        format.json { render :show, status: :created, location: @college }
+        flash.keep[:success] = 'College was successfully created.'
+        format.html { redirect_to @college }
       else
         format.html { render :new }
         format.json { render json: @college.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class CollegesController < ApplicationController
   def update
     respond_to do |format|
       if @college.update(college_params)
-        format.html { redirect_to @college, notice: 'College was successfully updated.' }
-        format.json { render :show, status: :ok, location: @college }
+        flash.keep[:success] = 'College was successfully updated.'
+        format.html { redirect_to @college }
       else
         format.html { render :edit }
         format.json { render json: @college.errors, status: :unprocessable_entity }
@@ -56,7 +56,8 @@ class CollegesController < ApplicationController
   def destroy
     @college.destroy
     respond_to do |format|
-      format.html { redirect_to colleges_url, notice: 'College was successfully destroyed.' }
+      flash.keep[:warning] = 'College was successfully destroyed.'
+      format.html { redirect_to colleges_url }
       format.json { head :no_content }
     end
   end
