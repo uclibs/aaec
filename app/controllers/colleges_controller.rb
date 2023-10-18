@@ -30,6 +30,7 @@ class CollegesController < ApplicationController
       if @college.save
         flash.keep[:success] = 'College was successfully created.'
         format.html { redirect_to @college }
+        format.json { render :show, status: :created, location: @college }
       else
         format.html { render :new }
         format.json { render json: @college.errors, status: :unprocessable_entity }
@@ -44,6 +45,7 @@ class CollegesController < ApplicationController
       if @college.update(college_params)
         flash.keep[:success] = 'College was successfully updated.'
         format.html { redirect_to @college }
+        format.json { render :show, status: :ok, location: @college }
       else
         format.html { render :edit }
         format.json { render json: @college.errors, status: :unprocessable_entity }
