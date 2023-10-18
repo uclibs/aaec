@@ -53,9 +53,11 @@ RSpec.describe SubmittersController, type: :controller do
       end
 
       it 'resets session after successful creation' do
+        session[:dummy] = 'dummy_value' # Add a dummy session variable
         post :create, params: { submitter: valid_attributes }, session: old_session
-        expect(session['alpha']).to be_nil
-        expect(session[:submitter_id]).to eq(Submitter.last.id)
+
+        expect(session[:dummy]).to be_nil # Ensure the dummy session variable is cleared
+        expect(session[:submitter_id]).to eq(Submitter.last.id) # Your existing expectation
       end
     end
 

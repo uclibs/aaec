@@ -5,10 +5,7 @@
 require 'rails_helper'
 
 RSpec.describe UserAuthentication, type: :controller do
-  # Create a dummy controller that includes the concern
   controller(ApplicationController) do
-    include UserAuthentication
-
     def index
       render plain: 'ok'
     end
