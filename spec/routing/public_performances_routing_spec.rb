@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookChaptersController, type: :routing do
+RSpec.describe PublicPerformancesController, type: :routing do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/public_performances').to route_to('public_performances#index')
