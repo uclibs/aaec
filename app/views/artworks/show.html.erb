@@ -1,11 +1,4 @@
 <div class="container offset-footer">
-
-  <% if notice %>
-  <div class="alert alert-success" role="alert">
-    <%= notice %>
-  </div>
-  <% end %>
-
   <div class="row pl-2">
     <h1>Show Artwork</h1>
   </div>
@@ -53,7 +46,7 @@
         
           <tr>
             <th scope="row">Submitter ID:</th>
-            <td><%= link_to link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
+            <td><%= link_to @submitter.id.to_s, publications_id(@submitter.id) %></td>
           </tr>
           <tr>
             <th scope="row">Submitter Name:</th>
@@ -62,9 +55,10 @@
 
         <% end %>
       </tbody>
-      </table>
-    </div>
+    </table>
+  </div>
 
-    <div class="row">
-      <%= link_to 'Edit', edit_artwork_path(@artwork), class: "btn btn-primary" %>
-    </div>
+  <div class="row">
+    <%= link_to 'Edit', edit_artwork_path(@artwork), class: "btn btn-primary" %>
+  </div>
+</div>

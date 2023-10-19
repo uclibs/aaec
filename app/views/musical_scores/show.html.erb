@@ -1,11 +1,4 @@
 <div class="container offset-footer">
-
-  <% if notice %>
-  <div class="alert alert-success" role="alert">
-    <%= notice %>
-  </div>
-  <% end %>
-
   <div class="row pl-2">
     <h1>Show Musical Score</h1>
   </div>
@@ -19,9 +12,7 @@
       <tbody>
         <tr>
           <th scope="row">Author(s):</th>
-          <td>
-          <%= all_authors(@musical_score) %>
-          </td>
+          <td><%= all_authors(@musical_score) %></td>
         </tr>
 
         <tr>
@@ -82,9 +73,10 @@
 
         <% end %>
       </tbody>
-      </table>
-    </div>
+    </table>
+  </div>
 
-    <div class="row">
-      <%= link_to 'Edit', edit_musical_score_path(@musical_score), class: "btn btn-primary" %>
-    </div>
+  <div class="row">
+    <%= link_to 'Edit', edit_musical_score_path(@musical_score), class: "btn btn-primary" %>
+  </div>
+</div>

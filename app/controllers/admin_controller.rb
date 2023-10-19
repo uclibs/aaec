@@ -41,7 +41,8 @@ class AdminController < ApplicationController
         end
       rescue StandardError => e
         logger.error "CSV generation failed: #{e}"
-        redirect_to publications_path, notice: 'Something went wrong while generating the CSV.'
+        flash.keep[:danger] = 'Something went wrong while generating the CSV.'
+        redirect_to publications_path
       end
     else
       redirect_to publications_path

@@ -1,11 +1,4 @@
 <div class="container offset-footer">
-
-  <% if notice %>
-  <div class="alert alert-success" role="alert">
-    <%= notice %>
-  </div>
-  <% end %>
-
   <div class="row pl-2">
     <h1>Show Book Chapter</h1>
   </div>
@@ -74,9 +67,10 @@
           <td><%= @book_chapter.doi %></td>
         </tr>
       </tbody>
-      </table>
-    </div>
+    </table>
+  </div>
 
-    <div class="row">
-      <%= link_to 'Edit', edit_book_chapter_path(@book_chapter), class: "btn btn-primary" %>
-    </div>
+  <div class="row">
+    <%= link_to 'Edit', edit_book_chapter_path(@book_chapter), class: "btn btn-primary" %>
+  </div>
+</div>

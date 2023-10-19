@@ -24,7 +24,8 @@ class SubmittersController < ApplicationController
       if @submitter.save
         session[:submitter_id] = @submitter.id
         # Change to home page
-        format.html { redirect_to publications_path, notice: 'Your account was successfully created.' }
+        flash.keep[:success] = 'Your account was successfully created.'
+        format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: @submitter }
       else
         format.html { render :new }
@@ -38,7 +39,8 @@ class SubmittersController < ApplicationController
   def update
     respond_to do |format|
       if @submitter.update(submitter_params)
-        format.html { redirect_to publications_path, notice: 'Your account was successfully updated.' }
+        flash.keep[:success] = 'Your account was successfully updated.'
+        format.html { redirect_to publications_path }
         format.json { render :show, status: :ok, location: @submitter }
       else
         format.html { render :edit }
