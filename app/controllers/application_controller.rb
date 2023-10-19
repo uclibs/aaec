@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   include UserAuthentication
+  include ExceptionHandlingManager
 
   prepend_before_action :check_date
 
