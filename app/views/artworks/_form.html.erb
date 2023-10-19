@@ -9,19 +9,21 @@
     </div>
   <% end %>
 
-  <%= render partial: "partials/author", locals: {name: "artwork", publication: @artwork} %>
+  <%= render partial: "partials/authors", locals: {name: "artwork", publication: @artwork} %>
 
   <hr>
   <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label(:college_ids, "Author College(s)") %><br />
-      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-        <div class="form-check">
-          <%= c.check_box class: "form-check-input" %>
-          <%= c.label class: "form-check-label" %>
-        </div>
-      <% end %>
+  <div class="form-group col-md-6">
+  <span role="heading" aria-level="2" >Author College(s)</span>
+  <br />
+    <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
+      <div class="form-check">
+        <%= c.check_box class: "form-check-input", id: "college_#{c.object.id}"  %>
+        <%= c.label class: "form-check-label", for: "college_#{c.object.id}" %>
       </div>
+    <% end %>
+  </div>
+
 
       <div class="col-md-6">
         <div class="form-group">

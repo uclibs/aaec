@@ -19,7 +19,7 @@ describe 'Create a Artwork', :feature, js: true do
       all(:xpath, "//input[@name='artwork[author_last_name][]']").last.set(artwork.author_last_name[i])
     end
     (0..artwork.college_ids.count - 1).each do |i|
-      check "artwork_college_ids_#{artwork.college_ids[i]}"
+      check "college_#{artwork.college_ids[i]}"
     end
     fill_in('artwork[uc_department]', with: artwork.uc_department)
     fill_in('artwork[work_title]', with: artwork.work_title)
@@ -38,5 +38,16 @@ describe 'Create a Artwork', :feature, js: true do
     expect(page).not_to have_text 'Subtitle'
     expect(page).not_to have_text 'Location'
     expect(page).not_to have_text 'Date'
+  end
+
+  it 'checks the value of a college checkbox' do
+    create_submitter(submitter)
+    visit new_artwork_path
+
+    artwork.college_ids.each do |college_id|
+      checkbox = find("#college_#{college_id}")
+      checkbox.set(true)  # Checking the checkbox
+      expect(checkbox).to be_checked
+    end
   end
 end

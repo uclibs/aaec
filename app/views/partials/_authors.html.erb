@@ -1,0 +1,10 @@
+<span id="author_group">
+  <% publication.author_first_name.count.times do |count| %>
+    <%= render partial: 'partials/author', locals: { count: count, name: name, publication: publication,  is_first: false } %>
+  <% end %>
+
+  <% if publication.author_first_name.count.zero? %>
+    <%= render partial: 'partials/author', locals: { count: 0, name: name, publication: publication, is_first: true } %>
+  <% end %>
+</span>
+  <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}');", class: "btn btn-primary mt-3" %>
