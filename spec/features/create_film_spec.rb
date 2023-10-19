@@ -19,7 +19,7 @@ describe 'Create a film', :feature, js: true do
       all(:xpath, "//input[@name='film[author_last_name][]']").last.set(film.author_last_name[i])
     end
     (0..film.college_ids.count - 1).each do |i|
-      check "film_college_ids_#{film.college_ids[i]}"
+      check "college_#{film.college_ids[i]}"
     end
     fill_in('film[uc_department]', with: film.uc_department)
     fill_in('film[work_title]', with: film.work_title)

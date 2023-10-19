@@ -19,7 +19,7 @@ describe 'Create a Other Publication', :feature, js: true do
       all(:xpath, "//input[@name='other_publication[author_last_name][]']").last.set(other_publication.author_last_name[i])
     end
     (0..other_publication.college_ids.count - 1).each do |i|
-      check "other_publication_college_ids_#{other_publication.college_ids[i]}"
+      check "college_#{other_publication.college_ids[i]}"
     end
     fill_in('other_publication[other_college]', with: other_publication.other_college)
     fill_in('other_publication[uc_department]', with: other_publication.uc_department)

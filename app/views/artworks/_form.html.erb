@@ -13,44 +13,29 @@
 
   <hr>
   <div class="form-row">
-  <div class="form-group col-md-6">
-  <span role="heading" aria-level="2" >Author College(s)</span>
-  <br />
-    <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-      <div class="form-check">
-        <%= c.check_box class: "form-check-input", id: "college_#{c.object.id}"  %>
-        <%= c.label class: "form-check-label", for: "college_#{c.object.id}" %>
-      </div>
-    <% end %>
+
+    <%= render partial: 'partials/author_colleges', locals: { form: form } %>
+
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
+      <%= form.text_field :uc_department, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
+      <%= form.text_field :work_title, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :other_title, 'Other Title' %>
+      <%= form.text_field :other_title, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :date, 'Date of Composition' %>
+      <%= form.text_field :date, class: "form-control" %>
+    </div>
   </div>
-
-
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
-          <%= form.text_field :uc_department, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
-          <%= form.text_field :work_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :other_title, 'Other Title' %>
-          <%= form.text_field :other_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :date, 'Date of Composition' %>
-          <%= form.text_field :date, class: "form-control" %>
-        </div>
-      </div>
-    </div>
-
-  <div class="form-row">  
-    <div id="other_college_group" class="form-group col-md-6">
-      <%= form.label :other_college, 'Other College' %>
-      <%= form.text_field :other_college, class: "form-control" %>
-    </div>
-  </div>  
+</div>
 
 <%= hidden_field_tag "artwork[submitter_id]", session[:submitter_id] || @artwork.submitter_id %>
 

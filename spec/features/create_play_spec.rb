@@ -19,7 +19,7 @@ describe 'Create a play', :feature, js: true do
       all(:xpath, "//input[@name='play[author_last_name][]']").last.set(play.author_last_name[i])
     end
     (0..play.college_ids.count - 1).each do |i|
-      check "play_college_ids_#{play.college_ids[i]}"
+      check "college_#{play.college_ids[i]}"
     end
     fill_in('play[uc_department]', with: play.uc_department)
     fill_in('play[work_title]', with: play.work_title)

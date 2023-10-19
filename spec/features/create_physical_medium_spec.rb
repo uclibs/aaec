@@ -19,7 +19,7 @@ describe 'Create a physical_medium', :feature, js: true do
       all(:xpath, "//input[@name='physical_medium[author_last_name][]']").last.set(physical_medium.author_last_name[i])
     end
     (0..physical_medium.college_ids.count - 1).each do |i|
-      check "physical_medium_college_ids_#{physical_medium.college_ids[i]}"
+      check "college_#{physical_medium.college_ids[i]}"
     end
     fill_in('physical_medium[uc_department]', with: physical_medium.uc_department)
     fill_in('physical_medium[work_title]', with: physical_medium.work_title)

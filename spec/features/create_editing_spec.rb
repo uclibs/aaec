@@ -19,7 +19,7 @@ describe 'Create a Editing', :feature, js: true do
       all(:xpath, "//input[@name='editing[author_last_name][]']").last.set(editing.author_last_name[i])
     end
     (0..editing.college_ids.count - 1).each do |i|
-      check "editing_college_ids_#{editing.college_ids[i]}"
+      check "college_#{editing.college_ids[i]}"
     end
     fill_in('editing[uc_department]', with: editing.uc_department)
     fill_in('editing[work_title]', with: editing.work_title)

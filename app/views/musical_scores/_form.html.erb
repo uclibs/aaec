@@ -13,15 +13,8 @@
 
   <hr>
   <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label(:college_ids, "Author College(s)") %><br />
-      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-        <div class="form-check">
-          <%= c.check_box class: "form-check-input" %>
-          <%= c.label class: "form-check-label" %>
-        </div>
-      <% end %>
-      </div>
+    <%= render partial: 'partials/author_colleges', locals: { form: form } %>
+
 
       <div class="col-md-6">
         <div class="form-group">
@@ -48,10 +41,6 @@
     </div>
 
   <div class="form-row">  
-    <div id="other_college_group" class="form-group col-md-6">
-      <%= form.label :other_college, 'Other College' %>
-      <%= form.text_field :other_college, class: "form-control" %>
-    </div>
     <div class="form-group col-md-6">
       <%= form.label :publication_date, 'Publication Date' %>
       <%= form.text_field :publication_date, class: "form-control" %>

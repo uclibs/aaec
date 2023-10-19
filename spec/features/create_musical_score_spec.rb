@@ -19,7 +19,7 @@ describe 'Create a musical_score', :feature, js: true do
       all(:xpath, "//input[@name='musical_score[author_last_name][]']").last.set(musical_score.author_last_name[i])
     end
     (0..musical_score.college_ids.count - 1).each do |i|
-      check "musical_score_college_ids_#{musical_score.college_ids[i]}"
+      check "college_#{musical_score.college_ids[i]}"
     end
     fill_in('musical_score[uc_department]', with: musical_score.uc_department)
     fill_in('musical_score[work_title]', with: musical_score.work_title)

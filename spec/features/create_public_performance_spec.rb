@@ -19,7 +19,7 @@ describe 'Create a public_performance', :feature, js: true do
       all(:xpath, "//input[@name='public_performance[author_last_name][]']").last.set(public_performance.author_last_name[i])
     end
     (0..public_performance.college_ids.count - 1).each do |i|
-      check "public_performance_college_ids_#{public_performance.college_ids[i]}"
+      check "college_#{public_performance.college_ids[i]}"
     end
     fill_in('public_performance[uc_department]', with: public_performance.uc_department)
     fill_in('public_performance[work_title]', with: public_performance.work_title)

@@ -19,7 +19,7 @@ describe 'Create a digital_project', :feature, js: true do
       all(:xpath, "//input[@name='digital_project[author_last_name][]']").last.set(digital_project.author_last_name[i])
     end
     (0..digital_project.college_ids.count - 1).each do |i|
-      check "digital_project_college_ids_#{digital_project.college_ids[i]}"
+      check "college_#{digital_project.college_ids[i]}"
     end
     fill_in('digital_project[uc_department]', with: digital_project.uc_department)
     fill_in('digital_project[work_title]', with: digital_project.work_title)

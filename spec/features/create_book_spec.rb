@@ -19,7 +19,7 @@ describe 'Create a Book', :feature, js: true do
       all(:xpath, "//input[@name='book[author_last_name][]']").last.set(book.author_last_name[i])
     end
     (0..book.college_ids.count - 1).each do |i|
-      check "book_college_ids_#{book.college_ids[i]}"
+      check "college_#{book.college_ids[i]}"
     end
     fill_in('book[other_college]', with: book.other_college)
     fill_in('book[uc_department]', with: book.uc_department)

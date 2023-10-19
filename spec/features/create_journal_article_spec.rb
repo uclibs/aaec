@@ -19,7 +19,7 @@ describe 'Create a Journal Article', :feature, js: true do
       all(:xpath, "//input[@name='journal_article[author_last_name][]']").last.set(journal_article.author_last_name[i])
     end
     (0..journal_article.college_ids.count - 1).each do |i|
-      check "journal_article_college_ids_#{journal_article.college_ids[i]}"
+      check "college_#{journal_article.college_ids[i]}"
     end
     fill_in('journal_article[uc_department]', with: journal_article.uc_department)
     fill_in('journal_article[work_title]', with: journal_article.work_title)
