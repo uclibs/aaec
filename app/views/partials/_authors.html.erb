@@ -7,4 +7,4 @@
     <%= render partial: 'partials/author', locals: { count: 0, name: name, publication: publication, is_first: true } %>
   <% end %>
 </span>
-  <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}');", class: "btn btn-primary mt-3" %>
+<%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}');", class: "btn btn-primary mt-3" %>
