@@ -10,37 +10,37 @@
   <% end %>
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label :first_name, 'First Name', class: "required" %>
       <%= form.text_field :first_name, required: true, class: "form-control" %>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label :last_name, 'Last Name', class: "required" %>
       <%= form.text_field :last_name, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label(:college, "UC College") %>
       <%= select_tag "submitter[college]", options_from_collection_for_select(College.all, :id, :name, @submitter.college), prompt: "Please select a college", class: "form-control" %>
       <small class="form-text text-muted">If "Other", enter your college and department in the UC Department field</small>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label(:department, "UC Department or Division") %>
       <%= form.text_field :department, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label(:mailing_address, "Mail Location (Postal address if off campus)", class: "required") %>
       <%= form.text_field :mailing_address, required: true, class: "form-control" %>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label :phone_number, 'Phone Number', class: "required" %>
       <%= form.text_field :phone_number, required: true, class: "form-control" %>
       <small class="form-text text-muted">Must be in the form ###-###-####</small>
@@ -48,12 +48,12 @@
   </div>
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 mt-2">
       <%= form.label(:email_address, "Email Address", class: "required") %>
       <%= form.text_field :email_address, required: true, class: "form-control" %>
     </div>
   </div>
 
-  <%= form.submit "Next", class: "btn btn-primary" %>
+  <%= form.submit "Next", class: "btn btn-primary mt-2" %>
 
 <% end %>
