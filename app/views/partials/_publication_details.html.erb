@@ -1,0 +1,6 @@
+<% fields.each do |field| %>
+  <div class="form-group  col-md-6">
+    <%= form.label field[:label][:key], field[:label][:text], field[:label][:options] || {} %>
+    <%= form.text_field field[:input_field][:key], class: "form-control", autocomplete: "off", **(field[:input_field][:options] || {}) %>
+  </div>
+<% end %>

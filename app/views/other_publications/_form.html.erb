@@ -1,79 +1,26 @@
 <%= form_with(model: other_publication, local: true) do |form| %>
-  <% if other_publication.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading"><%= pluralize(other_publication.errors.count, "error") %> found:</h4>
-      <hr>
-      <% other_publication.errors.full_messages.each do |message| %>
-      <p class="mb-0"><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "partials/error_messages", locals: { model: other_publication } %>
 
   <%= render partial: "partials/authors", locals: {name: "other_publication", publication: @other_publication} %>
 
   <hr>
 
-  <div class="form-row">
-    <%= render partial: 'partials/author_colleges', locals: { form: form } %>
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
-          <%= form.text_field :uc_department, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
-          <%= form.text_field :work_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :other_title, 'Other Title' %>
-          <%= form.text_field :other_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :volume %>
-          <%= form.text_field :volume, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :issue %>
-          <%= form.text_field :issue, class: "form-control" %>
-        </div>
-      </div>
-    </div>
+  <%= render partial: 'partials/author_colleges', locals: { form: form } %>
 
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label :page_numbers, 'Page Numbers' %>
-      <%= form.text_field :page_numbers, class: "form-control" %>
-    </div>   
-  </div>
+  end
+  <%= render 'partials/publication_details', form: form, fields: [
+    {label: {key: :work_title, text: 'Title of Submitted Work', options: {class: 'required'}}, input_field: {key: :work_title}},
+    {label: {key: :other_title, text: 'Other Title'}, input_field: {key: :other_title}},
+    {label: {key: :volume, text: 'Volume'}, input_field: {key: :volume}},
+    {label: {key: :issue, text: 'Issue'}, input_field: {key: :issue}},
+    {label: {key: :page_numbers, text: 'Page Numbers'}, input_field: {key: :page_numbers}},
+    {label: {key: :publisher, text: 'Publisher'}, input_field: {key: :publisher}},
+    {label: {key: :publication_date, text: 'Publisher Date'}, input_field: {key: :publication_date}},
+    {label: {key: :city, text: 'City'}, input_field: {key: :city}},
+    {label: {key: :url, text: 'URL (if this publication is available online)'}, input_field: {key: :url}},
+    {label: {key: :doi, text: 'DOI (Digital Object Identifier)'}, input_field: {key: :doi}},
+    ] %>
 
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label :publisher %>
-      <%= form.text_field :publisher, class: "form-control" %>
-    </div>
-    <div class="form-group col-md-6">
-      <%= form.label :publication_date, 'Publisher Date' %>
-      <%= form.text_field :publication_date, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label :city %>
-      <%= form.text_field :city, class: "form-control" %>
-    </div>
-    <div class="form-group col-md-6">
-      <%= form.label :url, 'URL (if this publication is available online)' %>
-      <%= form.text_field :url, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-row">
-
-    <div class="form-group col-md-6">
-      <%= form.label :doi, 'DOI (Digital Object Identifier)' %>
-      <%= form.text_field :doi, class: "form-control" %>
-    </div>
-  </div>
   <%# Note: This may need to be changed since it will always use the logged in submitters id %>
   <%= hidden_field_tag "other_publication[submitter_id]", session[:submitter_id] || @other_publication.submitter_id %>
 

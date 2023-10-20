@@ -1,12 +1,12 @@
-<div class="form-row" id='<%= is_first ? 'author_0' : "author_#{count}" %>'>
+<div class="form-row" id="<%= is_first ? 'author_0' : 'author_' + count.to_s %>">
   <div class="col-md-6">
-    <%= label_tag "#{name}_author_first_name_#{count}", 'First Name', class: 'form-label mt-3 mb-0' %>
-    <%= text_field_tag "#{name}[author_first_name][]", is_first ? nil : publication.author_first_name[count], required: true, class: 'form-control form-group', autocomplete: 'off', id: "#{name}_author_first_name_#{count}" %>
+  <%= label_tag "#{name}_author_first_name_#{count}", 'First Name', class: "form-label mt-3 mb-0 #{is_first ? 'required' : ''}" %>
+  <%= text_field_tag "#{name}[author_first_name][]", is_first ? nil : publication.author_first_name[count], required: true, class: 'form-control form-group', autocomplete: 'off', id: "#{name}_author_first_name_#{count}" %>
   </div>
   <div class="col-md-6">
-    <%= label_tag "#{name}_author_last_name_#{count}", 'Last Name', class: 'form-label mt-2 mb-0' %>
+    <%= label_tag "#{name}_author_last_name_#{count}", 'Last Name', class: "form-label mt-2 mb-0 #{is_first ? 'required' : ''}" %>
     <%= text_field_tag "#{name}[author_last_name][]", is_first ? nil : publication.author_last_name[count], required: true, class: 'form-control form-group', autocomplete: 'off', id: "#{name}_author_last_name_#{count}" %>
-  </div>
+    </div>
   <div class="col-md-2">
     <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('#{is_first ? 'author_0' : "author_#{count}"}');", id: is_first ? 'first_author' : nil, class: "form-control form-group bg-danger text-white #{'d-none' if is_first}", 'aria-label': 'Remove Author' %>
   </div>

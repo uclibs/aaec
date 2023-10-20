@@ -1,69 +1,24 @@
 <%= form_with(model: digital_project, local: true) do |form| %>
-  <% if digital_project.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading"><%= pluralize(digital_project.errors.count, "error") %> found:</h4>
-      <hr>
-      <% digital_project.errors.full_messages.each do |message| %>
-        <p class="mb-0"><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "partials/error_messages", locals: { model: digital_project } %>
+
 
   <%= render partial: "partials/authors", locals: {name: "digital_project", publication: @digital_project} %>
 
   <hr>
-  <div class="form-row">
-    <  <%= render partial: 'partials/author_colleges', locals: { form: form } %>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
-          <%= form.text_field :uc_department, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
-          <%= form.text_field :work_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :other_title, 'Other Title' %>
-          <%= form.text_field :other_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :name_of_site, 'Name of Site' %>
-          <%= form.text_field :name_of_site, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :name_of_affiliated_organization, 'Name of Affiliated Organization' %>
-          <%= form.text_field :name_of_affiliated_organization, class: "form-control" %>
-        </div>
-      </div>
-    </div>
+  <%= render partial: 'partials/author_colleges', locals: { form: form } %>
 
-  <div class="form-row">  
-    <div class="form-group col-md-6">
-      <%= form.label :version %>
-      <%= form.text_field :version, class: "form-control" %>
-    </div>
-  </div>  
+  <%= render 'partials/publication_details', form: form, fields: [
+    {label: {key: :work_title, text: 'Title of Submitted Work', options: {class: 'required'}}, input_field: {key: :work_title}},
+    {label: {key: :other_title, text: 'Other Title'}, input_field: {key: :other_title}},
+    {label: {key: :name_of_site, text: 'Name of Site'}, input_field: {key: :name_of_site}},
+    {label: {key: :name_of_affiliated_organization, text: 'Name of Affiliated Organization'}, input_field: {key: :name_of_affiliated_organization}},
+    {label: {key: :version, text: 'Version'}, input_field: {key: :version}},
+    {label: {key: :publication_date, text: 'Date Made Live'}, input_field: {key: :publication_date}},
+    {label: {key: :url, text: 'URL (if this publication is available online)'}, input_field: {key: :url}},
+    {label: {key: :doi, text: 'DOI (Digital Object Identifier)'}, input_field: {key: :doi}}
+    ] %> 
 
-  <div class="form-row">  
-    <div class="form-group col-md-6">
-      <%= form.label :publication_date, 'Date Made Live' %>
-      <%= form.text_field :publication_date, class: "form-control" %>
-    </div>
-
-    <div class="form-group col-md-6">
-      <%= form.label :url, 'URL (if this publication is available online)' %>
-      <%= form.text_field :url, class: "form-control" %>
-    </div>
-  </div>  
-
-  <div class="form-row">  
-    <div class="form-group col-md-6">
-      <%= form.label :doi, 'DOI (Digital Object Identifier)' %>
-      <%= form.text_field :doi, class: "form-control" %>
-    </div>
-  </div>
 
 <%= hidden_field_tag "digital_project[submitter_id]", session[:submitter_id] || @digital_project.submitter_id %>
 

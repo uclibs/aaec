@@ -1,53 +1,22 @@
 <%= form_with(model: film, local: true) do |form| %>
-  <% if film.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading"><%= pluralize(film.errors.count, "error") %> found:</h4>
-      <hr>
-      <% film.errors.full_messages.each do |message| %>
-        <p class="mb-0"><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "partials/error_messages", locals: { model: film } %>
 
   <%= render partial: "partials/authors", locals: {name: "film", publication: @film} %>
 
   <hr>
-  <div class="form-row">
-    <%= render partial: 'partials/author_colleges', locals: { form: form } %>
+
+  <%= render partial: 'partials/author_colleges', locals: { form: form } %>
+
+  <%= render 'partials/publication_details', form: form, fields: [
+    {label: {key: :work_title, text: 'Title of Submitted Work', options: {class: 'required'}}, input_field: {key: :work_title}},
+    {label: {key: :other_title, text: 'Other Title'}, input_field: {key: :other_title}},
+    {label: {key: :director, text: 'Director'}, input_field: {key: :director}},
+    {label: {key: :producer, text: 'Producer'}, input_field: {key: :producer}},
+    {label: {key: :release_year, text: 'Release Year'}, input_field: {key: :release_year}},
+    ] %>
 
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
-          <%= form.text_field :uc_department, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
-          <%= form.text_field :work_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :other_title, 'Other Title' %>
-          <%= form.text_field :other_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :director %>
-          <%= form.text_field :director, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :producer %>
-          <%= form.text_field :producer, class: "form-control" %>
-        </div>
-      </div>
-    </div>
-    
-  <div class="form-row">  
-    <div class="form-group">
-          <%= form.label :release_year, 'Release Year' %>
-          <%= form.text_field :release_year, class: "form-control" %>
-    </div>
-  </div>  
-
-<%= hidden_field_tag "film[submitter_id]", session[:submitter_id] || @film.submitter_id %>
+  <%= hidden_field_tag "film[submitter_id]", session[:submitter_id] || @film.submitter_id %>
 
   <div class="actions">
     <%= form.submit "Submit", class: "btn btn-primary" %>

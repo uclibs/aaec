@@ -1,14 +1,5 @@
 <%= form_with(model: college, local: true) do |form| %>
-  <% if college.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading"><%= pluralize(college.errors.count, "error") %> found:</h4>
-      <hr>
-      <ul>
-      <% college.errors.full_messages.each do |message| %>
-        <p class="mb-0"><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "partials/error_messages", locals: { model: college } %>
 
   <div class="form-row">
     <div class="form-group col-md-6">

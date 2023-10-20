@@ -1,13 +1,5 @@
 <%= form_with(model: submitter, local: true) do |form| %>
-  <% if submitter.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading"><%= pluralize(submitter.errors.count, "error") %> found:</h4>
-      <hr>
-      <% submitter.errors.full_messages.each do |message| %>
-      <p class="mb-0"><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "partials/error_messages", locals: { model: submitter } %>
 
   <div class="form-row">
     <div class="form-group col-md-6">
