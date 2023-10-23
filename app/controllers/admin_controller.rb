@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AdminController < ApplicationController
+  include RequireAdmin
+
+  skip_before_action :check_admin, only: %i[login validate]
   skip_before_action :check_date
   skip_before_action :require_authenticated_user, only: %i[login validate]
 
