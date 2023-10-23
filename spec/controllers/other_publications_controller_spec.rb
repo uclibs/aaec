@@ -1,132 +1,30 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/shared_publication_examples/main_shared_examples'
 
 RSpec.describe OtherPublicationsController, type: :controller do
-  let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'Test', 'doi' => 'Test' }
-  end
-
-  let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'page_numbers' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
-  end
-
-  let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
-
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      OtherPublication.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :edit, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'POST #create' do
-    context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
-
-      it 'creates a new Other Publication' do
-        expect do
-          post :create, params: { other_publication: valid_attributes }, session: valid_session
-        end.to change(OtherPublication, :count).by(1)
-      end
-
-      it 'redirects to the publication index' do
-        post :create, params: { other_publication: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(publications_path)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { other_publication: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) do
-        { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => %w[6 7], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'www.cool.com', 'doi' => 'Test' }
-      end
-
-      it 'updates the requested other publication' do
-        other_publication = OtherPublication.create! valid_attributes
-        put :update, params: { id: other_publication.to_param, other_publication: new_attributes }, session: valid_session
-        other_publication.reload
-        expect(other_publication.url).to eql 'www.cool.com'
-        expect(other_publication.college_ids).to eql [6, 7]
-      end
-
-      it 'redirects to the other_publication' do
-        other_publication = OtherPublication.create! valid_attributes
-        put :update, params: { id: other_publication.to_param, other_publication: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(other_publication)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        other_publication = OtherPublication.create! valid_attributes
-        put :update, params: { id: other_publication.to_param, other_publication: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested other_publication' do
-      other_publication = OtherPublication.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: other_publication.to_param }, session: valid_session
-      end.to change(OtherPublication, :count).by(-1)
-    end
-
-    it 'redirects to the other_publications list' do
-      other_publication = OtherPublication.create! valid_attributes
-      delete :destroy, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to redirect_to(other_publications_url)
-    end
-  end
+  it_behaves_like 'a standard publication controller', {
+    model_name: :other_publication,
+    valid_params: {
+      uc_department: 'Department',
+      work_title: 'Work Title',
+      other_title: 'Other Title',
+      volume: 'Volume 1',
+      issue: 'Issue 1',
+      page_numbers: '1-10',
+      publisher: 'Publisher',
+      city: 'City',
+      publication_date: '2021-10-13',
+      url: 'https://example.com',
+      doi: 'doi:example',
+      other_college: 'Other College',
+      submitter_id: 1,
+      author_first_name: ['First'],
+      author_last_name: ['Last'],
+      college_ids: [1, 2]
+    },
+    invalid_params: { invalid_field: 'Invalid' },
+    new_params: { new_field: 'New' }
+  }
 end

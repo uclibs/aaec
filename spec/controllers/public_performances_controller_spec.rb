@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe PublicPerformancesController, type: :controller do
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'Test' }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'Test', 'submitter_id' => submitter.id }
   end
 
   let(:invalid_attributes) do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'time' => '' }
   end
-
-  let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #index' do
     before do
@@ -29,7 +29,8 @@ RSpec.describe PublicPerformancesController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       public_performance = PublicPerformance.create! valid_attributes
-      get :show, params: { id: public_performance.to_param }, session: valid_session
+      login_as_submitter_of(public_performance)
+      get :show, params: { id: public_performance.to_param }
       expect(response).to be_successful
     end
   end
@@ -54,7 +55,8 @@ RSpec.describe PublicPerformancesController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       public_performance = PublicPerformance.create! valid_attributes
-      get :edit, params: { id: public_performance.to_param }, session: valid_session
+      login_as_submitter_of(public_performance)
+      get :edit, params: { id: public_performance.to_param }
       expect(response).to be_successful
     end
   end
@@ -93,7 +95,8 @@ RSpec.describe PublicPerformancesController, type: :controller do
 
       it 'updates the requested other publication' do
         public_performance = PublicPerformance.create! valid_attributes
-        put :update, params: { id: public_performance.to_param, public_performance: new_attributes }, session: valid_session
+        login_as_submitter_of(public_performance)
+        put :update, params: { id: public_performance.to_param, public_performance: new_attributes }
         public_performance.reload
         expect(public_performance.time).to eql 'now'
         expect(public_performance.college_ids).to eql [6, 7]
@@ -101,7 +104,8 @@ RSpec.describe PublicPerformancesController, type: :controller do
 
       it 'redirects to the public_performance' do
         public_performance = PublicPerformance.create! valid_attributes
-        put :update, params: { id: public_performance.to_param, public_performance: valid_attributes }, session: valid_session
+        login_as_submitter_of(public_performance)
+        put :update, params: { id: public_performance.to_param, public_performance: valid_attributes }
         expect(response).to redirect_to(public_performance)
       end
     end
@@ -109,7 +113,8 @@ RSpec.describe PublicPerformancesController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         public_performance = PublicPerformance.create! valid_attributes
-        put :update, params: { id: public_performance.to_param, public_performance: invalid_attributes }, session: valid_session
+        login_as_submitter_of(public_performance)
+        put :update, params: { id: public_performance.to_param, public_performance: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -118,14 +123,16 @@ RSpec.describe PublicPerformancesController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested public_performance' do
       public_performance = PublicPerformance.create! valid_attributes
+      login_as_submitter_of(public_performance)
       expect do
-        delete :destroy, params: { id: public_performance.to_param }, session: valid_session
+        delete :destroy, params: { id: public_performance.to_param }
       end.to change(PublicPerformance, :count).by(-1)
     end
 
     it 'redirects to the public_performances list' do
       public_performance = PublicPerformance.create! valid_attributes
-      delete :destroy, params: { id: public_performance.to_param }, session: valid_session
+      login_as_submitter_of(public_performance)
+      delete :destroy, params: { id: public_performance.to_param }
       expect(response).to redirect_to(public_performances_url)
     end
   end

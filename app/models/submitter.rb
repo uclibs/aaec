@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 class Submitter < ApplicationRecord
+  has_many :artworks
+  has_many :book_chapters
+  has_many :books
+  has_many :digital_projects
+  has_many :editings
+  has_many :films
+  has_many :journal_articles
+  has_many :musical_scores
+  has_many :photographies
+  has_many :physical_media
+  has_many :plays
+  has_many :public_performances
+  has_many :other_publications
+
   include Csv
   validates :first_name, presence: true
   validates :last_name, presence: true

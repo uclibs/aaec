@@ -86,3 +86,8 @@ def create_submitter(submitter)
   fill_in('submitter[email_address]', with: submitter.email_address)
   click_on('Next')
 end
+
+def login_as_submitter_of(resource)
+  submitter_id = resource.respond_to?(:submitter) ? resource.submitter.id : resource.submitter_id
+  session[:submitter_id] = submitter_id
+end
