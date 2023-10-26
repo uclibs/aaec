@@ -3,26 +3,48 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'a publication with show action' do |model_name|
-  describe 'GET #show' do
-    before { login_as_submitter_of(model_name) }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:other_submitter) { FactoryBot.create(:submitter) }
+  let(:publication) { FactoryBot.create(model_name, submitter_id: submitter.id) }
+  let(:other_publication) { FactoryBot.create(model_name, submitter_id: other_submitter.id) }
 
-    it 'returns a success response' do
-      get :show, params: { id: model_name.to_param }
-      expect(response).to be_successful
-      expect(response).to render_template('show')
+  before do
+    publication
+    other_publication
+  end
+
+  context 'as a submitter' do
+    before { login_as_submitter_of(publication) }
+
+    it 'shows the publication' do
+      get :show, params: { id: publication.id }
+      expect(response).to have_http_status(:ok)
+      expect(assigns(model_name.to_sym)).to eq(publication)
+    end
+
+    it 'does not show other publications' do
+      get :show, params: { id: other_publication.id }
+      expect { value }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not assign the submitter' do
+      expect(assigns(:submitter)).to be_nil
     end
   end
 
-  describe 'GET #show as admin' do
+  context 'as an admin' do
     before do
       session[:admin] = true
-      session[:submitter_id] = nil
+      get :show, params: { id: publication.id }
     end
 
-    it 'returns a success response' do
-      get :show, params: { id: publication.to_param }
-      expect(response).to be_successful
-      expect(response).to render_template('show')
+    it 'assigns the submitter' do
+      expect(assigns(:submitter)).to eq(submitter)
+    end
+
+    it 'shows the publication' do
+      expect(response).to have_http_status(:ok)
+      expect(assigns(model_name.to_sym)).to eq(publication)
     end
   end
 end

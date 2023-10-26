@@ -24,7 +24,7 @@ RSpec.describe OtherPublicationsController, type: :controller do
       author_last_name: ['Last'],
       college_ids: [1, 2]
     },
-    invalid_params: { invalid_field: 'Invalid' },
-    new_params: { new_field: 'New' }
+    invalid_params: { invalid_field: 'Invalid', author_first_name: [''], author_last_name: [''] },
+    new_params: { publisher: 'New Publisher', city: 'New City', publication_date: '2021-10-14' }
   }
 end
