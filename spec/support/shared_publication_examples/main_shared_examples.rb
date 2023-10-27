@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
-require_relative 'create_spec'
-require_relative 'index_spec'
-require_relative 'show_spec'
-require_relative 'new_spec'
-require_relative 'edit_spec'
-require_relative 'update_spec'
-require_relative 'destroy_spec'
-
 RSpec.shared_examples 'a standard publication controller' do |params|
   model_name = params[:model_name]
   valid_params = params[:valid_params]

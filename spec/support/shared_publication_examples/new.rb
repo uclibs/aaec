@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'a publication with new action' do
-  let(:submitter) { FactoryBot.create(:submitter) } 
+  let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
 
   it 'renders the :new template' do

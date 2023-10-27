@@ -34,7 +34,6 @@ RSpec.shared_examples 'a publication with show action' do |model_name|
   end
 
   context 'as an admin' do
-
     it 'assigns the submitter' do
       get :show, params: { id: publication.id }, session: { admin: true }
       expect(assigns(:submitter)).to eq(submitter)

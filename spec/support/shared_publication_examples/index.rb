@@ -50,7 +50,6 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
     end
 
     context 'without an id parameter' do
-
       it 'sets the pagy variable for the resource' do
         get(:index, session:)
 

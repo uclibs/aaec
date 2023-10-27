@@ -11,7 +11,6 @@ RSpec.shared_examples 'a publication with create action' do |model_name, valid_p
 
   describe 'POST #create' do
     context 'with valid params' do
-
       it "increases #{model_name} count by 1" do
         expect do
           post :create, params: { model_name => valid_params.merge({ submitter: }) }, session: valid_session
@@ -33,7 +32,7 @@ RSpec.shared_examples 'a publication with create action' do |model_name, valid_p
         end
       end
 
-      it "redirects to the publications page" do
+      it 'redirects to the publications page' do
         post :create, params: { model_name => valid_params.merge({ submitter: }) }, session: valid_session
         expect(response).to redirect_to(publications_path)
       end
@@ -51,13 +50,11 @@ RSpec.shared_examples 'a publication with create action' do |model_name, valid_p
         expect(response).to render_template('new')
       end
 
-      it "displays error messages" do
+      it 'displays error messages' do
         post :create, params: { model_name => invalid_params.merge({ submitter_id: submitter.id }) }, format: :json, session: valid_session
         json_response = JSON.parse(response.body)
         invalid_params.each do |attr, _value|
-          if model_name.respond_to?(attr)
-            expect(json_response[attr.to_s]).to be_present
-          end
+          expect(json_response[attr.to_s]).to be_present if model_name.respond_to?(attr)
         end
       end
     end

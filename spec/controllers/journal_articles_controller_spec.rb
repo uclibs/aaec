@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'support/shared_publication_examples/main_shared_examples'
 
 RSpec.describe JournalArticlesController, type: :controller do
   it_behaves_like 'a standard publication controller', {

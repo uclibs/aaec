@@ -7,8 +7,7 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
   let(:publication) { FactoryBot.create(model_name, submitter:, **valid_params) }
   let(:admin_session) { { admin: true } }
   let(:submitter_session) { { submitter_id: submitter.id } }
-  let(:model_class) {model_name.to_s.classify.constantize}
-
+  let(:model_class) { model_name.to_s.classify.constantize }
 
   before do
     publication
@@ -46,9 +45,7 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
 
           publication.reload
           invalid_params.each do |attr, value|
-            if publication.respond_to?(attr)
-              expect(publication.send(attr)).to_not eq(value.to_s)
-            end
+            expect(publication.send(attr)).to_not eq(value.to_s) if publication.respond_to?(attr)
           end
           expect(response).to render_template('edit')
         end
@@ -57,16 +54,14 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :json, session: admin_session
           json_response = JSON.parse(response.body)
           invalid_params.each do |attr, _value|
-            if publication.respond_to?(attr)
-              expect(json_response[attr.to_s]).to be_present
-            end
+            expect(json_response[attr.to_s]).to be_present if publication.respond_to?(attr)
           end
         end
       end
     end
 
     context 'when the user is a submitter' do
-      before { login_as_submitter_of(publication)}
+      before { login_as_submitter_of(publication) }
 
       context 'with valid params' do
         let(:new_attributes) do
@@ -74,7 +69,6 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
         end
 
         it 'updates the requested publication (except submitter_id)' do
-
           expect(new_attributes).not_to include('submitter_id')
 
           expect(model_class.find_by(id: publication.id)).not_to be_nil
@@ -93,14 +87,11 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
         end
 
         it 'does not update, and returns to the edit page with a warning in HTML' do
-
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :html
 
           publication.reload
           invalid_params.each do |attr, value|
-            if publication.respond_to?(attr)
-              expect(publication.send(attr)).to_not eq(value.to_s)
-            end
+            expect(publication.send(attr)).to_not eq(value.to_s) if publication.respond_to?(attr)
           end
           expect(response).to render_template('edit')
         end
@@ -109,9 +100,7 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :json
           json_response = JSON.parse(response.body)
           invalid_params.each do |attr, _value|
-            if publication.respond_to?(attr)
-              expect(json_response[attr.to_s]).to be_present
-            end
+            expect(json_response[attr.to_s]).to be_present if publication.respond_to?(attr)
           end
         end
       end
