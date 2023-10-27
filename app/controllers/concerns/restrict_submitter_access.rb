@@ -27,9 +27,8 @@ module RestrictSubmitterAccess
   private
 
   def restrict_submitter_access
-    puts "in restrict_submitter_access"
     return if session[:admin]
-    puts "and user is not an admin"
+
     if controller_name == 'submitters'
       handle_submitter_special_case
       return
@@ -41,13 +40,11 @@ module RestrictSubmitterAccess
   end
 
   def handle_submitter_special_case
-    puts "in handle_submitter_special_case"
     resource = Submitter.find(params[:id])
     unauthorized_access if session[:submitter_id] != resource.id
   end
 
   def resource_has_submitter_id?
-    puts "in resource_has_submitter_id?"
     model = controller_name.classify.constantize
     @resource = model.find(params[:id])
     # @resource = model.find(params[:id])
@@ -55,15 +52,10 @@ module RestrictSubmitterAccess
   end
 
   def authorized_submitter?
-    puts "in authorized_submitter?"
-    puts "session[:submitter_id]: #{session[:submitter_id]}"
-    puts "@resource.submitter_id: #{@resource.submitter_id.to_i}"
-    puts "session[:submitter_id] == @resource.submitter_id.to_i: #{session[:submitter_id] == @resource.submitter_id.to_i}"
     session[:submitter_id] == @resource.submitter_id.to_i
   end
 
   def unauthorized_access
-    puts "***unauthorized access***"
     raise ActiveRecord::RecordNotFound
   end
 end

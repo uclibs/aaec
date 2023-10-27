@@ -55,12 +55,7 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
         get(:index, session:)
 
         controller_pagy_variable = assigns("pagy_#{model_name}".to_sym)
-        puts "@other_publications: #{@other_publications}"
-        puts "@pagy_other_publications: #{@pagy_other_publications}"
-        puts "controller_pagy_variable: #{controller_pagy_variable}"
-
         expect(controller_pagy_variable).not_to be_nil
-        puts 'Finished it block'
       end
 
       it 'returns a success response with all submitters publications' do

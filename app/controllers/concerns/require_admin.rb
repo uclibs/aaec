@@ -31,9 +31,8 @@ module RequireAdmin
   private
 
   def check_admin
-    puts "in check_admin"
     return if session[:admin]
-    puts "session[:admin] is false"
+    
     render template: 'errors/404', status: :not_found
   end
 end

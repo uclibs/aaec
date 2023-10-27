@@ -7,6 +7,8 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
   let(:publication) { FactoryBot.create(model_name, submitter:, **valid_params) }
   let(:admin_session) { { admin: true } }
   let(:submitter_session) { { submitter_id: submitter.id } }
+  let(:model_class) {model_name.to_s.classify.constantize}
+
 
   before do
     publication
@@ -23,7 +25,7 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
         end
 
         it 'updates the requested publication' do
-          expect(OtherPublication.find_by(id: publication.id)).not_to be_nil
+          expect(model_class.find_by(id: publication.id)).not_to be_nil
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, session: admin_session
           publication.reload
           new_attributes.each do |attr, value|
@@ -72,11 +74,10 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
         end
 
         it 'updates the requested publication (except submitter_id)' do
-          puts "new attributes are: #{new_attributes}"
 
           expect(new_attributes).not_to include('submitter_id')
 
-          expect(OtherPublication.find_by(id: publication.id)).not_to be_nil
+          expect(model_class.find_by(id: publication.id)).not_to be_nil
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }
           publication.reload
           new_attributes.each do |attr, value|
@@ -106,7 +107,6 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
 
         it 'returns an error in JSON' do
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :json
-          puts response.body
           json_response = JSON.parse(response.body)
           invalid_params.each do |attr, _value|
             if publication.respond_to?(attr)

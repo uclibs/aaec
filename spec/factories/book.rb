@@ -13,7 +13,7 @@ FactoryBot.define do
     publication_date { 'Publication Date' }
     url  { 'URL' }
     doi  { 'DOI' }
-    submitter_id { '1' }
+    submitter { association :submitter }
     other_college { 'Test' }
   end
 end

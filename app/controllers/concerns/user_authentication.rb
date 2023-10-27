@@ -26,23 +26,17 @@ module UserAuthentication
   private
 
   def require_authenticated_user
-    puts "in require_authenticated_user"
     return if admin_logged_in? || current_submitter
-    puts "and neither admin nor current submitter is present"
+
     flash.keep[:danger] = 'You must submit your information first.'
     redirect_to root_path
   end
 
   def admin_logged_in?
-    puts "in admin_logged_in?"
-    puts "session[:admin]?: #{session[:admin]==true}"
     session[:admin]
   end
 
   def current_submitter
-    puts "in current_submitter"
-    puts "session[:submitter_id]: #{session[:submitter_id]}"
-    puts @current_submitter ||= Submitter.find_by(id: session[:submitter_id])
     @current_submitter ||= Submitter.find_by(id: session[:submitter_id])
   end
 end

@@ -11,6 +11,6 @@ FactoryBot.define do
     director { 'Director' }
     producer { 'Producer' }
     release_year { 'Release year' }
-    submitter_id { '1' }
+    submitter { association :submitter }
   end
 end

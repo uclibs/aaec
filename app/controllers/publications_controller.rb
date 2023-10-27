@@ -38,7 +38,6 @@ class PublicationsController < ApplicationController
   ].freeze
 
   def index
-    puts "***Admin session: #{session[:admin]}***"
     redirect_to publications_path unless request.path.include? publications_path
 
     if session[:admin]
@@ -82,12 +81,10 @@ class PublicationsController < ApplicationController
     instance_variable = instance_variable_get("@#{controller_name.singularize}")
     respond_to do |format|
       if instance_variable.update(allowed_params)
-        puts "update successful"
         flash.keep[:success] = "#{controller_name.classify} was successfully updated."
         format.html { redirect_to instance_variable }
         format.json { render :show, status: :created, location: instance_variable }
       else
-        puts "update failed"
         format.html { render :edit }
         format.json { render json: instance_variable.errors, status: :unprocessable_entity }
       end
@@ -117,7 +114,6 @@ class PublicationsController < ApplicationController
   private
 
   def load_admin_resources
-    puts "in load_admin_resources"
     if params[:id].nil?
       load_all_resources_for_admin
     else
@@ -126,7 +122,6 @@ class PublicationsController < ApplicationController
   end
 
   def load_all_resources_for_admin
-    puts 'in load_all_resources_for_admin'
     RESOURCE_NAMES.each do |resource_name|
       load_resource_for_admin(resource_name)
     end
@@ -143,7 +138,6 @@ class PublicationsController < ApplicationController
   end
 
   def load_single_submitter_resources_for_admin(submitter_id)
-    puts "in load_single_submitter_resources_for_admin"
     RESOURCE_NAMES.each do |resource_name|
       records = helpers.send("find_#{resource_name}", submitter_id)
       instance_variable_set("@#{resource_name}", records)
@@ -153,7 +147,6 @@ class PublicationsController < ApplicationController
   end
 
   def load_submitter_resources
-    puts "in load_submitter_resources"
     redirect_to publications_path if params[:id]
     submitter_id = session[:submitter_id]
 
@@ -164,13 +157,11 @@ class PublicationsController < ApplicationController
   end
 
   def handle_standard_error(err)
-    puts "in handle_standard_error, with message: #{err.message}"
     Rails.logger.error("Failed to load resources: #{err.message}")
     raise ActionController::RoutingError, 'Not Found'
   end
 
   def handle_name_error(err)
-    puts "in handle_name_error, with message: #{err.message}"
     Rails.logger.error "Invalid resource name: #{err.message}"
     raise ActionController::RoutingError, 'Not Found'
   end

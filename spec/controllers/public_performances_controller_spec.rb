@@ -1,139 +1,33 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/shared_publication_examples/main_shared_examples'
 
 RSpec.describe PublicPerformancesController, type: :controller do
-  let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
-
-  let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'Test', 'submitter_id' => submitter.id }
-  end
-
-  let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'time' => '' }
-  end
-
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      PublicPerformance.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      public_performance = PublicPerformance.create! valid_attributes
-      login_as_submitter_of(public_performance)
-      get :show, params: { id: public_performance.to_param }
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      public_performance = PublicPerformance.create! valid_attributes
-      get :show, params: { id: public_performance.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      public_performance = PublicPerformance.create! valid_attributes
-      login_as_submitter_of(public_performance)
-      get :edit, params: { id: public_performance.to_param }
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'POST #create' do
-    context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
-
-      it 'creates a new Other Publication' do
-        expect do
-          post :create, params: { public_performance: valid_attributes }, session: valid_session
-        end.to change(PublicPerformance, :count).by(1)
-      end
-
-      it 'redirects to the publication index' do
-        post :create, params: { public_performance: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(publications_path)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { public_performance: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) do
-        { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => %w[6 7], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'now' }
-      end
-
-      it 'updates the requested other publication' do
-        public_performance = PublicPerformance.create! valid_attributes
-        login_as_submitter_of(public_performance)
-        put :update, params: { id: public_performance.to_param, public_performance: new_attributes }
-        public_performance.reload
-        expect(public_performance.time).to eql 'now'
-        expect(public_performance.college_ids).to eql [6, 7]
-      end
-
-      it 'redirects to the public_performance' do
-        public_performance = PublicPerformance.create! valid_attributes
-        login_as_submitter_of(public_performance)
-        put :update, params: { id: public_performance.to_param, public_performance: valid_attributes }
-        expect(response).to redirect_to(public_performance)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        public_performance = PublicPerformance.create! valid_attributes
-        login_as_submitter_of(public_performance)
-        put :update, params: { id: public_performance.to_param, public_performance: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested public_performance' do
-      public_performance = PublicPerformance.create! valid_attributes
-      login_as_submitter_of(public_performance)
-      expect do
-        delete :destroy, params: { id: public_performance.to_param }
-      end.to change(PublicPerformance, :count).by(-1)
-    end
-
-    it 'redirects to the public_performances list' do
-      public_performance = PublicPerformance.create! valid_attributes
-      login_as_submitter_of(public_performance)
-      delete :destroy, params: { id: public_performance.to_param }
-      expect(response).to redirect_to(public_performances_url)
-    end
-  end
+  it_behaves_like 'a standard publication controller', {
+    model_name: :public_performance,
+    valid_params: {
+      uc_department: 'Performing Arts',
+      other_college: 'Other College',
+      work_title: 'The Performance',
+      other_title: 'The Other Performance',
+      location: 'Performance Venue',
+      time: '7:00 PM',
+      date: '2021-11-05',
+      submitter_id: 1,
+      author_first_name: ['John'],
+      author_last_name: ['Doe'],
+      college_ids: [1, 2]
+    },
+    invalid_params: {
+      invalid_field: 'Invalid',
+      author_first_name: [''],
+      author_last_name: ['']
+    },
+    new_params: {
+      location: 'New Venue',
+      time: '8:00 PM',
+      date: '2022-11-05'
+    }
+  }
 end

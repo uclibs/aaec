@@ -15,14 +15,13 @@ RSpec.shared_examples 'a publication with edit action' do |model_name|
   end
 
   context 'as the incorrect submitter' do
-    before do
-      new_submitter = FactoryBot.create(:submitter)
-      session[:submitter_id] = new_submitter.id
-    end
+    let(:other_submitter) { FactoryBot.create(:submitter) }
+    let(:other_session) { { submitter_id: other_submitter.id } }
 
     it 'redirects to the 404 page' do
-      get :edit, params: { id: new_instance.id }
-      expect(response).to raise_error(ActionController::RoutingError, 'Not Found')
+      expect do
+        get :edit, params: { id: new_instance.id }, session: other_session
+      end.to raise_error(ActionController::RoutingError, 'Not Found')
     end
   end
 

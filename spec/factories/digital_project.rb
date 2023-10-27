@@ -14,6 +14,6 @@ FactoryBot.define do
     version { 'Version ' }
     url  { 'URL' }
     doi  { 'DOI' }
-    submitter_id { '1' }
+    submitter { association :submitter }
   end
 end

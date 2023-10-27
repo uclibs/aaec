@@ -10,6 +10,6 @@ FactoryBot.define do
     other_title { 'Subtitle' }
     location { 'Location' }
     date { 'Date' }
-    submitter_id { '1' }
+    submitter { association :submitter }
   end
 end

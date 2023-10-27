@@ -11,6 +11,6 @@ FactoryBot.define do
     location { 'Location' }
     time { 'Time' }
     date { 'Date' }
-    submitter_id { '1' }
+    submitter { association :submitter }
   end
 end
