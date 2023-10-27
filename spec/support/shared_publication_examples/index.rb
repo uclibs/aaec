@@ -50,6 +50,14 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
     end
 
     context 'without an id parameter' do
+      
+      it 'sets the counter variable for the resource' do
+        get(:index, session:)
+
+        controller_counter_variable = assigns("#{model_name}_count".to_sym)
+        expect(controller_counter_variable).not_to be_nil
+      end
+
       it 'sets the pagy variable for the resource' do
         get(:index, session:)
 

@@ -39,6 +39,7 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
   config.before(:suite) do
+    puts "Submitter count before suite: #{Submitter.count}"
     Rails.application.load_seed # loading seeds
   end
   config.expect_with :rspec do |expectations|

@@ -3,24 +3,38 @@
 require 'rails_helper'
 
 describe 'Create Admin', :feature, js: true do
-  before do
-    20.times do
-      FactoryBot.create(:submitter)
-      FactoryBot.create(:book)
-      FactoryBot.create(:other_publication)
-      FactoryBot.create(:journal_article)
-      FactoryBot.create(:editing)
-      FactoryBot.create(:artwork)
-      FactoryBot.create(:book_chapter)
-      FactoryBot.create(:photography)
-      FactoryBot.create(:play)
-      FactoryBot.create(:musical_score)
-      FactoryBot.create(:physical_medium)
-      FactoryBot.create(:digital_project)
-      FactoryBot.create(:public_performance)
-      FactoryBot.create(:film)
-    end
+  before(:all) do
+    puts "Initial Submitter count in before(:all): #{Submitter.count}"
   end
+
+  before do
+    Submitter.destroy_all
+    puts "Initial Submitter count: #{Submitter.count}"
+    20.times do
+      submitter = FactoryBot.create(:submitter)
+      FactoryBot.create(:book, submitter: submitter)
+      FactoryBot.create(:other_publication, submitter: submitter)
+      FactoryBot.create(:journal_article, submitter: submitter)
+      FactoryBot.create(:editing, submitter: submitter)
+      FactoryBot.create(:artwork, submitter: submitter)
+      FactoryBot.create(:book_chapter, submitter: submitter)
+      FactoryBot.create(:photography, submitter: submitter)
+      FactoryBot.create(:play, submitter: submitter)
+      FactoryBot.create(:musical_score, submitter: submitter)
+      FactoryBot.create(:physical_medium, submitter: submitter)
+      FactoryBot.create(:digital_project, submitter: submitter)
+      FactoryBot.create(:public_performance, submitter: submitter)
+      FactoryBot.create(:film, submitter: submitter)
+    end
+    puts "Final Submitter count: #{Submitter.count}"
+  end
+
+  it 'should have the correct number of submitters' do
+    expect(Submitter.count).to eq(20)
+    expect(Book.count).to eq(20)
+    expect(@books_count).to eq(20)
+  end
+  
 
   it 'from admin path' do
     # NOTE: There is no link from any page to the manage_path

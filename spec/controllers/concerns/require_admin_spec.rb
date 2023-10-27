@@ -5,16 +5,19 @@ require 'rails_helper'
 RSpec.describe RequireAdmin, type: :controller do
   controller(ApplicationController) do
     include RequireAdmin
-    def index; end
+    def index
+      render plain: 'OK'
+    end
   end
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
+  let(:admin_session) { { admin: true } } 
 
   describe 'GET #index' do
     context 'when admin is not logged in but a submitter is' do
       it 'renders the 404 page' do
-        get :index, valid_session
+        get :index, session: valid_session
         expect(response).to have_http_status(:not_found)
         expect(response).to render_template('errors/404')
       end
@@ -29,12 +32,9 @@ RSpec.describe RequireAdmin, type: :controller do
     end
 
     context 'when admin is logged in' do
-      before do
-        session[:admin] = true
-      end
 
       it 'allows access' do
-        get :index
+        get :index, session: admin_session
         expect(response).to have_http_status(:ok)
       end
     end
