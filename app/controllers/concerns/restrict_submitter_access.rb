@@ -64,6 +64,6 @@ module RestrictSubmitterAccess
 
   def unauthorized_access
     puts "***unauthorized access***"
-    render template: 'errors/404', status: :not_found
+    raise ActiveRecord::RecordNotFound
   end
 end

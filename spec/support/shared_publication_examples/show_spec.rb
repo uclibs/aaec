@@ -5,10 +5,12 @@ require 'rails_helper'
 RSpec.shared_examples 'a publication with show action' do |model_name|
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:other_submitter) { FactoryBot.create(:submitter) }
-  let(:publication) { FactoryBot.create(model_name, submitter_id: submitter.id) }
-  let(:other_publication) { FactoryBot.create(model_name, submitter_id: other_submitter.id) }
+  let(:publication) { FactoryBot.create(model_name, submitter:) }
+  let(:other_publication) { FactoryBot.create(model_name, submitter: other_submitter) }
 
   before do
+    submitter
+    other_submitter
     publication
     other_publication
   end
@@ -23,8 +25,7 @@ RSpec.shared_examples 'a publication with show action' do |model_name|
     end
 
     it 'does not show other publications' do
-      get :show, params: { id: other_publication.id }
-      expect { value }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { get :show, params: { id: other_publication.id } }.to raise_error(ActionController::RoutingError, 'Not Found')
     end
 
     it 'does not assign the submitter' do
@@ -33,16 +34,17 @@ RSpec.shared_examples 'a publication with show action' do |model_name|
   end
 
   context 'as an admin' do
-    before do
-      session[:admin] = true
-      get :show, params: { id: publication.id }
-    end
 
     it 'assigns the submitter' do
+      puts "submitter.id is: #{submitter.id}"
+      get :show, params: { id: publication.id }, session: { admin: true }
+      puts "assigns(:submitter) is: #{assigns(:submitter).id}"
+      puts "and publication is: #{publication.inspect}"
       expect(assigns(:submitter)).to eq(submitter)
     end
 
     it 'shows the publication' do
+      get :show, params: { id: publication.id }, session: { admin: true }
       expect(response).to have_http_status(:ok)
       expect(assigns(model_name.to_sym)).to eq(publication)
     end

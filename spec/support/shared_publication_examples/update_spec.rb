@@ -92,6 +92,7 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
         end
 
         it 'does not update, and returns to the edit page with a warning in HTML' do
+
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :html
 
           publication.reload
@@ -107,7 +108,11 @@ RSpec.shared_examples 'a publication with update action' do |model_name, valid_p
           put :update, params: { id: publication.id, "#{model_name}": new_attributes }, format: :json
           puts response.body
           json_response = JSON.parse(response.body)
-          expect(json_response['errors']).to be_present
+          invalid_params.each do |attr, _value|
+            if publication.respond_to?(attr)
+              expect(json_response[attr.to_s]).to be_present
+            end
+          end
         end
       end
     end

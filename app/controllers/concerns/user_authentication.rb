@@ -41,6 +41,7 @@ module UserAuthentication
 
   def current_submitter
     puts "in current_submitter"
+    puts "session[:submitter_id]: #{session[:submitter_id]}"
     puts @current_submitter ||= Submitter.find_by(id: session[:submitter_id])
     @current_submitter ||= Submitter.find_by(id: session[:submitter_id])
   end

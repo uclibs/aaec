@@ -22,7 +22,7 @@ RSpec.shared_examples 'a publication with edit action' do |model_name|
 
     it 'redirects to the 404 page' do
       get :edit, params: { id: new_instance.id }
-      expect(response).to have_http_status(:not_found)
+      expect(response).to raise_error(ActionController::RoutingError, 'Not Found')
     end
   end
 

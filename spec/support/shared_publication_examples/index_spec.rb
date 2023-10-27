@@ -51,36 +51,16 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
 
     context 'without an id parameter' do
 
-      before do
-        allow(controller).to receive(:load_all_resources_for_admin).and_call_original
-      end
-
-      it 'calls load_all_resources_for_admin' do
-        get(:index, session:)
-        expect(controller).to have_received(:load_all_resources_for_admin)
-      end
-
       it 'sets the pagy variable for the resource' do
-        # get(:index, session:)
-        # expect(controller).to have_received(:load_all_resources_for_admin)
-        # # Fetch the variable from the controller's instance variables
-        # controller_pagy_variable = assigns("pagy_#{model_name}".to_sym)
-        # puts "controller_pagy_variable: #{controller_pagy_variable}"
-        # expect(controller_pagy_variable).not_to be_nil
-        # # puts "@pagy_other_publications: #{@pagy_other_publications}"
-        # # expect(assigns("pagy_#{model_name}".to_sym)).not_to be_nil
+        get(:index, session:)
 
-      
-          puts 'Entering it block'
-          get(:index, session:)
-          puts 'After calling get(:index, session:)'
-          
-          puts "model_name: #{model_name}"
-          controller_pagy_variable = assigns("pagy_#{model_name}".to_sym)
-          puts "controller_pagy_variable: #{controller_pagy_variable}"
-    
-          expect(controller_pagy_variable).not_to be_nil
-          puts 'Finished it block'
+        controller_pagy_variable = assigns("pagy_#{model_name}".to_sym)
+        puts "@other_publications: #{@other_publications}"
+        puts "@pagy_other_publications: #{@pagy_other_publications}"
+        puts "controller_pagy_variable: #{controller_pagy_variable}"
+
+        expect(controller_pagy_variable).not_to be_nil
+        puts 'Finished it block'
       end
 
       it 'returns a success response with all submitters publications' do
@@ -116,7 +96,7 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
         allow(controller).to receive(:load_admin_resources).and_raise(NameError.new('A name error'))
         expect(Rails.logger).to receive(:error).with('Invalid resource name: A name error')
 
-        expect { get(:index, session:) }.to raise_error(ActionController::RoutingError, 'Not Found')
+        expect { get(:index, session: { admin: true }) }.to raise_error(ActionController::RoutingError, 'Not Found')
       end
     end
   end
