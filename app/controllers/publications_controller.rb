@@ -126,7 +126,7 @@ class PublicationsController < ApplicationController
       load_resource_for_admin(resource_name)
     end
     @pagy_submitters, @submitters = pagy(Submitter.all, page_param: :page_submitters)
-    instance_variable_set('@submitter_count', Submitter.all.count)
+    @submitter_count = Submitter.all.count
   end
 
   def load_resource_for_admin(resource_name)
@@ -134,14 +134,16 @@ class PublicationsController < ApplicationController
     pagy_variable, records = pagy(model_class.all, page_param: :"page_#{resource_name}")
     instance_variable_set("@pagy_#{resource_name}", pagy_variable)
     instance_variable_set("@#{resource_name}", records)
-    instance_variable_set("@#{resource_name}_count", records.count)
+    singular_resource_name = resource_name.to_s.singularize
+    instance_variable_set("@#{singular_resource_name}_count", model_class.count)
   end
 
   def load_single_submitter_resources_for_admin(submitter_id)
     RESOURCE_NAMES.each do |resource_name|
       records = helpers.send("find_#{resource_name}", submitter_id)
       instance_variable_set("@#{resource_name}", records)
-      instance_variable_set("@#{resource_name}_count", records.count)
+      singular_resource_name = resource_name.to_s.singularize
+      instance_variable_set("@#{singular_resource_name}_count", records.count)
     end
     @submitter = helpers.find_submitter(submitter_id)
   end

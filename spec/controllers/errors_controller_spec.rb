@@ -11,7 +11,7 @@ RSpec.describe ErrorsController, type: :controller do
   context 'when a user is logged in' do
     describe 'GET #not_found' do
       before do
-        get :not_found, session: valid_session
+        get :not_found, session: valid_session, format: :html
       end
       it 'renders the not_found template' do
         expect(response).to render_template('errors/404')

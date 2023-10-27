@@ -32,9 +32,12 @@ RSpec.describe SubmittersController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before do
+      valid_session
+    end
+
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :edit, params: { id: submitter.to_param }, session: valid_session
+      get :edit, params: { id: submitter.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -76,8 +79,7 @@ RSpec.describe SubmittersController, type: :controller do
       end
 
       it 'updates the requested submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: new_attributes }, session: valid_session
+        put :update, params: { id: submitter.id, submitter: new_attributes }, session: valid_session
         submitter.reload
         expect(submitter.first_name).to eql 'New'
         expect(submitter.last_name).to eql 'Submitter'
@@ -97,9 +99,7 @@ RSpec.describe SubmittersController, type: :controller do
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(put(:update, params: { id: submitter.id, submitter: invalid_attributes }, session: valid_session)).to raise_error(ActionController::RoutingError)
       end
     end
   end

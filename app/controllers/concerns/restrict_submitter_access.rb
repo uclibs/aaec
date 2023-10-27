@@ -28,6 +28,7 @@ module RestrictSubmitterAccess
 
   def restrict_submitter_access
     return if session[:admin]
+    return if controller_name == 'errors'
 
     if controller_name == 'submitters'
       handle_submitter_special_case
@@ -47,7 +48,6 @@ module RestrictSubmitterAccess
   def resource_has_submitter_id?
     model = controller_name.classify.constantize
     @resource = model.find(params[:id])
-    # @resource = model.find(params[:id])
     @resource.respond_to?(:submitter_id)
   end
 

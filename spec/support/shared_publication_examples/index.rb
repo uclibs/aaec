@@ -5,6 +5,7 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
   let(:other_submitter) { FactoryBot.create(:submitter) }
   let(:first_publication) { FactoryBot.create(model_name, submitter_id: first_submitter.id) }
   let(:other_publication) { FactoryBot.create(model_name, submitter_id: other_submitter.id) }
+  let(:model_class) { model_name.to_s.classify.constantize }
 
   before do
     first_publication
@@ -41,32 +42,28 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
 
       it 'returns a success response with only that submitters publications' do
         get :index, params: { id: first_submitter.id }
+        sym_name = model_name.to_s.pluralize.to_sym
         expect(response).to redirect_to('/publications')
-        expect(assigns(model_name.to_s.pluralize.to_sym)).to eq([first_publication])
-
-        expect(assigns(model_name.to_s.pluralize.to_sym)).to include(first_publication)
-        expect(assigns(model_name.to_s.pluralize.to_sym)).not_to include(other_publication)
+        expect(assigns(sym_name)).to eq([first_publication])
+        expect(assigns(sym_name)).to include(first_publication)
+        expect(assigns(sym_name)).not_to include(other_publication)
       end
     end
 
     context 'without an id parameter' do
-      
       it 'sets the counter variable for the resource' do
-        get(:index, session:)
-
-        controller_counter_variable = assigns("#{model_name}_count".to_sym)
-        expect(controller_counter_variable).not_to be_nil
+        get(:index)
+        expect(assigns("#{model_name}_count".to_sym)).not_to be_nil
       end
 
       it 'sets the pagy variable for the resource' do
-        get(:index, session:)
-
-        controller_pagy_variable = assigns("pagy_#{model_name}".to_sym)
+        get(:index)
+        controller_pagy_variable = assigns("pagy_#{model_name.to_s.pluralize}".to_sym)
         expect(controller_pagy_variable).not_to be_nil
       end
 
       it 'returns a success response with all submitters publications' do
-        get(:index, session:)
+        get(:index)
         expect(response).to redirect_to('/publications')
         expect(assigns(model_name.to_s.pluralize.to_sym)).to include(first_publication)
         expect(assigns(model_name.to_s.pluralize.to_sym)).to include(other_publication)
@@ -79,7 +76,7 @@ RSpec.shared_examples 'a publication with index action' do |model_name|
 
     context 'with unauthorized path' do
       it 'redirects to publications_path' do
-        get(:index, params: { path: 'unauthorized_path' }, session:)
+        get(:index, params: { path: 'unauthorized_path' })
         expect(response).to redirect_to(publications_path)
       end
     end

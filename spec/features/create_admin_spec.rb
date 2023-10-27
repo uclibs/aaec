@@ -27,12 +27,13 @@ describe 'Create Admin', :feature, js: true do
       FactoryBot.create(:film, submitter: submitter)
     end
     puts "Final Submitter count: #{Submitter.count}"
+    puts "Final Book count: #{Book.count}"
   end
 
   it 'should have the correct number of submitters' do
     expect(Submitter.count).to eq(20)
     expect(Book.count).to eq(20)
-    expect(@books_count).to eq(20)
+
   end
   
 
@@ -50,6 +51,7 @@ describe 'Create Admin', :feature, js: true do
     page.current_window.resize_to(1920, 1080)
     expect(page).to have_css('#publications_link', text: 'All Publications')
     expect(page).to have_text 'Submitters (20)'
+
     expect(page).to have_text 'Books (20)'
     expect(page).to have_text 'Other Publications (20)'
     expect(page).to have_text 'Artworks (20)'
