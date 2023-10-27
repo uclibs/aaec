@@ -21,14 +21,14 @@
 #
 # Filters:
 # - set_object: Sets the object based on the controller name and params[:id].
-# - signed_in: Checks if the user is signed in before granting access to certain actions.
 # - check_max_submissions: Checks if the maximum submission limit is reached for a given user.
 #
 
 class PublicationsController < ApplicationController
+
   before_action :set_object, only: %i[show edit update destroy]
-  before_action :signed_in, only: %i[index show edit update destroy]
   before_action :check_max_submissions, only: %i[new]
+  before_action :require_authenticated_user, only: %i[index validate]
 
   def index
     redirect_to publications_path unless request.path.include? publications_path
@@ -162,10 +162,6 @@ class PublicationsController < ApplicationController
 
   def set_object
     instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find(params[:id]))
-  end
-
-  def signed_in
-    redirect_to root_path unless session[:admin] || session[:submitter_id]
   end
 
   def check_max_submissions

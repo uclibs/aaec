@@ -42,7 +42,7 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <% if signed_in %>
+          <% if session[:admin] || @current_submitter  %>
           <li class="nav-item">
             <% if session[:admin] then @link_text = "All Publications" else @link_text = "My Publications" end %>
             <%= link_to @link_text, publications_path, class: "nav-link text-white", id: "publications_link"%>
