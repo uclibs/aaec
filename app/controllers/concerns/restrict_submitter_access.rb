@@ -28,7 +28,7 @@ module RestrictSubmitterAccess
 
   def restrict_submitter_access
     return if session[:admin]
-    return if controller_name == 'errors'
+    return if %w[errors pages].include? controller_name
 
     if controller_name == 'submitters'
       handle_submitter_special_case

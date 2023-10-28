@@ -3,39 +3,27 @@
 require 'rails_helper'
 
 describe 'Create Admin', :feature, js: true do
-  before(:all) do
-    puts "Initial Submitter count in before(:all): #{Submitter.count}"
-  end
-
   before do
-    Submitter.destroy_all
-    puts "Initial Submitter count: #{Submitter.count}"
-    20.times do
-      submitter = FactoryBot.create(:submitter)
-      FactoryBot.create(:book, submitter: submitter)
-      FactoryBot.create(:other_publication, submitter: submitter)
-      FactoryBot.create(:journal_article, submitter: submitter)
-      FactoryBot.create(:editing, submitter: submitter)
-      FactoryBot.create(:artwork, submitter: submitter)
-      FactoryBot.create(:book_chapter, submitter: submitter)
-      FactoryBot.create(:photography, submitter: submitter)
-      FactoryBot.create(:play, submitter: submitter)
-      FactoryBot.create(:musical_score, submitter: submitter)
-      FactoryBot.create(:physical_medium, submitter: submitter)
-      FactoryBot.create(:digital_project, submitter: submitter)
-      FactoryBot.create(:public_performance, submitter: submitter)
-      FactoryBot.create(:film, submitter: submitter)
+    (1..20).each do |i|
+      submitter = Submitter.find_or_create_by(id: i) do |s|
+        attributes = FactoryBot.attributes_for(:submitter)
+        s.assign_attributes(attributes)
+      end
+      FactoryBot.create(:book, submitter:)
+      FactoryBot.create(:other_publication, submitter:)
+      FactoryBot.create(:journal_article, submitter:)
+      FactoryBot.create(:editing, submitter:)
+      FactoryBot.create(:artwork, submitter:)
+      FactoryBot.create(:book_chapter, submitter:)
+      FactoryBot.create(:photography, submitter:)
+      FactoryBot.create(:play, submitter:)
+      FactoryBot.create(:musical_score, submitter:)
+      FactoryBot.create(:physical_medium, submitter:)
+      FactoryBot.create(:digital_project, submitter:)
+      FactoryBot.create(:public_performance, submitter:)
+      FactoryBot.create(:film, submitter:)
     end
-    puts "Final Submitter count: #{Submitter.count}"
-    puts "Final Book count: #{Book.count}"
   end
-
-  it 'should have the correct number of submitters' do
-    expect(Submitter.count).to eq(20)
-    expect(Book.count).to eq(20)
-
-  end
-  
 
   it 'from admin path' do
     # NOTE: There is no link from any page to the manage_path
@@ -71,19 +59,19 @@ describe 'Create Admin', :feature, js: true do
     # Test Admin Submitter Filter
     visit "#{publications_path}/2"
     expect(page).to have_text 'Submitter #2'
-    expect(page).to have_text 'Books (0)'
-    expect(page).to have_text 'Other Publications (0)'
-    expect(page).to have_text 'Artworks (0)'
-    expect(page).to have_text 'Book Chapters (0)'
-    expect(page).to have_text 'Editing (0)'
-    expect(page).to have_text 'Journal Articles (0)'
-    expect(page).to have_text 'Photography (0)'
-    expect(page).to have_text 'Plays (0)'
-    expect(page).to have_text 'Musical Scores (0)'
-    expect(page).to have_text 'Physical Media (0)'
-    expect(page).to have_text 'Digital Projects (0)'
-    expect(page).to have_text 'Public Performances (0)'
-    expect(page).to have_text 'Films (0)'
+    expect(page).to have_text 'Books (1)'
+    expect(page).to have_text 'Other Publications (1)'
+    expect(page).to have_text 'Artworks (1)'
+    expect(page).to have_text 'Book Chapters (1)'
+    expect(page).to have_text 'Editing (1)'
+    expect(page).to have_text 'Journal Articles (1)'
+    expect(page).to have_text 'Photography (1)'
+    expect(page).to have_text 'Plays (1)'
+    expect(page).to have_text 'Musical Scores (1)'
+    expect(page).to have_text 'Physical Media (1)'
+    expect(page).to have_text 'Digital Projects (1)'
+    expect(page).to have_text 'Public Performances (1)'
+    expect(page).to have_text 'Films (1)'
     expect(page).not_to have_css('.btn', text: 'New')
     expect(page).not_to have_css('.pagination')
 

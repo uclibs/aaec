@@ -13,13 +13,14 @@ RSpec.describe SubmittersController, type: :controller do
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
+  let(:new_submitter) { FactoryBot.create(:submitter) }
+  let(:new_session) { { submitter_id: new_submitter.id } }
   let(:old_session) { { submitter_id: 'alpha' } }
   let(:invalid_session) { { submitter_id: nil } }
 
   describe 'GET #show' do
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :show, params: { id: submitter.to_param }, session: valid_session
+      get :show, params: { id: submitter.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -56,11 +57,11 @@ RSpec.describe SubmittersController, type: :controller do
       end
 
       it 'resets session after successful creation' do
-        session[:dummy] = 'dummy_value' # Add a dummy session variable
+        session[:dummy] = 'dummy_value'
         post :create, params: { submitter: valid_attributes }, session: old_session
 
         expect(session[:dummy]).to be_nil # Ensure the dummy session variable is cleared
-        expect(session[:submitter_id]).to eq(Submitter.last.id) # Your existing expectation
+        expect(session[:submitter_id]).to eq(Submitter.last.id)
       end
     end
 
@@ -73,33 +74,49 @@ RSpec.describe SubmittersController, type: :controller do
   end
 
   describe 'PUT #update' do
-    context 'with valid params' do
+    context 'when the submitter is trying to update themselves' do
+      context 'with valid params' do
+        let(:new_attributes) do
+          { first_name: 'New', last_name: 'Submitter', college: 2, department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
+        end
+
+        it 'updates the requested submitter' do
+          put :update, params: { id: submitter.id, submitter: new_attributes }, session: valid_session
+          submitter.reload
+          expect(submitter.first_name).to eql 'New'
+          expect(submitter.last_name).to eql 'Submitter'
+          expect(submitter.college).to eql 2
+          expect(submitter.department).to eql 'Not Important'
+          expect(submitter.mailing_address).to eql 'Home Address'
+          expect(submitter.phone_number).to eql '513-111-1111'
+          expect(submitter.email_address).to eql 'test@gmail.com'
+        end
+
+        it 'redirects to the publications path' do
+          put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: valid_session
+          expect(response).to redirect_to(publications_path)
+        end
+      end
+
+      context 'with invalid parameters' do
+        it 'redirects to the edit page with errors' do
+          put(:update, params: { id: submitter.id, submitter: invalid_attributes }, session: valid_session)
+
+          expect(response).to render_template(:edit)
+          expect(assigns(:submitter).errors).not_to be_empty
+        end
+      end
+    end
+
+    context 'when the submitter is trying to update someone else' do
       let(:new_attributes) do
         { first_name: 'New', last_name: 'Submitter', college: 2, department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
       end
 
-      it 'updates the requested submitter' do
-        put :update, params: { id: submitter.id, submitter: new_attributes }, session: valid_session
-        submitter.reload
-        expect(submitter.first_name).to eql 'New'
-        expect(submitter.last_name).to eql 'Submitter'
-        expect(submitter.college).to eql 2
-        expect(submitter.department).to eql 'Not Important'
-        expect(submitter.mailing_address).to eql 'Home Address'
-        expect(submitter.phone_number).to eql '513-111-1111'
-        expect(submitter.email_address).to eql 'test@gmail.com'
-      end
-
-      it 'redirects to the submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(publications_path)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        expect(put(:update, params: { id: submitter.id, submitter: invalid_attributes }, session: valid_session)).to raise_error(ActionController::RoutingError)
+      it 'raises a Not Found error' do
+        expect do
+          put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: new_session
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

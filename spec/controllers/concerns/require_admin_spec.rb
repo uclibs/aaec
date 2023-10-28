@@ -12,7 +12,7 @@ RSpec.describe RequireAdmin, type: :controller do
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
-  let(:admin_session) { { admin: true } } 
+  let(:admin_session) { { admin: true } }
 
   describe 'GET #index' do
     context 'when admin is not logged in but a submitter is' do
@@ -32,7 +32,6 @@ RSpec.describe RequireAdmin, type: :controller do
     end
 
     context 'when admin is logged in' do
-
       it 'allows access' do
         get :index, session: admin_session
         expect(response).to have_http_status(:ok)

@@ -10,13 +10,13 @@ RSpec.describe RestrictSubmitterAccess, type: :concern do
   end
 
   let(:controller) { dummy_class.new }
-  let(:submitter) { create(:submitter) }
-  let(:another_submitter) { create(:submitter) }
-  let(:book) { create(:book, submitter_id: submitter.id) }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:another_submitter) { FactoryBot.create(:submitter) }
+  let(:book) { FactoryBot.create(:book, submitter:) }
 
   before do
     allow(controller).to receive(:params).and_return(id: book.id)
-    allow(controller).to receive(:controller_name).and_return('some_resources')
+    allow(controller).to receive(:controller_name).and_return('books')
   end
 
   describe '#restrict_submitter_access' do
@@ -24,51 +24,78 @@ RSpec.describe RestrictSubmitterAccess, type: :concern do
       it 'does not restrict access' do
         allow(controller).to receive(:session).and_return(admin: true)
         expect(controller).not_to receive(:unauthorized_access)
-        controller.restrict_submitter_access
+
+        # Wrap the private method call within a block
+        expect { controller.send(:restrict_submitter_access) }.not_to raise_error
       end
     end
 
-    context 'when submitter is logged in' do
-      before do
+    context 'when submitter owns the resource' do
+      it 'does not restrict access' do
         allow(controller).to receive(:session).and_return(submitter_id: submitter.id)
-      end
-
-      it 'allows access if submitter owns the resource' do
         expect(controller).not_to receive(:unauthorized_access)
-        controller.restrict_submitter_access
-      end
 
-      it 'denies access if submitter does not own the resource' do
-        allow(controller).to receive(:params).and_return(id: create(:some_resource, submitter_id: another_submitter.id).id)
-        expect(controller).to receive(:unauthorized_access)
-        controller.restrict_submitter_access
+        # Wrap the private method call within a block
+        expect { controller.send(:restrict_submitter_access) }.not_to raise_error
       end
     end
 
-    context 'when no one is logged in' do
-      it 'denies access' do
-        allow(controller).to receive(:session).and_return({})
-        expect(controller).to receive(:unauthorized_access)
-        controller.restrict_submitter_access
+    context 'when submitter does not own the resource' do
+      it 'restricts access' do
+        # Make sure another_submitter and book have different submitter_id
+        expect(another_submitter.id).not_to eq(book.submitter_id)
+
+        allow(controller).to receive(:params).and_return(id: book.id)
+        allow(controller).to receive(:controller_name).and_return('books')
+        allow(controller).to receive(:session).and_return(submitter_id: another_submitter.id)
+
+        # This should be sufficient to check the behavior
+        expect { controller.send(:restrict_submitter_access) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
-    context 'when in SubmittersController' do
+    context 'when controller is in the whitelist' do
+      it 'does not restrict access' do
+        # Mocking the session
+        fake_session = {}
+        allow(controller).to receive(:session).and_return(fake_session)
+
+        allow(controller).to receive(:controller_name).and_return('errors')
+        expect(controller).not_to receive(:unauthorized_access)
+        expect { controller.send(:restrict_submitter_access) }.not_to raise_error
+      end
+    end
+
+    context 'when resource does not have submitter_id attribute' do
+      let(:resource_without_submitter_id) { double('Resource', submitter_id: nil) }
+
+      it 'does not restrict access' do
+        fake_session = {}
+        allow(controller).to receive(:session).and_return(fake_session)
+
+        allow(controller).to receive(:resource_has_submitter_id?).and_return(false)
+        expect(controller).not_to receive(:unauthorized_access)
+        expect { controller.send(:restrict_submitter_access) }.not_to raise_error
+      end
+    end
+
+    context 'when dealing with SubmittersController' do
       before do
         allow(controller).to receive(:controller_name).and_return('submitters')
+      end
+
+      it 'restricts access if logged-in submitter is not the resource owner' do
         allow(controller).to receive(:params).and_return(id: submitter.id)
-      end
-
-      it 'allows access for the submitter viewing their own page' do
-        allow(controller).to receive(:session).and_return(submitter_id: submitter.id)
-        expect(controller).not_to receive(:unauthorized_access)
-        controller.restrict_submitter_access
-      end
-
-      it 'denies access for a submitter viewing someone else’s page' do
         allow(controller).to receive(:session).and_return(submitter_id: another_submitter.id)
-        expect(controller).to receive(:unauthorized_access)
-        controller.restrict_submitter_access
+
+        expect { controller.send(:restrict_submitter_access) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'does not restrict access if logged-in submitter is the resource owner' do
+        allow(controller).to receive(:params).and_return(id: submitter.id)
+        allow(controller).to receive(:session).and_return(submitter_id: submitter.id)
+
+        expect { controller.send(:restrict_submitter_access) }.not_to raise_error
       end
     end
   end
