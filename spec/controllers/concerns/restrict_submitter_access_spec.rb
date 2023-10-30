@@ -25,7 +25,6 @@ RSpec.describe RestrictSubmitterAccess, type: :concern do
         allow(controller).to receive(:session).and_return(admin: true)
         expect(controller).not_to receive(:unauthorized_access)
 
-        # Wrap the private method call within a block
         expect { controller.send(:restrict_submitter_access) }.not_to raise_error
       end
     end
@@ -35,7 +34,6 @@ RSpec.describe RestrictSubmitterAccess, type: :concern do
         allow(controller).to receive(:session).and_return(submitter_id: submitter.id)
         expect(controller).not_to receive(:unauthorized_access)
 
-        # Wrap the private method call within a block
         expect { controller.send(:restrict_submitter_access) }.not_to raise_error
       end
     end
@@ -49,14 +47,12 @@ RSpec.describe RestrictSubmitterAccess, type: :concern do
         allow(controller).to receive(:controller_name).and_return('books')
         allow(controller).to receive(:session).and_return(submitter_id: another_submitter.id)
 
-        # This should be sufficient to check the behavior
         expect { controller.send(:restrict_submitter_access) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     context 'when controller is in the whitelist' do
       it 'does not restrict access' do
-        # Mocking the session
         fake_session = {}
         allow(controller).to receive(:session).and_return(fake_session)
 

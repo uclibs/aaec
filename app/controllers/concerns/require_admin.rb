@@ -1,24 +1,21 @@
 # frozen_string_literal: true
 
-# The RequireAdminAuthentication module is a Rails concern that provides a before_action
-# to restrict access to pages to administrators only.
+# The RequireAdminAuthentication module is a Rails concern aimed at restricting
+# access to pages solely to administrators.
 #
-# This module should be included in any controllers where the actions should only be
-# accessible by an administrator.
+# To use this concern, include it in controllers where only admins should have access.
 #
 # == Usage
-# Include this module at the top of any controllers that require admin authentication.
-# The module will add a `before_action` to the controller, which checks whether the
-# admin is logged in by looking at `session[:admin]`.
+# Include the module in the controller to automatically add a `before_action`
+# that checks for admin status via `session[:admin]`.
 #
-# If an admin is not logged in, the user will be redirected to the 404 page. (Security
-# through obscurity.)
+# If an admin is not logged in, the user is redirected to a 404 page for security.
 #
 # == Example
 #
 #   class AdminController < ApplicationController
 #     include RequireAdminAuthentication
-#     # ... rest of the code
+#     # ... other code
 #   end
 #
 module RequireAdmin

@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-# UserAuthentication is a concern included in ApplicationController,
-# and it therefore applies across all controllers in the application.
-# It defines a before_action hook that requires a user to be authenticated
-# in order to access any controller action.
+# The UserAuthentication module is a Rails concern designed to enforce user
+# authentication across all controllers in the application. It is included
+# in ApplicationController by default.
 #
-# The `require_authenticated_user` method checks if a user is authenticated.
-# It does so by checking either if an admin is logged in
-# or if a submitter is currently set. If neither condition is true, the user is
-# redirected to the root path.
+# == Functionality
+# The concern provides a `before_action` hook named `require_authenticated_user`,
+# which checks for authenticated users by looking at whether an admin or a
+# submitter is currently logged in. If neither is true, the user is redirected
+# to the root path.
 #
-# The methods `admin_logged_in?` and `current_submitter` are utility methods
-# used within `require_authenticated_user` to check for authenticated users.
+# Utility methods `admin_logged_in?` and `current_submitter` assist in this check.
 #
-# Note: The before_action should be skipped for routes that manage login
-# functionalities.
+# == Usage Note
+# The `before_action` should be skipped for controllers or actions handling
+# login features.
 #
 module UserAuthentication
   extend ActiveSupport::Concern

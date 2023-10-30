@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-# CustomValidations module provides custom validation methods for ActiveRecord models.
-# It's designed to extend ActiveSupport::Concern, making it easier to include these
-# validations into any ActiveRecord model.
+# CustomValidations is a Rails concern that enhances ActiveRecord models with
+# additional validation methods. These methods address edge cases not handled
+# by built-in ActiveRecord validations.
 #
-# The reason this concern was created is to handle cases where the built-in
-# `validates_presence_of` was not sufficient. For example, an author_first_name of ['']
-# would pass the `validates_presence_of` check, which is not the desired behavior.
+# This module extends ActiveSupport::Concern, making it straightforward
+# to include in any ActiveRecord model.
 #
-# @example Including CustomValidations in a model
+# One key use-case for CustomValidations is to more rigorously validate presence.
+# For instance, an array like [''] would pass the standard `validates_presence_of`
+# check, but may not be considered valid according to business rules.
+#
+# @example Usage in an ActiveRecord model
 #   class OtherPublication < ApplicationRecord
 #     include CustomValidations
 #     validate :validate_author_first_names_not_empty

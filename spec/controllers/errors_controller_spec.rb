@@ -7,7 +7,6 @@ RSpec.describe ErrorsController, type: :controller do
   let(:valid_session) { { submitter_id: submitter.id } }
   let(:invalid_session) { { submitter_id: nil } }
 
-  # get :show, params: { id: submitter.to_param }, session: valid_session
   context 'when a user is logged in' do
     describe 'GET #not_found' do
       before do
