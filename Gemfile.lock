@@ -286,7 +286,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.14.0)
+    selenium-webdriver (4.15.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -382,7 +382,7 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop
   sass-rails (~> 6.0)
-  selenium-webdriver (~> 4.14.0)
+  selenium-webdriver (~> 4.15.0)
   simplecov
   spring
   spring-watcher-listen (~> 2.1.0)
