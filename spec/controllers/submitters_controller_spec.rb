@@ -11,7 +11,11 @@ RSpec.describe SubmittersController, type: :controller do
     { first_name: '', last_name: '', college: 1, department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
   end
 
-  let(:valid_session) { {} }
+  let(:old_submitter) { FactoryBot.create(:submitter) }
+  let(:old_session) { { submitter_id: old_submitter.id } }
+
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #show' do
     it 'returns a success response' do
@@ -38,14 +42,21 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid params' do
+      it 'clears the old session' do
+        post :create, params: { submitter: valid_attributes }, session: old_session
+        expect(session[:submitter_id]).not_to be_nil
+        expect(session[:submitter_id]).not_to eq(old_session[:submitter_id])
+        expect(session[:submitter_id]).to eq(Submitter.last.id)
+      end
+
       it 'creates a new Submitter' do
         expect do
-          post :create, params: { submitter: valid_attributes }, session: valid_session
+          post :create, params: { submitter: valid_attributes }, session: {}
         end.to change(Submitter, :count).by(1)
       end
 
       it 'redirects to the publications show page' do
-        post :create, params: { submitter: valid_attributes }, session: valid_session
+        post :create, params: { submitter: valid_attributes }, session: {}
         expect(response).to redirect_to(publications_path)
       end
     end
