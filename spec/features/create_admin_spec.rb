@@ -4,8 +4,11 @@ require 'rails_helper'
 
 describe 'Create Admin', :feature, js: true do
   before do
-    20.times do
+    # Sometimes the testing database already has 2 submitters created.
+    (20 - Submitter.count).times do
       FactoryBot.create(:submitter)
+    end
+    20.times do
       FactoryBot.create(:book)
       FactoryBot.create(:other_publication)
       FactoryBot.create(:journal_article)
