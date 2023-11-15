@@ -97,9 +97,10 @@ RSpec.describe OtherPublicationsController, type: :controller do
       end.to change(OtherPublication, :count).by(-1)
     end
 
-    it 'redirects to the other_publications list' do
+    it 'redirects to the publications_path' do
+      other_publication = OtherPublication.create! valid_attributes
       delete :destroy, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to redirect_to(other_publications_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

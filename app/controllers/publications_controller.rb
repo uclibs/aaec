@@ -153,7 +153,7 @@ class PublicationsController < ApplicationController
     instance_variable.destroy
     respond_to do |format|
       flash.keep[:warning] = "#{controller_name.classify} was successfully destroyed."
-      format.html { redirect_to instance_variable }
+      format.html { redirect_to publications_path }
       format.json { head :no_content }
     end
   end

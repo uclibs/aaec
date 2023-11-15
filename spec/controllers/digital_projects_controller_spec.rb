@@ -97,9 +97,10 @@ RSpec.describe DigitalProjectsController, type: :controller do
       end.to change(DigitalProject, :count).by(-1)
     end
 
-    it 'redirects to the digital_projects list' do
+    it 'redirects to the publications path' do
+      digital_project = DigitalProject.create! valid_attributes
       delete :destroy, params: { id: digital_project.to_param }, session: valid_session
-      expect(response).to redirect_to(digital_projects_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

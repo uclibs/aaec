@@ -97,9 +97,10 @@ RSpec.describe PublicPerformancesController, type: :controller do
       end.to change(PublicPerformance, :count).by(-1)
     end
 
-    it 'redirects to the public_performances list' do
+    it 'redirects to the publications_path' do
+      public_performance = PublicPerformance.create! valid_attributes
       delete :destroy, params: { id: public_performance.to_param }, session: valid_session
-      expect(response).to redirect_to(public_performances_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

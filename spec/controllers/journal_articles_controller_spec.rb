@@ -97,9 +97,10 @@ RSpec.describe JournalArticlesController, type: :controller do
       end.to change(JournalArticle, :count).by(-1)
     end
 
-    it 'redirects to the journal_articles list' do
+    it 'redirects to the publications_path' do
+      journal_article = JournalArticle.create! valid_attributes
       delete :destroy, params: { id: journal_article.to_param }, session: valid_session
-      expect(response).to redirect_to(journal_articles_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

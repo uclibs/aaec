@@ -93,9 +93,10 @@ RSpec.describe ArtworksController, type: :controller do
       end.to change(Artwork, :count).by(-1)
     end
 
-    it 'redirects to the artworks list' do
+    it 'redirects to the publications_path' do
+      artwork = Artwork.create! valid_attributes
       delete :destroy, params: { id: artwork.to_param }, session: valid_session
-      expect(response).to redirect_to(artworks_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end
