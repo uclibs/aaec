@@ -36,6 +36,22 @@ RSpec.describe Book, type: :model do
       end
     end
 
+    context 'when author names are nil' do
+      it 'is not valid with nil first names' do
+        book.author_first_name = nil
+        book.author_last_name = ['Doe']
+        expect(book).not_to be_valid
+        expect(book.errors[:author_first_name]).to include("can't be empty or contain blank entries")
+      end
+
+      it 'is not valid with nil last names' do
+        book.author_first_name = ['John']
+        book.author_last_name = nil
+        expect(book).not_to be_valid
+        expect(book.errors[:author_last_name]).to include("can't be empty or contain blank entries")
+      end
+    end
+
     context 'when author names arrays are of unequal length' do
       it 'is not valid if first and last names have different number of entries' do
         book.author_first_name = %w[John Jane]
