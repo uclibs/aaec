@@ -109,7 +109,10 @@ class PublicationsController < ApplicationController
   end
 
   def show
-    @submitter = helpers.find_submitter(instance_variable_get("@#{controller_name.singularize}").id) if session[:admin]
+    return unless session[:admin]
+
+    publication = fetch_publication
+    @submitter = helpers.find_submitter(publication.submitter_id)
   end
 
   def new
@@ -170,5 +173,13 @@ class PublicationsController < ApplicationController
 
   def check_max_submissions
     redirect_to publications_path if Object.const_get(controller_name.classify).where(submitter_id: session[:submitter_id]).count > 2
+  end
+
+  private
+
+  def fetch_publication
+    model_class = controller_name.singularize.classify.constantize
+    publication_id = params[:id]
+    model_class.find(publication_id)
   end
 end
