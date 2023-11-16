@@ -11,9 +11,4 @@ module CustomFormTagHelper
     options[:autocomplete] = 'off' unless options.key?(:autocomplete)
     super(name, option_tags, options)
   end
-
-  def custom_hidden_field_tag(name, value = nil, options = {})
-    options[:autocomplete] = 'off' unless options.key?(:autocomplete)
-    super(name, value, options)
-  end
 end
