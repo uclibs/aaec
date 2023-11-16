@@ -7,6 +7,7 @@ RSpec.feature 'AutocompleteOffFormBuilder', type: :feature do
     visit root_path
     expect(page).to have_selector("input[autocomplete='off']")
     expect(page).to have_selector("select[autocomplete='off']")
+    expect(page).to have_selector("input[type='hidden'][autocomplete='off']")
 
     visit manage_path
     expect(page).to have_selector("input[autocomplete='off']")

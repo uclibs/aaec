@@ -6,9 +6,14 @@
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
 # for more information.
 #
-module CustomSelectTagHelper
+module CustomFormTagHelper
   def select_tag(name, option_tags = nil, options = {})
     options[:autocomplete] = 'off' unless options.key?(:autocomplete)
     super(name, option_tags, options)
+  end
+
+  def custom_hidden_field_tag(name, value = nil, options = {})
+    options[:autocomplete] = 'off' unless options.key?(:autocomplete)
+    super(name, value, options)
   end
 end
