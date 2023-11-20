@@ -8,8 +8,8 @@
     <% publication.author_first_name.each_with_index do |_, index| %>
     <div class="form-row" id="author_<%= index %>">
         <div class="col-md-5">
-        <%= label_tag "#{name}_author_first_name_#{index}", "Author First Name", class: "required" %>
-        <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[index], required: true, class: "form-control form-group" %>
+            <%= label_tag(:author_first_name, author_or_artist_label + ' First Name', class: "required") %>
+            <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[index], required: true, class: "form-control form-group" %>
         </div>
         <div class="col-md-5">
         <%= label_tag "#{name}_author_last_name_#{index}", "Author Last Name", class: "required" %>
@@ -23,4 +23,4 @@
     </div>
     <% end %>
 </div>
-<%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor()", class: "btn btn-primary" %>
+<%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>

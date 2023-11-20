@@ -3,15 +3,18 @@
 require 'rails_helper'
 
 RSpec.describe OtherPublicationsController, type: :controller do
+
+  let!(:submitter) { FactoryBot.create(:submitter) }
+
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'Test', 'doi' => 'Test' }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'Test', 'doi' => 'Test', 'submitter_id' => submitter.id }
   end
 
   let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'page_numbers' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
+    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'page_numbers' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '', 'submitter_id' => submitter.id }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   describe 'GET #index' do
     before do
@@ -35,10 +38,9 @@ RSpec.describe OtherPublicationsController, type: :controller do
 
   describe 'GET #show as admin' do
     it 'returns a success response' do
-      FactoryBot.create(:submitter)
       session[:admin] = true
       other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
+      get :show, params: { id: other_publication.to_param }
       expect(response).to be_successful
     end
   end
@@ -60,9 +62,6 @@ RSpec.describe OtherPublicationsController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
 
       it 'creates a new Other Publication' do
         expect do
