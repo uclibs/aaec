@@ -22,10 +22,7 @@ module CollegesHelper
   end
 
   def college_name(id)
-    return '' if id.nil?
-
-    college = College.find_by(id:)
-    college&.name.to_s
+    College.name_for(id)
   end
 
   def college_array(publication)
