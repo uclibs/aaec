@@ -61,14 +61,14 @@ class AdminController < ApplicationController
   # users through the AdminOnlyAccess concern.
   def citations
     all_publications = fetch_all_records
-    @college_departments_grouped = []
+    @college_array = []
 
     College.find_each do |college|
       publications_in_college = all_publications.select do |publication|
         publication.respond_to?(:college_ids) && publication.college_ids.include?(college.id)
       end
       grouped_by_department = publications_in_college.group_by(&:uc_department)
-      @college_departments_grouped << [college.id, grouped_by_department]
+      @college_array << [college.id, grouped_by_department]
     end
   end
 

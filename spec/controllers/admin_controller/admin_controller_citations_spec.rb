@@ -15,9 +15,9 @@ RSpec.describe AdminController, type: :controller do
 
       let(:mocked_records) { [double('Artwork', college_ids: [1], uc_department: 'Art'), double('Book', college_ids: [2], uc_department: 'Literature')] }
 
-      it 'populates @college_departments_grouped with grouped records' do
+      it 'populates @college_array with grouped records' do
         get :citations
-        expect(assigns(:college_departments_grouped)).to eq([[1, { 'Art' => [mocked_records.first] }], [2, { 'Literature' => [mocked_records.last] }]])
+        expect(assigns(:college_array)).to eq([[1, { 'Art' => [mocked_records.first] }], [2, { 'Literature' => [mocked_records.last] }]])
       end
     end
 
