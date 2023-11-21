@@ -29,7 +29,7 @@ RSpec.describe AdminController, type: :controller do
 
       it 'redirects to publications_path' do
         get :citations
-        expect(response).to redirect_to(publications_path)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

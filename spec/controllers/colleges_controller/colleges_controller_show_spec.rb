@@ -25,7 +25,6 @@ RSpec.describe CollegesController, type: :controller do
 
       it 'denies access and renders a 404 page' do
         get :show, params: { id: college.to_param }, session: valid_session
-        expect(response).to be_successful # put in to check success for now
         expect(response).to have_http_status(:not_found)
       end
     end

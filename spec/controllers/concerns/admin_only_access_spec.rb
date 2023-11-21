@@ -3,13 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe 'AdminOnlyAccess Concern', type: :controller do
-  # Dummy controller for testing the concern
   controller(ApplicationController) do
     include AdminOnlyAccess
 
     def dummy_action
       render plain: 'Access granted'
     end
+  end
+
+  before do
+    routes.draw { get 'dummy_action' => 'anonymous#dummy_action' }
   end
 
   describe 'GET #dummy_action' do

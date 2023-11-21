@@ -34,9 +34,8 @@ RSpec.describe AdminController, type: :controller do
 
     context 'when the user is not an admin' do
       it 'redirects even if a valid format is provided' do
-        get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to('/publications')
+        get(:csv, params: common_params.merge({ format: 'csv' }))
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

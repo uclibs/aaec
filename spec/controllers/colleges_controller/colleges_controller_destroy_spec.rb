@@ -10,33 +10,35 @@ RSpec.describe CollegesController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:college) { College.create! valid_attributes }
-
     context 'as an admin user' do
-      before { session[:admin] = true }
+      before do
+        session[:admin] = true
+      end
 
       it 'destroys the requested college' do
+        college = FactoryBot.create(:college)
+
         expect do
           delete :destroy, params: { id: college.to_param }
         end.to change(College, :count).by(-1)
-      end
 
-      it 'redirects to the colleges list' do
-        delete :destroy, params: { id: college.to_param }
         expect(response).to redirect_to(colleges_url)
+        expect(flash[:warning]).to eq('College was successfully destroyed.')
       end
     end
 
     context 'as a non-admin user' do
-      before { session[:admin] = false }
-
-      it 'does not destroy the college' do
-        expect do
-          delete :destroy, params: { id: college.to_param }, session: valid_session
-        end.to change(College, :count).by(0)
+      before do
+        session[:admin] = false
       end
 
-      it 'renders a 404 page' do
-        delete :destroy, params: { id: college.to_param }, session: valid_session
+      it 'does not destroy the college' do
+        college = FactoryBot.create(:college)
+
+        expect do
+          delete :destroy, params: { id: college.to_param }
+        end.not_to change(College, :count)
+
         expect(response).to have_http_status(:not_found)
       end
     end

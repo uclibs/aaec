@@ -36,7 +36,7 @@ class CollegesController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
-      end      
+      end
     end
   end
 
@@ -51,7 +51,7 @@ class CollegesController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
-      end      
+      end
     end
   end
 
