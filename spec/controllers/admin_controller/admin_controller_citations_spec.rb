@@ -21,7 +21,8 @@ RSpec.describe AdminController, type: :controller do
 
     context 'when admin is not logged in' do
       before do
-        allow(controller).to receive(:session).and_return(admin: false)
+        session[:admin] = false
+        session[:submitter_id] = FactoryBot.create(:submitter).id
       end
 
       it 'redirects to publications_path' do

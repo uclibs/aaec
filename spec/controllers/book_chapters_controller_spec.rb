@@ -11,7 +11,9 @@ RSpec.describe BookChaptersController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'publisher' => '', 'page_numbers' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:book_chapter) { BookChapter.create! valid_attributes }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -29,7 +31,7 @@ RSpec.describe BookChaptersController, type: :controller do
         FactoryBot.create(:submitter)
       end
 
-      it 'creates a new Other Publication' do
+      it 'creates a new BookChapter' do
         expect do
           post :create, params: { book_chapter: valid_attributes }, session: valid_session
         end.to change(BookChapter, :count).by(1)
@@ -42,9 +44,16 @@ RSpec.describe BookChaptersController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new Book Chapter' do
+        expect do
+          post :create, params: { book_chapter: invalid_attributes }, session: valid_session
+        end.not_to change(Artwork, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { book_chapter: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -56,7 +65,6 @@ RSpec.describe BookChaptersController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        book_chapter = BookChapter.create! valid_attributes
         put :update, params: { id: book_chapter.to_param, book_chapter: new_attributes }, session: valid_session
         book_chapter.reload
         expect(book_chapter.url).to eql 'www.cool.com'
@@ -64,31 +72,32 @@ RSpec.describe BookChaptersController, type: :controller do
       end
 
       it 'redirects to the book_chapter' do
-        book_chapter = BookChapter.create! valid_attributes
         put :update, params: { id: book_chapter.to_param, book_chapter: valid_attributes }, session: valid_session
         expect(response).to redirect_to(book_chapter)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        book_chapter = BookChapter.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: book_chapter.to_param, book_chapter: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      book_chapter
+    end
+    
     it 'destroys the requested book_chapter' do
-      book_chapter = BookChapter.create! valid_attributes
       expect do
         delete :destroy, params: { id: book_chapter.to_param }, session: valid_session
       end.to change(BookChapter, :count).by(-1)
     end
 
     it 'redirects to the book_chapters list' do
-      book_chapter = BookChapter.create! valid_attributes
       delete :destroy, params: { id: book_chapter.to_param }, session: valid_session
       expect(response).to redirect_to(book_chapters_url)
     end

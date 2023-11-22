@@ -4,6 +4,10 @@ require 'rails_helper'
 
 RSpec.describe AdminController, type: :controller do
   describe 'POST #toggle_links' do
+    before do
+      session[:admin] = true
+    end
+
     context 'when session[:links] is true' do
       before do
         session[:links] = true

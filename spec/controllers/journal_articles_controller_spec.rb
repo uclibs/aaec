@@ -11,7 +11,9 @@ RSpec.describe JournalArticlesController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'page_numbers' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:journal_article) { JournalArticle.create! valid_attributes }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -29,7 +31,7 @@ RSpec.describe JournalArticlesController, type: :controller do
         FactoryBot.create(:submitter)
       end
 
-      it 'creates a new Other Publication' do
+      it 'creates a new JournalArticle' do
         expect do
           post :create, params: { journal_article: valid_attributes }, session: valid_session
         end.to change(JournalArticle, :count).by(1)
@@ -42,9 +44,16 @@ RSpec.describe JournalArticlesController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new Journal Article' do
+        expect do
+          post :create, params: { journal_article: invalid_attributes }, session: valid_session
+        end.not_to change(JournalArticle, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { journal_article: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -56,7 +65,6 @@ RSpec.describe JournalArticlesController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        journal_article = JournalArticle.create! valid_attributes
         put :update, params: { id: journal_article.to_param, journal_article: new_attributes }, session: valid_session
         journal_article.reload
         expect(journal_article.url).to eql 'www.cool.com'
@@ -64,31 +72,32 @@ RSpec.describe JournalArticlesController, type: :controller do
       end
 
       it 'redirects to the journal_article' do
-        journal_article = JournalArticle.create! valid_attributes
         put :update, params: { id: journal_article.to_param, journal_article: valid_attributes }, session: valid_session
         expect(response).to redirect_to(journal_article)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        journal_article = JournalArticle.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: journal_article.to_param, journal_article: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      journal_article
+    end
+    
     it 'destroys the requested journal_article' do
-      journal_article = JournalArticle.create! valid_attributes
       expect do
         delete :destroy, params: { id: journal_article.to_param }, session: valid_session
       end.to change(JournalArticle, :count).by(-1)
     end
 
     it 'redirects to the journal_articles list' do
-      journal_article = JournalArticle.create! valid_attributes
       delete :destroy, params: { id: journal_article.to_param }, session: valid_session
       expect(response).to redirect_to(journal_articles_url)
     end

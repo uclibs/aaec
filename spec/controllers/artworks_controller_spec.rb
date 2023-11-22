@@ -13,6 +13,7 @@ RSpec.describe ArtworksController, type: :controller do
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
+  let(:artwork) { Artwork.create! valid_attributes }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -26,7 +27,7 @@ RSpec.describe ArtworksController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid params' do
-      it 'creates a new Other Publication' do
+      it 'creates a new Artwork' do
         expect do
           post :create, params: { artwork: valid_attributes }, session: valid_session
         end.to change(Artwork, :count).by(1)
@@ -39,6 +40,12 @@ RSpec.describe ArtworksController, type: :controller do
     end
 
     context 'with invalid params' do
+      it 'does not create a new Artwork' do
+        expect do
+          post :create, params: { artwork: invalid_attributes }, session: valid_session
+        end.not_to change(Artwork, :count)
+      end
+
       it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { artwork: invalid_attributes }, session: valid_session
         expect(response).to render_template(:new)
@@ -54,7 +61,6 @@ RSpec.describe ArtworksController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        artwork = Artwork.create! valid_attributes
         put :update, params: { id: artwork.to_param, artwork: new_attributes }, session: valid_session
         artwork.reload
         expect(artwork.date).to eql 'new date'
@@ -62,31 +68,32 @@ RSpec.describe ArtworksController, type: :controller do
       end
 
       it 'redirects to the artwork' do
-        artwork = Artwork.create! valid_attributes
         put :update, params: { id: artwork.to_param, artwork: valid_attributes }, session: valid_session
         expect(response).to redirect_to(artwork)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        artwork = Artwork.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: artwork.to_param, artwork: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      artwork
+    end
+
     it 'destroys the requested artwork' do
-      artwork = Artwork.create! valid_attributes
       expect do
         delete :destroy, params: { id: artwork.to_param }, session: valid_session
       end.to change(Artwork, :count).by(-1)
     end
 
     it 'redirects to the artworks list' do
-      artwork = Artwork.create! valid_attributes
       delete :destroy, params: { id: artwork.to_param }, session: valid_session
       expect(response).to redirect_to(artworks_url)
     end

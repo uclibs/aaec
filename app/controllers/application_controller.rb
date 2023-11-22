@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include UserAuthentication
 
-  before_action :check_date
+  prepend_before_action :check_date
+
+  skip_before_action :require_authenticated_user, only: :check_date
+  skip_before_action :check_date, only: :closed
 
   private
 

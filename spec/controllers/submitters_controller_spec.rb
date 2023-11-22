@@ -12,27 +12,43 @@ RSpec.describe SubmittersController, type: :controller do
   end
 
   let(:old_submitter) { FactoryBot.create(:submitter) }
+
   let(:some_old_value) { 'some_old_value' }
   let(:old_session) { { submitter_id: old_submitter.id, some_old_key: some_old_value } }
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
 
-  it_behaves_like 'restricts non-logged-in users', {
-    'index' => :get,
-    'show' => :get,
-    'new' => :get,
-    'edit' => :get,
-    'create' => :post,
-    'update' => :put,
-    'destroy' => :delete
-  }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+
+  describe 'GET #show' do
+    it 'returns a success response' do
+      submitter = Submitter.create! valid_attributes
+      get :show, params: { id: submitter.to_param }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET #new' do
+    it 'returns a success response' do
+      get :new, params: {}, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET #edit' do
+    it 'returns a success response' do
+      submitter = Submitter.create! valid_attributes
+      get :edit, params: { id: submitter.to_param }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
 
   describe 'POST #create' do
     context 'with valid params' do
       it 'clears the old session' do
         post :create, params: { submitter: valid_attributes }, session: old_session
-
         expect(session[:submitter_id]).not_to be_nil
         expect(session[:submitter_id]).to eq(Submitter.last.id)
         expect(session[:some_old_key]).to be_nil

@@ -11,7 +11,9 @@ RSpec.describe EditingsController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:editing) { Editing.create! valid_attributes }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -29,7 +31,7 @@ RSpec.describe EditingsController, type: :controller do
         FactoryBot.create(:submitter)
       end
 
-      it 'creates a new Other Publication' do
+      it 'creates a new Editing' do
         expect do
           post :create, params: { editing: valid_attributes }, session: valid_session
         end.to change(Editing, :count).by(1)
@@ -42,9 +44,16 @@ RSpec.describe EditingsController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new Editing' do
+        expect do
+          post :create, params: { editing: invalid_attributes }, session: valid_session
+        end.not_to change(Editing, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { editing: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -56,7 +65,6 @@ RSpec.describe EditingsController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        editing = Editing.create! valid_attributes
         put :update, params: { id: editing.to_param, editing: new_attributes }, session: valid_session
         editing.reload
         expect(editing.url).to eql 'www.cool.com'
@@ -64,31 +72,32 @@ RSpec.describe EditingsController, type: :controller do
       end
 
       it 'redirects to the editing' do
-        editing = Editing.create! valid_attributes
         put :update, params: { id: editing.to_param, editing: valid_attributes }, session: valid_session
         expect(response).to redirect_to(editing)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        editing = Editing.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: editing.to_param, editing: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      editing
+    end
+    
     it 'destroys the requested editing' do
-      editing = Editing.create! valid_attributes
       expect do
         delete :destroy, params: { id: editing.to_param }, session: valid_session
       end.to change(Editing, :count).by(-1)
     end
 
     it 'redirects to the editings list' do
-      editing = Editing.create! valid_attributes
       delete :destroy, params: { id: editing.to_param }, session: valid_session
       expect(response).to redirect_to(editings_url)
     end

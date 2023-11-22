@@ -11,7 +11,9 @@ RSpec.describe PhysicalMediaController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:physical_medium) { PhysicalMedium.create! valid_attributes }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -29,7 +31,7 @@ RSpec.describe PhysicalMediaController, type: :controller do
         FactoryBot.create(:submitter)
       end
 
-      it 'creates a new Other Publication' do
+      it 'creates a new PysicalMedium' do
         expect do
           post :create, params: { physical_medium: valid_attributes }, session: valid_session
         end.to change(PhysicalMedium, :count).by(1)
@@ -42,9 +44,16 @@ RSpec.describe PhysicalMediaController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new PhysicalMedium' do
+        expect do
+          post :create, params: { physical_medium: invalid_attributes }, session: valid_session
+        end.not_to change(PhysicalMedium, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { physical_medium: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -56,7 +65,6 @@ RSpec.describe PhysicalMediaController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        physical_medium = PhysicalMedium.create! valid_attributes
         put :update, params: { id: physical_medium.to_param, physical_medium: new_attributes }, session: valid_session
         physical_medium.reload
         expect(physical_medium.url).to eql 'www.cool.com'
@@ -64,31 +72,32 @@ RSpec.describe PhysicalMediaController, type: :controller do
       end
 
       it 'redirects to the physical_medium' do
-        physical_medium = PhysicalMedium.create! valid_attributes
         put :update, params: { id: physical_medium.to_param, physical_medium: valid_attributes }, session: valid_session
         expect(response).to redirect_to(physical_medium)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        physical_medium = PhysicalMedium.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: physical_medium.to_param, physical_medium: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      physical_medium
+    end
+    
     it 'destroys the requested physical_medium' do
-      physical_medium = PhysicalMedium.create! valid_attributes
       expect do
         delete :destroy, params: { id: physical_medium.to_param }, session: valid_session
       end.to change(PhysicalMedium, :count).by(-1)
     end
 
     it 'redirects to the physical_mediums list' do
-      physical_medium = PhysicalMedium.create! valid_attributes
       delete :destroy, params: { id: physical_medium.to_param }, session: valid_session
       expect(response).to redirect_to(physical_media_url)
     end

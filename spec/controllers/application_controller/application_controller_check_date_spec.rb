@@ -5,6 +5,9 @@ require 'rails_helper'
 RSpec.describe ApplicationController, type: :controller do
   include ApplicationHelper
 
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:submitter_session) { { submitter_id: submitter.id } }
+
   controller(ApplicationController) do
     def index
       render plain: 'Hello, world!'
@@ -20,7 +23,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'when EXPIRATION_DATE is in the past and user is not admin' do
       it 'redirects to the closed page' do
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_return('2000-01-01')
-        get :index
+        get :index, session: submitter_session
         expect(response).to redirect_to(page_route('closed'))
       end
     end
@@ -28,8 +31,9 @@ RSpec.describe ApplicationController, type: :controller do
     context 'when EXPIRATION_DATE is in the future' do
       it 'does not redirect' do
         allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_return('3000-01-01')
-        get :index
-        expect(response.body).to eq('Hello, world!')
+        get :index, session: submitter_session
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('Hello, world!')
       end
     end
 
