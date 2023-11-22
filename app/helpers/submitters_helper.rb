@@ -2,7 +2,7 @@
 
 module SubmittersHelper
   def find_submitter(id)
-    Submitter.find(id)
+    Submitter.find_by(id:)
   end
 
   def find_submitters(id)

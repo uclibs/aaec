@@ -18,28 +18,15 @@ RSpec.describe SubmittersController, type: :controller do
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
 
-  describe 'GET #show' do
-    it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :show, params: { id: submitter.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :edit, params: { id: submitter.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
 
   describe 'POST #create' do
     context 'with valid params' do

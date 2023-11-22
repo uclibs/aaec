@@ -13,6 +13,16 @@ RSpec.describe DigitalProjectsController, type: :controller do
 
   let(:valid_session) { { submitter_id: 1 } }
 
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
+
   describe 'GET #index' do
     before do
       FactoryBot.create(:submitter)

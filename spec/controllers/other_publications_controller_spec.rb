@@ -13,50 +13,15 @@ RSpec.describe OtherPublicationsController, type: :controller do
 
   let(:valid_session) { { submitter_id: 1 } }
 
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      OtherPublication.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :edit, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
 
   describe 'POST #create' do
     context 'with valid params' do

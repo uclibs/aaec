@@ -11,59 +11,21 @@ RSpec.describe ArtworksController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      Artwork.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      artwork = Artwork.create! valid_attributes
-      get :show, params: { id: artwork.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      artwork = Artwork.create! valid_attributes
-      get :show, params: { id: artwork.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      artwork = Artwork.create! valid_attributes
-      get :edit, params: { id: artwork.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
 
   describe 'POST #create' do
     context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
-
       it 'creates a new Other Publication' do
         expect do
           post :create, params: { artwork: valid_attributes }, session: valid_session
@@ -77,9 +39,10 @@ RSpec.describe ArtworksController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { artwork: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
