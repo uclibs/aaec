@@ -7,6 +7,9 @@ RSpec.describe AdminController, type: :controller do
   let(:admin_session) { { 'admin' => true } }
   let(:submitter_session) { { 'submitter_id' => FactoryBot.create(:submitter).id } }
 
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:submitter_session) { { submitter_id: submitter.id } }
+
   describe 'GET #csv' do
     context 'when the user is an admin' do
       it 'returns a 200 status when requesting a CSV format' do
@@ -41,7 +44,7 @@ RSpec.describe AdminController, type: :controller do
 
     context 'when the user is not an admin' do
       it 'redirects even if a valid format is provided' do
-        get(:csv, params: common_params.merge({ format: 'csv' }))
+        get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
         expect(response).to have_http_status(:not_found)
       end
     end
