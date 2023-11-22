@@ -19,6 +19,13 @@ RSpec.describe AdminController, type: :controller do
         expect(response).to redirect_to('/publications')
       end
 
+      context 'when an id is sent in the params' do
+        it 'redirects to publications path' do
+          get(:csv, params: common_params.merge({ id: 1, format: 'csv' }), session: admin_session)
+          expect(response).to redirect_to('/publications')
+        end
+      end
+
       context 'when a StandardError is raised' do
         before do
           allow(OtherPublication).to receive(:to_csv).and_raise(StandardError)
