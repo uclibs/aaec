@@ -22,6 +22,7 @@ class SubmittersController < ApplicationController
 
     respond_to do |format|
       if @submitter.save
+        reset_session
         session[:submitter_id] = @submitter.id
         # Change to home page
         flash.keep[:success] = 'Your account was successfully created.'
