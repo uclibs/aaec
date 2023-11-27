@@ -77,7 +77,7 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     first_name_fields.last.set('ThirdFirstName')
     last_name_fields.last.set('ThirdLastName')
 
-    # Step 12: Add fourth and fifth authors
+    # Add fourth and fifth authors
     click_on 'Add Author'
     first_name_fields.last.set('FourthFirstName')
     last_name_fields.last.set('FourthLastName')
@@ -85,10 +85,10 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     first_name_fields.last.set('FifthFirstName')
     last_name_fields.last.set('FifthLastName')
 
-    # Step 13: Remove the 'third' author
+    # Remove the 'third' author
     remove_author_at_index(1)
 
-    # Step 14: Remove the 'fourth' author
+    # Remove the 'fourth' author
     remove_author_at_index(1)
 
     # Verify that there are now only 2 authors
