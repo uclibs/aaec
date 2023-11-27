@@ -107,7 +107,6 @@ RSpec.describe CollegesController, type: :controller do
       end
 
       it 'redirects to the college' do
-
         put :update, params: { id: college.to_param, college: valid_attributes }, session: valid_session
         expect(response).to redirect_to(college)
       end

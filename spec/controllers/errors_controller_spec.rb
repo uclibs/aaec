@@ -8,7 +8,7 @@ RSpec.describe ErrorsController, type: :controller do
   describe 'GET #not_found' do
     let(:submitter) { FactoryBot.create(:submitter) }
     let(:valid_session) { { submitter_id: submitter.id } }
-    
+
     before do
       get :not_found, session: valid_session
     end

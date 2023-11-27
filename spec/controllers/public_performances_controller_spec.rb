@@ -90,7 +90,7 @@ RSpec.describe PublicPerformancesController, type: :controller do
     before do
       public_performance
     end
-    
+
     it 'destroys the requested public_performance' do
       expect do
         delete :destroy, params: { id: public_performance.to_param }, session: valid_session

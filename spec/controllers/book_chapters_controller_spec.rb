@@ -90,7 +90,7 @@ RSpec.describe BookChaptersController, type: :controller do
     before do
       book_chapter
     end
-    
+
     it 'destroys the requested book_chapter' do
       expect do
         delete :destroy, params: { id: book_chapter.to_param }, session: valid_session

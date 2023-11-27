@@ -90,7 +90,7 @@ RSpec.describe PhotographiesController, type: :controller do
     before do
       photography
     end
-    
+
     it 'destroys the requested photography' do
       expect do
         delete :destroy, params: { id: photography.to_param }, session: valid_session

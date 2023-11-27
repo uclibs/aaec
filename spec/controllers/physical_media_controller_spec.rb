@@ -90,7 +90,7 @@ RSpec.describe PhysicalMediaController, type: :controller do
     before do
       physical_medium
     end
-    
+
     it 'destroys the requested physical_medium' do
       expect do
         delete :destroy, params: { id: physical_medium.to_param }, session: valid_session

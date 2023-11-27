@@ -90,7 +90,7 @@ RSpec.describe DigitalProjectsController, type: :controller do
     before do
       digital_project
     end
-    
+
     it 'destroys the requested digital_project' do
       expect do
         delete :destroy, params: { id: digital_project.to_param }, session: valid_session

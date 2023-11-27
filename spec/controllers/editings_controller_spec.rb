@@ -90,7 +90,7 @@ RSpec.describe EditingsController, type: :controller do
     before do
       editing
     end
-    
+
     it 'destroys the requested editing' do
       expect do
         delete :destroy, params: { id: editing.to_param }, session: valid_session

@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe PagesController, type: :controller do
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
-  
+
   describe 'GET #show' do
     render_views
 

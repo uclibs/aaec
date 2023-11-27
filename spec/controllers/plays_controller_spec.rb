@@ -90,7 +90,7 @@ RSpec.describe PlaysController, type: :controller do
     before do
       play
     end
-    
+
     it 'destroys the requested play' do
       expect do
         delete :destroy, params: { id: play.to_param }, session: valid_session

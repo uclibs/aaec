@@ -90,7 +90,7 @@ RSpec.describe FilmsController, type: :controller do
     before do
       film
     end
-    
+
     it 'destroys the requested film' do
       expect do
         delete :destroy, params: { id: film.to_param }, session: valid_session

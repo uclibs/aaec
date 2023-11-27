@@ -90,7 +90,7 @@ RSpec.describe JournalArticlesController, type: :controller do
     before do
       journal_article
     end
-    
+
     it 'destroys the requested journal_article' do
       expect do
         delete :destroy, params: { id: journal_article.to_param }, session: valid_session

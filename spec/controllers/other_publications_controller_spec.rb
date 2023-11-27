@@ -90,7 +90,7 @@ RSpec.describe OtherPublicationsController, type: :controller do
     before do
       other_publication
     end
-    
+
     it 'destroys the requested other_publication' do
       expect do
         delete :destroy, params: { id: other_publication.to_param }, session: valid_session

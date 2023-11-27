@@ -59,8 +59,6 @@ RSpec.describe MusicalScoresController, type: :controller do
   end
 
   describe 'PUT #update' do
-
-
     context 'with valid params' do
       let(:new_attributes) do
         { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => %w[6 7], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'publisher' => 'Test', 'city' => 'Test', 'publication_date' => 'Test', 'url' => 'www.cool.com', 'doi' => 'Test' }
