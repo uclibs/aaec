@@ -9,7 +9,7 @@ RSpec.describe CollegesController, type: :controller do
 
   let(:college) { FactoryBot.create(:college, valid_attributes) }
 
-  it_behaves_like 'restricts to only admin access', {
+  it_behaves_like 'restricts non-admin access', {
     'index' => :get,
     'show' => :get,
     'new' => :get,
