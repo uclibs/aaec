@@ -7,6 +7,7 @@ class PagesController < ApplicationController
 
   def show
     if valid_page?
+      puts "INFO: Rendering #{safe_page}"
       render template: "pages/#{safe_page}"
     else
       render template: 'errors/404', status: :not_found

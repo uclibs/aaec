@@ -49,8 +49,7 @@ RSpec.describe SubmittersController, type: :controller do
     context 'with valid params' do
       it 'clears the old session' do
         post :create, params: { submitter: valid_attributes }, session: old_session
-        expect(session[:submitter_id]).not_to be_nil
-        expect(session[:submitter_id]).to eq(Submitter.last.id)
+        expect(session[:submitter_id]).to be_nil
         expect(session[:some_old_key]).to be_nil
       end
 
@@ -63,6 +62,8 @@ RSpec.describe SubmittersController, type: :controller do
       it 'redirects to the publications show page' do
         post :create, params: { submitter: valid_attributes }, session: {}
         expect(response).to redirect_to(publications_path)
+        expect(flash[:success]).to eql 'Your account was successfully created.'
+        expect(flash[:error]).to be_nil
       end
     end
 
