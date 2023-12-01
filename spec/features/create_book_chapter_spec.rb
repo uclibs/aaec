@@ -9,6 +9,7 @@ describe 'Create a book_chapter', :feature, js: true do
   it 'from publications index page' do
     create_submitter(submitter)
     visit publications_path
+
     find(:xpath, "//a[@href='#{Rails.application.routes.url_helpers.new_book_chapter_path}']").click
 
     # New book_chapter Page

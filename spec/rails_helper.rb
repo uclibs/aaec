@@ -77,6 +77,8 @@ end
 
 def create_submitter(submitter)
   visit root_path
+  return if page.has_content?('The deadline for submissions has passed.')
+
   fill_in('submitter[first_name]', with: submitter.first_name)
   fill_in('submitter[last_name]', with: submitter.last_name)
   find_by_id('submitter_college').find(:xpath, "option[#{submitter.college}]").select_option

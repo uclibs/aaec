@@ -49,7 +49,8 @@ RSpec.describe SubmittersController, type: :controller do
     context 'with valid params' do
       it 'clears the old session' do
         post :create, params: { submitter: valid_attributes }, session: old_session
-        expect(session[:submitter_id]).to be_nil
+        expect(session[:submitter_id]).to_not be(old_submitter.id)
+        expect(session[:submitter_id]).to_not be_nil
         expect(session[:some_old_key]).to be_nil
       end
 

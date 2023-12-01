@@ -22,7 +22,6 @@ module ExceptionHandlingManager
   private
 
   def handle_invalid_token(exception)
-    puts "WARN: #{exception}"
     Rails.logger.warn("InvalidAuthenticityToken occurred: #{exception}")
     reset_session
     flash.keep[:danger] = 'Your session has expired. Please log in again.'
