@@ -13,7 +13,7 @@ RSpec.describe PublicPerformancesController, type: :controller do
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
-  let(:public_performance) { PublicPerformance.create! valid_attributes }
+  let(:public_performance) { FactoryBot.create(:public_performance, submitter_id: submitter.id) }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -93,13 +93,12 @@ RSpec.describe PublicPerformancesController, type: :controller do
 
     it 'destroys the requested public_performance' do
       expect do
-        delete :destroy, params: { id: public_performance.to_param }, session: valid_session
+        delete :destroy, params: { id: public_performance.id }, session: valid_session
       end.to change(PublicPerformance, :count).by(-1)
     end
 
     it 'redirects to the publications_path' do
-      public_performance = PublicPerformance.create! valid_attributes
-      delete :destroy, params: { id: public_performance.to_param }, session: valid_session
+      delete :destroy, params: { id: public_performance.id }, session: valid_session
       expect(response).to redirect_to(publications_path)
     end
   end

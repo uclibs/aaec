@@ -19,7 +19,7 @@ RSpec.shared_examples 'allowed access' do |action, method, user_role|
       instance_var = instance_variable_get("@#{controller.controller_name.singularize}")
       expect(response).to redirect_to(instance_var)
     when 'destroy'
-      expect(response).to redirect_to(index_url_for(controller.controller_name))
+      expect(response).to redirect_to(publications_url)
     when 'new', 'edit', 'show'
       expect(response).to be_successful
     when 'index'
