@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe AdminController, type: :controller do
   let(:common_params) { { 'controller_name' => 'other_publications' } }
   let(:admin_session) { { 'admin' => true } }
+  let(:submitter_session) { { 'submitter_id' => FactoryBot.create(:submitter).id } }
 
   describe 'GET #csv' do
     context 'when the user is an admin' do
@@ -33,7 +34,8 @@ RSpec.describe AdminController, type: :controller do
 
     context 'when the user is not an admin' do
       it 'redirects even if a valid format is provided' do
-        get(:csv, params: common_params.merge({ format: 'csv' }))
+        get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
+        expect(response).to have_http_status(302)
         expect(response).to redirect_to('/publications')
       end
     end

@@ -6,9 +6,13 @@ require 'rails_helper'
 
 RSpec.describe ErrorsController, type: :controller do
   describe 'GET #not_found' do
+    let(:submitter) { FactoryBot.create(:submitter) }
+    let(:valid_session) { { submitter_id: submitter.id } }
+
     before do
-      get :not_found
+      get :not_found, session: valid_session
     end
+
     it 'renders the not_found template' do
       expect(response).to render_template('errors/404')
       expect(response).to render_template('layouts/application')

@@ -29,6 +29,8 @@ class PublicationMailer < ApplicationMailer
   SUBJECT = 'Publication received for Artists, Authors, Editors & Composers'
 
   def publication_submit(submitter, publication)
+    return unless submitter
+
     @submitter = submitter
     @publication = publication
     sender_name, sender_email = parse_default_sender

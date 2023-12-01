@@ -12,8 +12,12 @@ RSpec.describe SubmittersController, type: :controller do
   end
 
   let(:old_submitter) { FactoryBot.create(:submitter) }
+
   let(:some_old_value) { 'some_old_value' }
   let(:old_session) { { submitter_id: old_submitter.id, some_old_key: some_old_value } }
+
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
 
   let(:submitter) { FactoryBot.create(:submitter) }
   let(:valid_session) { { submitter_id: submitter.id } }
@@ -45,7 +49,6 @@ RSpec.describe SubmittersController, type: :controller do
     context 'with valid params' do
       it 'clears the old session' do
         post :create, params: { submitter: valid_attributes }, session: old_session
-
         expect(session[:submitter_id]).not_to be_nil
         expect(session[:submitter_id]).to eq(Submitter.last.id)
         expect(session[:some_old_key]).to be_nil

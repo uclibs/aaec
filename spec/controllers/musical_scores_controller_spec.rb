@@ -11,52 +11,19 @@ RSpec.describe MusicalScoresController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:musical_score) { MusicalScore.create! valid_attributes }
 
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      MusicalScore.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      musical_score = MusicalScore.create! valid_attributes
-      get :show, params: { id: musical_score.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      musical_score = MusicalScore.create! valid_attributes
-      get :show, params: { id: musical_score.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      musical_score = MusicalScore.create! valid_attributes
-      get :edit, params: { id: musical_score.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
 
   describe 'POST #create' do
     context 'with valid params' do
@@ -64,7 +31,7 @@ RSpec.describe MusicalScoresController, type: :controller do
         FactoryBot.create(:submitter)
       end
 
-      it 'creates a new Other Publication' do
+      it 'creates a new MusicalScore' do
         expect do
           post :create, params: { musical_score: valid_attributes }, session: valid_session
         end.to change(MusicalScore, :count).by(1)
@@ -77,9 +44,16 @@ RSpec.describe MusicalScoresController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new MusicalScore' do
+        expect do
+          post :create, params: { musical_score: invalid_attributes }, session: valid_session
+        end.not_to change(MusicalScore, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { musical_score: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -91,7 +65,6 @@ RSpec.describe MusicalScoresController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        musical_score = MusicalScore.create! valid_attributes
         put :update, params: { id: musical_score.to_param, musical_score: new_attributes }, session: valid_session
         musical_score.reload
         expect(musical_score.url).to eql 'www.cool.com'
@@ -99,31 +72,32 @@ RSpec.describe MusicalScoresController, type: :controller do
       end
 
       it 'redirects to the musical_score' do
-        musical_score = MusicalScore.create! valid_attributes
         put :update, params: { id: musical_score.to_param, musical_score: valid_attributes }, session: valid_session
         expect(response).to redirect_to(musical_score)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        musical_score = MusicalScore.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: musical_score.to_param, musical_score: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      musical_score
+    end
+
     it 'destroys the requested musical_score' do
-      musical_score = MusicalScore.create! valid_attributes
       expect do
         delete :destroy, params: { id: musical_score.to_param }, session: valid_session
       end.to change(MusicalScore, :count).by(-1)
     end
 
     it 'redirects to the musical_scores list' do
-      musical_score = MusicalScore.create! valid_attributes
       delete :destroy, params: { id: musical_score.to_param }, session: valid_session
       expect(response).to redirect_to(musical_scores_url)
     end

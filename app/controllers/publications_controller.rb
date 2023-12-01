@@ -128,7 +128,7 @@ class PublicationsController < ApplicationController
         format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: instance_variable }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: instance_variable.errors, status: :unprocessable_entity }
       end
     end
@@ -142,7 +142,7 @@ class PublicationsController < ApplicationController
         format.html { redirect_to instance_variable }
         format.json { render :show, status: :created, location: instance_variable }
       else
-        format.html { render :new }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: instance_variable.errors, status: :unprocessable_entity }
       end
     end

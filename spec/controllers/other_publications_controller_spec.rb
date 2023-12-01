@@ -11,52 +11,19 @@ RSpec.describe OtherPublicationsController, type: :controller do
     { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'volume' => '', 'issue' => '', 'page_numbers' => '', 'publisher' => '', 'city' => '', 'publication_date' => '', 'url' => '', 'doi' => '' }
   end
 
-  let(:valid_session) { { submitter_id: 1 } }
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:other_publication) { OtherPublication.create! valid_attributes }
 
-  describe 'GET #index' do
-    before do
-      FactoryBot.create(:submitter)
-    end
-
-    it 'returns a success response' do
-      OtherPublication.create! valid_attributes
-      get :index, session: valid_session
-      expect(response).to redirect_to('/publications')
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show as admin' do
-    it 'returns a success response' do
-      FactoryBot.create(:submitter)
-      session[:admin] = true
-      other_publication = OtherPublication.create! valid_attributes
-      get :show, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      other_publication = OtherPublication.create! valid_attributes
-      get :edit, params: { id: other_publication.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
+  it_behaves_like 'restricts non-logged-in users', {
+    'index' => :get,
+    'show' => :get,
+    'new' => :get,
+    'edit' => :get,
+    'create' => :post,
+    'update' => :put,
+    'destroy' => :delete
+  }
 
   describe 'POST #create' do
     context 'with valid params' do
@@ -77,9 +44,16 @@ RSpec.describe OtherPublicationsController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'does not create a new OtherPublication' do
+        expect do
+          post :create, params: { other_publication: invalid_attributes }, session: valid_session
+        end.not_to change(OtherPublication, :count)
+      end
+
+      it "redirects to the 'new' template with status 'unprocessable_entity'" do
         post :create, params: { other_publication: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
+        expect(response.status).to eql 422
       end
     end
   end
@@ -91,7 +65,6 @@ RSpec.describe OtherPublicationsController, type: :controller do
       end
 
       it 'updates the requested other publication' do
-        other_publication = OtherPublication.create! valid_attributes
         put :update, params: { id: other_publication.to_param, other_publication: new_attributes }, session: valid_session
         other_publication.reload
         expect(other_publication.url).to eql 'www.cool.com'
@@ -99,31 +72,32 @@ RSpec.describe OtherPublicationsController, type: :controller do
       end
 
       it 'redirects to the other_publication' do
-        other_publication = OtherPublication.create! valid_attributes
         put :update, params: { id: other_publication.to_param, other_publication: valid_attributes }, session: valid_session
         expect(response).to redirect_to(other_publication)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        other_publication = OtherPublication.create! valid_attributes
+      it "redirects to the 'edit' template with status 'unprocessable_entity'" do
         put :update, params: { id: other_publication.to_param, other_publication: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.status).to eql 422
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    before do
+      other_publication
+    end
+
     it 'destroys the requested other_publication' do
-      other_publication = OtherPublication.create! valid_attributes
       expect do
         delete :destroy, params: { id: other_publication.to_param }, session: valid_session
       end.to change(OtherPublication, :count).by(-1)
     end
 
     it 'redirects to the other_publications list' do
-      other_publication = OtherPublication.create! valid_attributes
       delete :destroy, params: { id: other_publication.to_param }, session: valid_session
       expect(response).to redirect_to(other_publications_url)
     end
