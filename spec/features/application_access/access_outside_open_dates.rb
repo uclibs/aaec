@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Application Behavior', type: :feature do
-
   let(:submitter) { FactoryBot.build(:submitter) }
   let(:expected_admin_content) { ['Submitters (', 'Artworks (', 'Books (', 'Book Chapters ('] }
   let(:expected_submitter_content) { ['Instructions', 'Contact Information', 'Artworks', 'Books', 'Book Chapters'] }
@@ -15,8 +14,8 @@ RSpec.describe 'Application Behavior', type: :feature do
 
   def go_to_publications_page_as_admin
     visit manage_path
-    fill_in('username', with: ENV['ADMIN_USERNAME'])
-    fill_in('password', with: ENV['ADMIN_PASSWORD'])
+    fill_in('username', with: ENV.fetch('ADMIN_USERNAME', nil))
+    fill_in('password', with: ENV.fetch('ADMIN_PASSWORD', nil))
     click_on('Submit')
     visit publications_path
   end
@@ -33,7 +32,7 @@ RSpec.describe 'Application Behavior', type: :feature do
 
     context 'as an admin' do
       it 'allows access to the publications page' do
-        go_to_publications_page_as_admin  
+        go_to_publications_page_as_admin
         expected_admin_content.each do |content|
           expect(page).to have_content(content)
         end
