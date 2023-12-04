@@ -17,10 +17,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
-
-$(document).on('turbolinks:load', function() {
-    $('[data-toggle="tooltip"]').tooltip();
-})
+//= require bootstrap-tooltip-initialization
 
 function addAuthor(type, count)    {
     var count = count || 1;
