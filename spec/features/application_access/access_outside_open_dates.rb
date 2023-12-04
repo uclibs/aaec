@@ -70,48 +70,5 @@ RSpec.describe 'Application Behavior', type: :feature do
         expect(page).to have_content('The deadline for submissions has passed.')
       end
     end
-end
-
-
-  # Scenario 2: Handling invalid authenticity tokens
-  context 'when an invalid authenticity token is provided' do
-    it 'redirects to a login or error page with an invalid token message' do
-      # Test implementation
-    end
-  end
-
-  # Scenario 3: Missing or invalid session IDs
-  context 'when a session ID is missing or invalid' do
-    it 'redirects to a login page with a session expired message' do
-      # Test implementation
-    end
-  end
-
-  # Scenario 1 & 2: Accessing outside open dates with an invalid authenticity token
-  context 'when accessing outside open dates and with an invalid authenticity token' do
-    it 'redirects to a closed page and logs an invalid token error' do
-      # Test implementation
-    end
-  end
-
-  # Scenario 1 & 3: Accessing outside open dates with a missing or invalid session ID
-  context 'when accessing outside open dates and with a missing or invalid session ID' do
-    it 'redirects to a closed page with a session expired message' do
-      # Test implementation
-    end
-  end
-
-  # Scenario 2 & 3: Invalid authenticity token and missing or invalid session ID
-  context 'when an invalid authenticity token is provided along with a missing or invalid session ID' do
-    it 'redirects to a login page and logs an invalid token error with a session expired message' do
-      # Test implementation
-    end
-  end
-
-  # Scenario 1, 2 & 3: Combining all three issues
-  context 'when accessing outside open dates, with an invalid authenticity token, and a missing or invalid session ID' do
-    it 'redirects to a closed page, logs an invalid token error, and indicates a session issue' do
-      # Test implementation
-    end
   end
 end
