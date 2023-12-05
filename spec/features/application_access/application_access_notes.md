@@ -9,6 +9,9 @@ Scenario 2 - access_invalid_authenticity (within open dates, having an invalid a
   Submitters are redirected to root page
 
 Scenario 3 - missing_session_id
+  Users with both admin & submitter logged in are allowed access
+  Users with neither admin nor submitter are redirected to root page with a message
+    'You must submit your information first.'
 
 Scenario 1 & 2 - access_outside_open_dates_invalid_authenticity
   Admins with invalid authenticity token is redirected to admin login page

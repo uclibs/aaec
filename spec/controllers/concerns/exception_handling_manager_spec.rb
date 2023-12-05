@@ -32,8 +32,8 @@ RSpec.describe ExceptionHandlingManager, type: :controller do
 
     it 'resets the session' do
       get(:index, session:)
-      expect(session[:admin]).to be_nil
-      expect(session[:submitter_id]).to be_nil
+      expect(controller.session[:admin]).to be_nil
+      expect(controller.session[:submitter_id]).to be_nil
     end
 
     it 'sets a flash message and redirects to the root path' do
@@ -55,14 +55,14 @@ RSpec.describe ExceptionHandlingManager, type: :controller do
 
     it 'resets the session' do
       get(:index, session:)
-      expect(session[:admin]).to be_nil
-      expect(session[:submitter_id]).to be_nil
+      expect(controller.session[:admin]).to be_nil
+      expect(controller.session[:submitter_id]).to be_nil
     end
 
-    it 'sets a flash message and redirects to the manage path' do
+    it 'sets a flash message and redirects to the root path' do
       get(:index, session:)
       expect(response.status).to eq(302)
-      expect(response).to redirect_to(manage_path)
+      expect(response).to redirect_to(root_path)
       expect(flash[:danger]).to eq('Your session has expired. Please log in again.')
     end
   end
