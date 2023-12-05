@@ -105,6 +105,7 @@ RSpec.describe SubmittersController, type: :controller do
         submitter = Submitter.create! valid_attributes
         put :update, params: { id: submitter.to_param, submitter: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(response).to render_template(:edit)
       end
     end
   end
