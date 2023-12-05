@@ -19,4 +19,12 @@ RSpec.describe AutocompleteOffFormBuilder, type: :helper do
     select_html = builder.select(:some_attribute, [['Option 1', 1], ['Option 2', 2]])
     expect(select_html).to include('autocomplete="off"')
   end
+
+  it 'does not override explicitly set autocomplete attribute but still is present where not overridden' do
+    custom_autocomplete_value = 'on'
+    text_field_html = builder.text_field(:some_attribute, autocomplete: custom_autocomplete_value)
+    select_html = builder.select(:some_attribute, [['Option 1', 1], ['Option 2', 2]])
+    expect(select_html).to include('autocomplete="off"')
+    expect(text_field_html).to include('autocomplete="on"')
+  end
 end
