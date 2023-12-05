@@ -97,9 +97,10 @@ RSpec.describe BookChaptersController, type: :controller do
       end.to change(BookChapter, :count).by(-1)
     end
 
-    it 'redirects to the book_chapters list' do
+    it 'redirects to the publications_path' do
+      book_chapter = BookChapter.create! valid_attributes
       delete :destroy, params: { id: book_chapter.to_param }, session: valid_session
-      expect(response).to redirect_to(book_chapters_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

@@ -97,9 +97,10 @@ RSpec.describe FilmsController, type: :controller do
       end.to change(Film, :count).by(-1)
     end
 
-    it 'redirects to the films list' do
+    it 'redirects to the publications_path' do
+      film = Film.create! valid_attributes
       delete :destroy, params: { id: film.to_param }, session: valid_session
-      expect(response).to redirect_to(films_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

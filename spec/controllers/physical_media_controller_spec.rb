@@ -97,9 +97,10 @@ RSpec.describe PhysicalMediaController, type: :controller do
       end.to change(PhysicalMedium, :count).by(-1)
     end
 
-    it 'redirects to the physical_mediums list' do
+    it 'redirects to the publications_path' do
+      physical_medium = PhysicalMedium.create! valid_attributes
       delete :destroy, params: { id: physical_medium.to_param }, session: valid_session
-      expect(response).to redirect_to(physical_media_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

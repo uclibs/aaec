@@ -97,9 +97,10 @@ RSpec.describe PhotographiesController, type: :controller do
       end.to change(Photography, :count).by(-1)
     end
 
-    it 'redirects to the photographys list' do
+    it 'redirects to the publications_path' do
+      photography = Photography.create! valid_attributes
       delete :destroy, params: { id: photography.to_param }, session: valid_session
-      expect(response).to redirect_to(photographies_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

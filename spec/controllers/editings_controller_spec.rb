@@ -97,9 +97,10 @@ RSpec.describe EditingsController, type: :controller do
       end.to change(Editing, :count).by(-1)
     end
 
-    it 'redirects to the editings list' do
+    it 'redirects to the publications_path' do
+      editing = Editing.create! valid_attributes
       delete :destroy, params: { id: editing.to_param }, session: valid_session
-      expect(response).to redirect_to(editings_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end

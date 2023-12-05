@@ -97,9 +97,10 @@ RSpec.describe PlaysController, type: :controller do
       end.to change(Play, :count).by(-1)
     end
 
-    it 'redirects to the plays list' do
+    it 'redirects to the publications page' do
+      play = Play.create! valid_attributes
       delete :destroy, params: { id: play.to_param }, session: valid_session
-      expect(response).to redirect_to(plays_url)
+      expect(response).to redirect_to(publications_url)
     end
   end
 end

@@ -97,9 +97,10 @@ RSpec.describe MusicalScoresController, type: :controller do
       end.to change(MusicalScore, :count).by(-1)
     end
 
-    it 'redirects to the musical_scores list' do
+    it 'redirects to the publications_path' do
+      musical_score = MusicalScore.create! valid_attributes
       delete :destroy, params: { id: musical_score.to_param }, session: valid_session
-      expect(response).to redirect_to(musical_scores_url)
+      expect(response).to redirect_to(publications_path)
     end
   end
 end
