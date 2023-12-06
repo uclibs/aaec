@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 def visit_publications_page_as_submitter(submitter)
   create_submitter(submitter)
   visit publications_path

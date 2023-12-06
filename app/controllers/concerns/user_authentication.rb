@@ -15,6 +15,8 @@ module UserAuthentication
   private
 
   def require_authenticated_user
+    puts "********** REQUIRE_AUTHENTICATED: the authenticity token submitted is: #{params[:authenticity_token]} **********"
+    puts "********** REQUIRE_AUTHENTICATED: the authenticity token in the session is: #{session[:_csrf_token]} **********"
     return if admin_logged_in? || current_submitter
 
     flash.keep[:danger] = 'You must submit your information first.'

@@ -24,6 +24,8 @@ class SubmittersController < ApplicationController
 
     respond_to do |format|
       if @submitter.save
+        puts "********** submitter.saved: the authenticity token submitted is: #{params[:authenticity_token]} **********"
+        puts "********** submitter.saved: the authenticity token in the session is: #{session[:_csrf_token]} **********"
         reset_session
         session[:submitter_id] = @submitter.id
 

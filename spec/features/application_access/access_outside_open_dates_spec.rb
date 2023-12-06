@@ -10,6 +10,7 @@ RSpec.describe 'Application Behavior', type: :feature do
   # Scenario 1: Accessing the application outside of its open dates
   context 'when the application is outside of its open dates' do
     before do
+      allow(ENV).to receive(:fetch).and_call_original
       allow(ENV).to receive(:fetch).with('EXPIRATION_DATE').and_return('Jan 01 2000')
     end
 

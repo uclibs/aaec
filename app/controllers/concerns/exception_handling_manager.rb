@@ -23,6 +23,9 @@ module ExceptionHandlingManager
 
   def handle_invalid_token(exception)
     Rails.logger.warn("InvalidAuthenticityToken occurred: #{exception}")
+    puts "inside handle_invalid_token"
+    puts "********** ERROR: the authenticity token submitted is: #{params[:authenticity_token]} **********"
+    puts "********** ERROR: the authenticity token in the session is: #{session[:_csrf_token]} **********"
     reset_session
     flash.keep[:danger] = 'Your session has expired. Please log in again.'
     redirect_to root_path

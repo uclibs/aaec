@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 
-
 RSpec.describe 'Handling of invalid authenticity token', type: :feature, js: true do
   let(:submitter) { FactoryBot.create(:submitter) }
 
@@ -65,19 +64,24 @@ RSpec.describe 'Handling of invalid authenticity token', type: :feature, js: tru
         expect(page).to have_current_path(new_artwork_path)
         make_authenticity_token_invalid # New artwork will submit an authenticity token.
 
-        fill_in('artwork[artist_first_name]', with: 'Test')
-        fill_in('artwork[artist_last_name]', with: 'Artist')
+        fill_in('artwork[author_first_name][]', with: 'Test')
+        fill_in('artwork[author_last_name][]', with: 'Artist')
         fill_in('artwork[work_title]', with: 'Test Artwork')
-
+        click_on('Submit')
         expect_to_be_on_root_page_with_expired_error
       end
     end
 
     context 'as an admin' do
+      before do
+        FactoryBot.create(:artwork) # create an artwork to edit
+      end
       it 'triggers an inauthentic token error and redirects to the root path' do
         visit_publications_page_as_admin
+        find('i.fas.fa-edit', match: :first).click
+        expect(page).to have_current_path(edit_artwork_path(Artwork.first))
         make_authenticity_token_invalid
-        click_on('New')
+        click_on('Submit')
         expect_to_be_on_root_page_with_expired_error
       end
     end

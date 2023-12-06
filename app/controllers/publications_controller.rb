@@ -26,6 +26,9 @@
 #
 
 class PublicationsController < ApplicationController
+  before_action { puts "********** session is: #{session.to_hash.inspect} **********" }
+  before_action { puts "********** session[:admin]?: #{session[:admin] == true} **********" }
+  before_action { puts "********** session[:submitter_id]: #{session[:submitter_id]} **********" }
   before_action :set_object, only: %i[show edit update destroy]
   before_action :signed_in, only: %i[index show edit update destroy]
   before_action :check_max_submissions, only: %i[new]
