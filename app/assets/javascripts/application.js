@@ -20,4 +20,3 @@
 //= require add_remove_authors
 //= require toggle_college_other_field
 //= require_tree .
-
