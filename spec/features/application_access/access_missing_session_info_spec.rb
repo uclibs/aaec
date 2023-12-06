@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Application Behavior', type: :feature do
-  # Scenario 3: Missing session IDs
   context 'when a user is not logged in' do
     # No submitter_id or admin=true
     it 'redirects to a login page with a message to submit your information' do

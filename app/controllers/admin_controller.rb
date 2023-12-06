@@ -24,16 +24,11 @@ class AdminController < ApplicationController
   def login; end
 
   def validate
-    puts "I'm in validate"
-    puts "********** admin-validate: the authenticity token submitted is: #{params[:authenticity_token]} **********"
-    puts "********** admin-validate: the authenticity token in the session is: #{session[:_csrf_token]} **********"
     if check_credentials(params[:username], params[:password])
-      puts "I'm in check_credentials passed"
       reset_session
       session[:admin] = true
       redirect_to publications_path
     else
-      puts "I'm in check_credentials failed"
       redirect_to manage_path, notice: 'Invalid Credentails'
     end
   end

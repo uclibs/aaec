@@ -42,7 +42,7 @@
           <td><%= @artwork.date %></td>
         </tr>
 
-        <% if session[:admin] %>
+        <% if session[:admin] && @submitter&.id%>
         
           <tr>
             <th scope="row">Submitter ID:</th>
