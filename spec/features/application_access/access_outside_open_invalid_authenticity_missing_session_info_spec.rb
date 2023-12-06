@@ -14,7 +14,6 @@ RSpec.describe 'Application Behavior', type: :feature do
     ActionController::Base.allow_forgery_protection = false
   end
 
-  # Scenario 1, 2 & 3: Combining all three issues
   context 'when accessing outside open dates, with an invalid authenticity token, and a missing or invalid session ID' do
     it 'redirects to a closed page' do
       # The user never tries to log in, otherwise they would have a session.

@@ -7,7 +7,6 @@ RSpec.describe 'Application Behavior', type: :feature do
   let(:expected_admin_content) { ['Submitters (', 'Artworks (', 'Books (', 'Book Chapters ('] }
   let(:expected_submitter_content) { ['Instructions', 'Contact Information', 'Artworks', 'Books', 'Book Chapters'] }
 
-  # Scenario 1: Accessing the application outside of its open dates
   context 'when the application is outside of its open dates' do
     before do
       allow(ENV).to receive(:fetch).and_call_original

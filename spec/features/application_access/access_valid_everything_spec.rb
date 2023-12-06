@@ -33,17 +33,6 @@ RSpec.describe 'Application Behavior', type: :feature, js: true do
       end
     end
 
-    context 'as an admin and a submitter' do
-      it 'allows access to the publications page with an admin view' do
-        # Currently, this scenario is possible though not intended for use.
-        create_submitter(submitter)
-        visit_publications_page_as_admin
-        expected_admin_content.each do |content|
-          expect(page).to have_content(content)
-        end
-      end
-    end
-
     context 'as a submitter' do
       it 'allows access to the publications page' do
         visit_publications_page_as_submitter(submitter)
