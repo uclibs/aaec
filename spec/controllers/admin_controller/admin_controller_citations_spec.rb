@@ -21,13 +21,13 @@ RSpec.describe AdminController, type: :controller do
       end
     end
 
-    context 'when admin is not logged in' do
+    context 'when logged in as a submitter' do
       before do
         session[:admin] = false
         session[:submitter_id] = FactoryBot.create(:submitter).id
       end
 
-      it 'redirects to publications_path' do
+      it 'gives a 404 response' do
         get :citations
         expect(response).to have_http_status(:not_found)
       end
