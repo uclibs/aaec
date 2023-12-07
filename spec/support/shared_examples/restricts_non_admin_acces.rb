@@ -15,7 +15,7 @@ RSpec.shared_examples 'restricts non-admin access' do |actions|
   actions.each do |action, method|
     describe "#{method.upcase} ##{action}" do
       context 'when non-admin and non-submitter user' do
-        include_examples 'restricted access', action, method, :none
+        include_examples 'redirect to root', action, method, :none
       end
 
       context 'when submitter user' do

@@ -25,12 +25,25 @@ RSpec.describe 'AdminOnlyAccess Concern', type: :controller do
       end
     end
 
-    context 'as a non-admin user' do
-      before { session[:admin] = false }
+    context 'as a submitter' do
+      before do
+        session[:admin] = false
+        session[:submitter_id] = FactoryBot.create(:submitter).id
+      end
 
       it 'denies access to the action' do
         get :dummy_action
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'as a non-admin user' do
+      before { session[:admin] = false }
+
+      it 'redirects the user to log in' do
+        get :dummy_action
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to(root_path)
       end
     end
   end
