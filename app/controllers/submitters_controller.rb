@@ -31,7 +31,7 @@ class SubmittersController < ApplicationController
         format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: @submitter }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
@@ -46,7 +46,7 @@ class SubmittersController < ApplicationController
         format.html { redirect_to publications_path }
         format.json { render :show, status: :ok, location: @submitter }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end

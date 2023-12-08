@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include ExceptionHandlingManager
   include UserAuthentication
+  include RestrictSubmitterAccess
 
   prepend_before_action :check_date
 

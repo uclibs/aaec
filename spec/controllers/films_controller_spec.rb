@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe FilmsController, type: :controller do
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'director' => 'Test', 'release_year' => 'Test' }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'director' => 'Test', 'release_year' => 'Test', 'submitter_id' => submitter.id }
   end
 
   let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'director' => '', 'release_year' => '' }
+    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'director' => '', 'release_year' => '', 'submitter_id' => submitter.id }
   end
 
   let(:submitter) { FactoryBot.create(:submitter) }
@@ -59,27 +59,31 @@ RSpec.describe FilmsController, type: :controller do
   end
 
   describe 'PUT #update' do
+    before do
+      login_as_submitter_of(film)
+    end
     context 'with valid params' do
       let(:new_attributes) do
-        { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => %w[6 7], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'director' => 'Test', 'release_year' => '2020' }
+        { 'college_ids' => %w[6 7], 'release_year' => '2020' }
       end
 
-      it 'updates the requested other publication' do
-        put :update, params: { id: film.to_param, film: new_attributes }, session: valid_session
+      it 'updates the requested film' do
+        put :update, params: { id: film.id, film: new_attributes }
         film.reload
+        expect(film.author_first_name).to eql %w[Test Person] # verify unchanged
         expect(film.release_year).to eql '2020'
         expect(film.college_ids).to eql [6, 7]
       end
 
       it 'redirects to the film' do
-        put :update, params: { id: film.to_param, film: valid_attributes }, session: valid_session
+        put :update, params: { id: film.id, film: valid_attributes }
         expect(response).to redirect_to(film)
       end
     end
 
     context 'with invalid params' do
       it "redirects to the 'edit' template with status 'unprocessable_entity'" do
-        put :update, params: { id: film.to_param, film: invalid_attributes }, session: valid_session
+        put :update, params: { id: film.id, film: invalid_attributes }
         expect(response).to render_template(:edit)
         expect(response.status).to eql 422
       end
@@ -89,17 +93,18 @@ RSpec.describe FilmsController, type: :controller do
   describe 'DELETE #destroy' do
     before do
       film
+      login_as_submitter_of(film)
     end
 
     it 'destroys the requested film' do
       expect do
-        delete :destroy, params: { id: film.to_param }, session: valid_session
+        delete :destroy, params: { id: film.id }
       end.to change(Film, :count).by(-1)
     end
 
     it 'redirects to the publications_path' do
       film = Film.create! valid_attributes
-      delete :destroy, params: { id: film.to_param }, session: valid_session
+      delete :destroy, params: { id: film.id }
       expect(response).to redirect_to(publications_path)
     end
   end

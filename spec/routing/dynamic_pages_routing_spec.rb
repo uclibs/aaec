@@ -19,5 +19,9 @@ RSpec.describe PagesController, type: :routing do
     it 'does not route to #show without a page parameter' do
       expect(get: '/pages/').not_to be_routable
     end
+
+    it 'routes to #closed' do
+      expect(get: '/pages/closed').to route_to('pages#show', page: 'closed')
+    end
   end
 end

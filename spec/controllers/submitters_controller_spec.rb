@@ -11,36 +11,38 @@ RSpec.describe SubmittersController, type: :controller do
     { first_name: '', last_name: '', college: 1, department: 'Application Development', mailing_address: '', phone_number: '', email_address: 'bad_email' }
   end
 
+  let(:submitter) { FactoryBot.create(:submitter) }
   let(:old_submitter) { FactoryBot.create(:submitter) }
 
-  let(:some_old_value) { 'some_old_value' }
+  let(:valid_session) { { submitter_id: submitter.id } }
   let(:old_session) { { submitter_id: old_submitter.id, some_old_key: some_old_value } }
 
-  let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
-
-  let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
+  let(:some_old_value) { 'some_old_value' }
 
   describe 'GET #show' do
+    before do
+      login_as_submitter_of(submitter)
+    end
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :show, params: { id: submitter.to_param }, session: valid_session
+      get :show, params: { id: submitter.id }
       expect(response).to be_successful
     end
   end
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: {}, session: valid_session
+      get :new, params: {}
       expect(response).to be_successful
     end
   end
 
   describe 'GET #edit' do
+    before do
+      login_as_submitter_of(submitter)
+    end
+
     it 'returns a success response' do
-      submitter = Submitter.create! valid_attributes
-      get :edit, params: { id: submitter.to_param }, session: valid_session
+      get :edit, params: { id: submitter.id }
       expect(response).to be_successful
     end
   end
@@ -69,25 +71,29 @@ RSpec.describe SubmittersController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { submitter: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+      it 'renders the new template with an unprocessible entity response' do
+        post :create, params: { submitter: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:new)
       end
     end
   end
 
   describe 'PUT #update' do
+    before do
+      login_as_submitter_of(submitter)
+    end
+
     context 'with valid params' do
       let(:new_attributes) do
-        { first_name: 'New', last_name: 'Submitter', college: 2, department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
+        { first_name: 'New', college: 2, department: 'Not Important', mailing_address: 'Home Address', phone_number: '513-111-1111', email_address: 'test@gmail.com' }
       end
 
       it 'updates the requested submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: new_attributes }, session: valid_session
+        put :update, params: { id: submitter.id, submitter: new_attributes }
         submitter.reload
         expect(submitter.first_name).to eql 'New'
-        expect(submitter.last_name).to eql 'Submitter'
+        expect(submitter.last_name).to eql 'Last' # unchanged
         expect(submitter.college).to eql 2
         expect(submitter.department).to eql 'Not Important'
         expect(submitter.mailing_address).to eql 'Home Address'
@@ -96,17 +102,21 @@ RSpec.describe SubmittersController, type: :controller do
       end
 
       it 'redirects to the submitter' do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: valid_attributes }, session: valid_session
+        put :update, params: { id: submitter.id, submitter: valid_attributes }
         expect(response).to redirect_to(publications_path)
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        submitter = Submitter.create! valid_attributes
-        put :update, params: { id: submitter.to_param, submitter: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+      it 'does not update the requested submitter' do
+        put :update, params: { id: submitter.id, submitter: invalid_attributes }
+        submitter.reload
+        expect(submitter.first_name).to eql 'First' # unchanged
+      end
+
+      it 'displays the edit template and returns an unprocessible entity error' do
+        put :update, params: { id: submitter.id, submitter: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
     end

@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe ArtworksController, type: :controller do
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test' }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'submitter_id' => submitter.id }
   end
 
   let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '' }
+    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'submitter_id' => submitter.id }
   end
 
   let(:submitter) { FactoryBot.create(:submitter) }
@@ -55,27 +55,32 @@ RSpec.describe ArtworksController, type: :controller do
   end
 
   describe 'PUT #update' do
+    before do
+      login_as_submitter_of(artwork)
+    end
+
     context 'with valid params' do
       let(:new_attributes) do
-        { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => %w[6 7], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'volume' => 'Test', 'issue' => 'Test', 'page_numbers' => 'Test', 'location' => 'Test', 'date' => 'new date' }
+        { 'college_ids' => %w[6 7], 'date' => 'new date' }
       end
 
-      it 'updates the requested other publication' do
-        put :update, params: { id: artwork.to_param, artwork: new_attributes }, session: valid_session
+      it 'updates the requested artwork' do
+        put :update, params: { id: artwork.id, artwork: new_attributes }
         artwork.reload
+        expect(artwork.author_first_name).to eql %w[Test Person] # verify unchanged
         expect(artwork.date).to eql 'new date'
         expect(artwork.college_ids).to eql [6, 7]
       end
 
       it 'redirects to the artwork' do
-        put :update, params: { id: artwork.to_param, artwork: valid_attributes }, session: valid_session
+        put :update, params: { id: artwork.id, artwork: valid_attributes }
         expect(response).to redirect_to(artwork)
       end
     end
 
     context 'with invalid params' do
       it "redirects to the 'edit' template with status 'unprocessable_entity'" do
-        put :update, params: { id: artwork.to_param, artwork: invalid_attributes }, session: valid_session
+        put :update, params: { id: artwork.id, artwork: invalid_attributes }
         expect(response).to render_template(:edit)
         expect(response.status).to eql 422
       end
@@ -85,17 +90,18 @@ RSpec.describe ArtworksController, type: :controller do
   describe 'DELETE #destroy' do
     before do
       artwork
+      login_as_submitter_of(artwork)
     end
 
     it 'destroys the requested artwork' do
       expect do
-        delete :destroy, params: { id: artwork.to_param }, session: valid_session
+        delete :destroy, params: { id: artwork.id }
       end.to change(Artwork, :count).by(-1)
     end
 
     it 'redirects to the publications_path' do
       artwork = Artwork.create! valid_attributes
-      delete :destroy, params: { id: artwork.to_param }, session: valid_session
+      delete :destroy, params: { id: artwork.id }
       expect(response).to redirect_to(publications_path)
     end
   end
