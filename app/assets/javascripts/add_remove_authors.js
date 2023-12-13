@@ -1,8 +1,28 @@
-function addAuthor(type, count) {
-  const newAuthorId = `added_${count}`;
+function addAuthor(type, authorCount) {
+  authorCount = authorCount || document.getElementById("author_group").childElementCount;
+  const newAuthorId = `author_${authorCount}`;
   const newAuthor = createAuthorElement(type, newAuthorId);
   document.getElementById("author_group").appendChild(newAuthor);
-  updateAddAuthorButton(type, count + 1);
+  updateAddAuthorButton(type, authorCount);
+}
+
+// find the addAuthor button on the screen and change it to send both the type and the authorCount
+function updateAddAuthorButton(type, authorCount) {
+  const addAuthorButton = document.getElementById("add_author_btn");
+  addAuthorButton.outerHTML = createAddAuthorButton(type, authorCount);
+}
+
+// create a new addAuthor button with the type and authorCount
+function createAddAuthorButton(type, authorCount) {
+  const button = createElementWithAttributes("button", {
+      name: "button",
+      type: "button",
+      class:  "btn btn-primary",
+      id: "add_author_btn",
+      onclick: `addAuthor("${type}", ${authorCount + 1})`
+  });
+  button.textContent = "Add Author";
+  return button.outerHTML;
 }
 
 function createAuthorElement(type, id) {
@@ -22,7 +42,6 @@ function createInput(type, name) {
   const input = createElementWithAttributes("input", {
       type: "text",
       name: `${type}[${name}][]`,
-      id: `${type}_${name}_`,
       required: "required",
       class: "form-control form-group"
   });
@@ -47,11 +66,6 @@ function createElementWithAttributes(tag, attributes) {
   const element = document.createElement(tag);
   Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
   return element;
-}
-
-function updateAddAuthorButton(type, count) {
-  const addButton = document.getElementById("add_author_btn");
-  addButton.setAttribute("onClick", `addAuthor('${type}', ${count})`);
 }
 
 function removeAuthor(idToDelete)     {

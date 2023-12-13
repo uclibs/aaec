@@ -12,13 +12,13 @@
             <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[index], required: true, class: "form-control form-group" %>
         </div>
         <div class="col-md-5">
-        <%= label_tag "#{name}_author_last_name_#{index}", "Author Last Name", class: "required" %>
-        <%= text_field_tag "#{name}[author_last_name][]", publication.author_last_name[index], required: true, class: "form-control form-group" %>
+            <%= label_tag "#{name}_author_last_name_#{index}", "Author Last Name", class: "required" %>
+            <%= text_field_tag "#{name}[author_last_name][]", publication.author_last_name[index], required: true, class: "form-control form-group" %>
         </div>
         <% if index > 0 %>
-        <div class="col-md-2">
-            <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_#{index}')", class: "form-control form-group bg-danger text-white" %>
-        </div>
+            <div class="col-md-2">
+                <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_#{index}')", class: "form-control form-group bg-danger text-white" %>
+            </div>
         <% end %>
     </div>
     <% end %>
