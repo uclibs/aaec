@@ -56,7 +56,7 @@ gem 'pagy', '~> 6.2.0'
 gem 'truncato'
 
 group :development, :test do
-  gem 'brakeman', '~> 6.0'
+  gem 'brakeman', '~> 6.1'
   gem 'bundler-audit', '~> 0.9.1'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
