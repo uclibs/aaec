@@ -6,7 +6,7 @@ RSpec.describe PagesController, type: :routing do
   describe 'routing' do
     PagesController::ALLOWED_PAGES.each do |page|
       it "routes to #show with #{page} as parameter" do
-        expect(get: "/pages/#{page}").to route_to('pages#show', page: page)
+        expect(get: "/pages/#{page}").to route_to('pages#show', page:)
       end
     end
 
