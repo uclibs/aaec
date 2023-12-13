@@ -4,15 +4,14 @@ require 'rails_helper'
 
 RSpec.describe PublicPerformancesController, type: :controller do
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'Test', 'submitter_id' => submitter.id }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'time' => 'Test', 'submitter_id' => submitter.id.to_s }
   end
 
   let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'time' => '', 'submitter_id' => submitter.id }
+    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'time' => '' }
   end
 
   let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
   let(:public_performance) { FactoryBot.create(:public_performance, submitter_id: submitter.id) }
 
   it_behaves_like 'restricts non-logged-in users', {
@@ -26,19 +25,21 @@ RSpec.describe PublicPerformancesController, type: :controller do
   }
 
   describe 'POST #create' do
+    before do
+      session[:submitter_id] = submitter.id
+    end
     context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
-
-      it 'creates a new Public Performance' do
+      it 'creates a new Public Performance with the correct sumbitter_id' do
         expect do
-          post :create, params: { public_performance: valid_attributes }, session: valid_session
+          post :create, params: { public_performance: valid_attributes }
         end.to change(PublicPerformance, :count).by(1)
+
+        created_public_performance = PublicPerformance.last
+        expect(created_public_performance.submitter_id).to eq(submitter.id.to_s)
       end
 
       it 'redirects to the publication index' do
-        post :create, params: { public_performance: valid_attributes }, session: valid_session
+        post :create, params: { public_performance: valid_attributes }
         expect(response).to redirect_to(publications_path)
       end
     end
@@ -46,12 +47,12 @@ RSpec.describe PublicPerformancesController, type: :controller do
     context 'with invalid params' do
       it 'does not create a new Public Performance' do
         expect do
-          post :create, params: { public_performance: invalid_attributes }, session: valid_session
+          post :create, params: { public_performance: invalid_attributes }
         end.not_to change(PublicPerformance, :count)
       end
 
       it "redirects to the 'new' template with status 'unprocessable_entity'" do
-        post :create, params: { public_performance: invalid_attributes }, session: valid_session
+        post :create, params: { public_performance: invalid_attributes }
         expect(response).to render_template(:new)
         expect(response.status).to eql 422
       end
@@ -77,7 +78,7 @@ RSpec.describe PublicPerformancesController, type: :controller do
       end
 
       it 'redirects to the public_performance' do
-        put :update, params: { id: public_performance.id, public_performance: valid_attributes }
+        put :update, params: { id: public_performance.id, public_performance: new_attributes }
         expect(response).to redirect_to(public_performance)
       end
     end

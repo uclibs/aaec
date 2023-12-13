@@ -8,6 +8,7 @@
 # with the resource. It's included in the application controller and is skipped for
 # controllers that don't require submitter authentication (e.g. pages, errors, etc.).
 #
+# "Index" is skipped because it has its own logic to determine what can be shown.
 module RestrictSubmitterAccess
   extend ActiveSupport::Concern
 

@@ -4,16 +4,15 @@ require 'rails_helper'
 
 RSpec.describe ArtworksController, type: :controller do
   let(:valid_attributes) do
-    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'submitter_id' => submitter.id }
+    { 'author_first_name' => %w[Test Person], 'author_last_name' => %w[Case 2], 'college_ids' => ['', '1', '4'], 'uc_department' => 'Test', 'work_title' => 'Test', 'other_title' => 'Test', 'location' => 'Test', 'date' => 'Test', 'submitter_id' => submitter.id.to_s }
   end
 
   let(:invalid_attributes) do
-    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '', 'submitter_id' => submitter.id }
+    { 'author_first_name' => ['Bad'], 'author_last_name' => [''], 'college_ids' => [''], 'uc_department' => '', 'work_title' => '', 'other_title' => '', 'location' => '', 'date' => '' }
   end
 
   let(:submitter) { FactoryBot.create(:submitter) }
-  let(:valid_session) { { submitter_id: submitter.id } }
-  let(:artwork) { Artwork.create! valid_attributes }
+  let(:artwork) { FactoryBot.create(:artwork, submitter_id: submitter.id) }
 
   it_behaves_like 'restricts non-logged-in users', {
     'index' => :get,
@@ -26,15 +25,21 @@ RSpec.describe ArtworksController, type: :controller do
   }
 
   describe 'POST #create' do
+    before do
+      session[:submitter_id] = submitter.id
+    end
     context 'with valid params' do
-      it 'creates a new Artwork' do
+      it 'creates a new Artwork with the correct submitter_id' do
         expect do
-          post :create, params: { artwork: valid_attributes }, session: valid_session
+          post :create, params: { artwork: valid_attributes }
         end.to change(Artwork, :count).by(1)
+
+        created_artwork = Artwork.last
+        expect(created_artwork.submitter_id).to eq(submitter.id.to_s)
       end
 
       it 'redirects to the publication index' do
-        post :create, params: { artwork: valid_attributes }, session: valid_session
+        post :create, params: { artwork: valid_attributes }
         expect(response).to redirect_to(publications_path)
       end
     end
@@ -42,12 +47,12 @@ RSpec.describe ArtworksController, type: :controller do
     context 'with invalid params' do
       it 'does not create a new Artwork' do
         expect do
-          post :create, params: { artwork: invalid_attributes }, session: valid_session
+          post :create, params: { artwork: invalid_attributes }
         end.not_to change(Artwork, :count)
       end
 
       it "redirects to the 'new' template with status 'unprocessable_entity'" do
-        post :create, params: { artwork: invalid_attributes }, session: valid_session
+        post :create, params: { artwork: invalid_attributes }
         expect(response).to render_template(:new)
         expect(response.status).to eql 422
       end
@@ -67,13 +72,13 @@ RSpec.describe ArtworksController, type: :controller do
       it 'updates the requested artwork' do
         put :update, params: { id: artwork.id, artwork: new_attributes }
         artwork.reload
-        expect(artwork.author_first_name).to eql %w[Test Person] # verify unchanged
+        expect(artwork.author_first_name).to eql %w[First Second] # verify unchanged
         expect(artwork.date).to eql 'new date'
         expect(artwork.college_ids).to eql [6, 7]
       end
 
       it 'redirects to the artwork' do
-        put :update, params: { id: artwork.id, artwork: valid_attributes }
+        put :update, params: { id: artwork.id, artwork: new_attributes }
         expect(response).to redirect_to(artwork)
       end
     end
@@ -100,7 +105,6 @@ RSpec.describe ArtworksController, type: :controller do
     end
 
     it 'redirects to the publications_path' do
-      artwork = Artwork.create! valid_attributes
       delete :destroy, params: { id: artwork.id }
       expect(response).to redirect_to(publications_path)
     end
