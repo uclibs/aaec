@@ -15,7 +15,7 @@ RSpec.shared_examples 'admin_and_owner_access_only' do |actions|
   actions.each do |action, method|
     describe "#{method.upcase} ##{action}" do
       context 'when non-admin and non-owner submitter' do
-        include_examples 'restrict to 404', action, method, :other_submitter
+        include_examples 'restricted access', action, method, :other_submitter
       end
 
       context 'when owner submitter' do

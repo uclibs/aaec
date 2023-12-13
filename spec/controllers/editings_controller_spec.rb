@@ -29,10 +29,6 @@ RSpec.describe EditingsController, type: :controller do
       session[:submitter_id] = submitter.id
     end
     context 'with valid params' do
-      before do
-        FactoryBot.create(:submitter)
-      end
-
       it 'creates a new Editing with the correct submitter_id' do
         expect do
           post :create, params: { editing: valid_attributes }
