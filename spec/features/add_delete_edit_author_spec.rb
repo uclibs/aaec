@@ -9,9 +9,35 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
   let(:author_last_name) { 'other_publication[author_last_name][]' }
 
   def remove_author_at_index(index)
-    within(first_name_fields[index].ancestor('div.form-row')) do
-      find('button', text: 'Remove Author').click
+    # Find the first name field at the given index
+    first_name_field = first_name_fields[index]
+
+    # Navigate two levels up from the found field to reach the intended parent element
+    parent_element = first_name_field.find(:xpath, '../..')
+
+    # Within the parent element, find and click the "Remove Author" button
+    within(parent_element) do
+      # Find the button using Capybara
+      # Find the button using Capybara
+      my_button = find('button', text: 'Remove Author')
+
+      # Assign a unique ID to the element
+      unique_id = "unique-button-id"
+      page.execute_script("arguments[0].id = '#{unique_id}'", my_button)
+
+      # Execute the script to change the button's background color using the unique ID
+      page.execute_script("document.getElementById('#{unique_id}').innerHTML = 'green';")
+      page.save_screenshot(Rails.root.join('tmp', 'screenshots', 'after-turning-green.png'))
+      find('button', text: 'green').click
     end
+  end
+
+
+
+
+  def check_field_values_by_index(index, first_name, last_name)
+    expect(first_name_fields[index].value).to eq(first_name)
+    expect(last_name_fields[index].value).to eq(last_name)
   end
 
   # Defined as a method to avoid stale element errors
@@ -33,17 +59,18 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     # to be present on page load
     expect(first_name_fields.size).to eq(1)
     expect(last_name_fields.size).to eq(1)
-    expect(first_name_fields[0].value).to be_empty
-    expect(last_name_fields[0].value).to be_empty
+    check_field_values_by_index(0, '', '')
 
     # Fill out the fields with the first author's name
     fill_in author_first_name, with: other_publication.author_first_name.first
     fill_in author_last_name, with: other_publication.author_last_name.first
 
-    # Click "Add Author" and verify new fields
+    # Click "Add Author" and verify new and old fields
     click_on 'Add Author'
     expect(first_name_fields.size).to eq(2)
     expect(last_name_fields.size).to eq(2)
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, '', '')
 
     # Fill in second author's name
     first_name_fields.last.set(other_publication.author_first_name.second)
@@ -55,23 +82,21 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     expect(last_name_fields.size).to eq(3)
 
     # Verify that the third set of author fields is blank
+    # and that the first two sets of author fields are still present
     expect(first_name_fields[2].value).to be_empty
     expect(last_name_fields[2].value).to be_empty
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, other_publication.author_first_name.second, other_publication.author_last_name.second)
 
     # Click "Remove Author" for the second author
     remove_author_at_index(1)
 
-    # Verify that the third set of author fields is now gone
+    # Verify that the second set of author fields is now gone
+    # and that the other two sets of author fields are still present
     expect(first_name_fields.size).to eq(2)
     expect(last_name_fields.size).to eq(2)
-
-    # Verify that the second author's name is now blank
-    expect(first_name_fields[1].value).to be_empty
-    expect(last_name_fields[1].value).to be_empty
-
-    # Verify that the first author's name is still present
-    expect(first_name_fields[0].value).to eq(other_publication.author_first_name.first)
-    expect(last_name_fields[0].value).to eq(other_publication.author_last_name.first)
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, '', '')
 
     # Fill in third author's name
     first_name_fields.last.set('ThirdFirstName')
@@ -85,23 +110,45 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     first_name_fields.last.set('FifthFirstName')
     last_name_fields.last.set('FifthLastName')
 
-    # Remove the 'third' author
+    # Remove the 'third' author (at index 1)
     remove_author_at_index(1)
 
-    # Remove the 'fourth' author
-    remove_author_at_index(1)
+    # Verify that there are now only 3 authors
+    # and that they have the correct names
+    expect(first_name_fields.size).to eq(3)
+    expect(last_name_fields.size).to eq(3)
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, 'FourthFirstName', 'FourthLastName')
+    check_field_values_by_index(2, 'FifthFirstName', 'FifthLastName')
 
+    # Remove the 'fifth' author (at index 2)
+
+    page.save_screenshot(Rails.root.join('tmp', 'screenshots', 'before-removing-index-2.png'))
+    remove_author_at_index(2)
+    page.save_screenshot(Rails.root.join('tmp', 'screenshots', 'after-removing-index-2.png'))
     # Verify that there are now only 2 authors
+    # and that they have the correct names
     expect(first_name_fields.size).to eq(2)
     expect(last_name_fields.size).to eq(2)
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, 'FourthFirstName', 'FourthLastName')
 
-    # Verify that the first author's name is still present
-    expect(first_name_fields[0].value).to eq(other_publication.author_first_name.first)
-    expect(last_name_fields[0].value).to eq(other_publication.author_last_name.first)
+    # Add a sixth author
+    click_on 'Add Author'
+    first_name_fields.last.set('SixthFirstName')
+    last_name_fields.last.set('SixthLastName')
 
-    # Verify that the last author's name is now the 'fifth' author's name
-    expect(first_name_fields[1].value).to eq('FifthFirstName')
-    expect(last_name_fields[1].value).to eq('FifthLastName')
+    # Click "Remove Author" for the sixth author (at index 2)
+    remove_author_at_index(2) # 2 because we have 3 authors now (after previous deletions), but the index is 0-based
+
+    # Verify that there are now only 2 authors
+    # and that they have the correct names
+    expect(first_name_fields.size).to eq(2)
+    expect(last_name_fields.size).to eq(2)
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, 'FourthFirstName', 'FourthLastName')
+
+    # At this point, we have two authors - the first and the "fourth" author.
 
     # Fill in the other required field(s)
     fill_in 'other_publication[work_title]', with: other_publication.work_title
@@ -121,7 +168,7 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
 
     # Verify that the authors are correct
     expect(page).to have_content("#{other_publication.author_first_name.first} #{other_publication.author_last_name.first}")
-    expect(page).to have_content('FifthFirstName FifthLastName')
+    expect(page).to have_content('FourthFirstName FourthLastName')
 
     # Click the edit button
     click_on 'Edit'
@@ -131,32 +178,28 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     click_on 'Add Author'
     expect(first_name_fields.size).to eq(3)
     expect(last_name_fields.size).to eq(3)
-    first_name_fields.last.set('SixthFirstName')
-    last_name_fields.last.set('SixthLastName')
+    first_name_fields.last.set('SeventhFirstName')
+    last_name_fields.last.set('SeventhLastName')
     click_on 'Add Author'
     expect(first_name_fields.size).to eq(4)
     expect(last_name_fields.size).to eq(4)
-    first_name_fields.last.set('SeventhFirstName')
-    last_name_fields.last.set('SeventhLastName')
+    first_name_fields.last.set('EighthFirstName')
+    last_name_fields.last.set('EighthLastName')
 
-    # Remove the 'sixth' author at index 2
-    remove_author_at_index(2)
+    # Remove the 'eighth' author at index 3
+    remove_author_at_index(3)
 
     # Verify that we have three authors
+    # and that they have the correct names
     expect(first_name_fields.size).to eq(3)
     expect(last_name_fields.size).to eq(3)
-
-    # Verify that all authors names are correct:
-    expect(first_name_fields[0].value).to eq(other_publication.author_first_name.first)
-    expect(last_name_fields[0].value).to eq(other_publication.author_last_name.first)
-    expect(first_name_fields[1].value).to eq('FifthFirstName')
-    expect(last_name_fields[1].value).to eq('FifthLastName')
-    expect(first_name_fields[2].value).to eq('SeventhFirstName')
-    expect(last_name_fields[2].value).to eq('SeventhLastName')
+    check_field_values_by_index(0, other_publication.author_first_name.first, other_publication.author_last_name.first)
+    check_field_values_by_index(1, 'FourthFirstName', 'FourthLastName')
+    check_field_values_by_index(2, 'SeventhFirstName', 'SeventhLastName')
 
     # Modify the 'fifth' author's name
-    first_name_fields[1].set('FifthFirstNameModified')
-    last_name_fields[1].set('FifthLastNameModified')
+    first_name_fields[1].set('FourthFirstNameModified')
+    last_name_fields[1].set('FourthLastNameModified')
 
     # Save the changes
     click_on 'Submit'
@@ -166,8 +209,8 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
     expect(page).to have_content('OtherPublication was successfully updated.')
     expect(page).to have_content(other_publication.author_first_name.first)
     expect(page).to have_content(other_publication.author_last_name.first)
-    expect(page).to have_content('FifthFirstNameModified')
-    expect(page).to have_content('FifthLastNameModified')
+    expect(page).to have_content('FourthFirstNameModified')
+    expect(page).to have_content('FourthLastNameModified')
     expect(page).to have_content('SeventhFirstName')
     expect(page).to have_content('SeventhLastName')
   end
