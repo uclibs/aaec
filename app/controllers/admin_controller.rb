@@ -25,6 +25,7 @@ class AdminController < ApplicationController
 
   def validate
     if check_credentials(params[:username], params[:password])
+      reset_session
       session[:admin] = true
       redirect_to publications_path
     else

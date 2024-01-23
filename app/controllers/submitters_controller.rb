@@ -26,7 +26,7 @@ class SubmittersController < ApplicationController
       if @submitter.save
         reset_session
         session[:submitter_id] = @submitter.id
-        # Change to home page
+
         flash.keep[:success] = 'Your account was successfully created.'
         format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: @submitter }

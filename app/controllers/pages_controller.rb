@@ -2,7 +2,7 @@
 
 # app/controllers/pages_controller.rb
 class PagesController < ApplicationController
-  skip_before_action :check_date
+  skip_before_action :check_date, :require_authenticated_user
   ALLOWED_PAGES = %w[closed finished].freeze
 
   def show
