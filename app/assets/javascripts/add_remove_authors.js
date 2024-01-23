@@ -68,6 +68,26 @@ function createElementWithAttributes(tag, attributes) {
   return element;
 }
 
-function removeAuthor(idToDelete)     {
-  document.getElementById(idToDelete).outerHTML = '';
+function removeAuthor(idToDelete) {
+    const elementToRemove = document.getElementById(idToDelete);
+
+    // Remove the element visually
+    elementToRemove.parentNode.removeChild(elementToRemove);
+
+    // Update the indices of subsequent authors to maintain order
+    const authorGroups = document.querySelectorAll('#author_group .form-row');
+    authorGroups.forEach((group, index) => {
+        group.id = 'author_' + index;
+
+        const firstNameInput = group.querySelector('[name="publication[author_first_name][]"]');
+        const lastNameInput = group.querySelector('[name="publication[author_last_name][]"]');
+
+        if (firstNameInput) {
+            firstNameInput.id = 'author_first_name_' + index;
+        }
+        if (lastNameInput) {
+            lastNameInput.id = 'author_last_name_' + index;
+        }
+    });
 }
+

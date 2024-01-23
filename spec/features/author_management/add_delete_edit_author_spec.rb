@@ -8,44 +8,13 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
   let(:author_first_name) { 'other_publication[author_first_name][]' }
   let(:author_last_name) { 'other_publication[author_last_name][]' }
 
-  def remove_author_at_index(index)
-    # Find the first name field at the given index
-    first_name_field = first_name_fields[index]
 
-    # Navigate two levels up from the found field to reach the intended parent element
-    parent_element = first_name_field.find(:xpath, '../..')
 
-    # Within the parent element, find and click the "Remove Author" button
-    within(parent_element) do
-      # Find the button using Capybara
-      # Find the button using Capybara
-      my_button = find('button', text: 'Remove Author')
 
-      # Assign a unique ID to the element
-      unique_id = 'unique-button-id'
-      page.execute_script("arguments[0].id = '#{unique_id}'", my_button)
 
-      # Execute the script to change the button's background color using the unique ID
-      page.execute_script("document.getElementById('#{unique_id}').innerHTML = 'green';")
-      page.save_screenshot(Rails.root.join('tmp', 'screenshots', 'after-turning-green.png'))
-      find('button', text: 'green').click
-    end
-  end
 
-  def check_field_values_by_index(index, first_name, last_name)
-    expect(first_name_fields[index].value).to eq(first_name)
-    expect(last_name_fields[index].value).to eq(last_name)
-  end
 
-  # Defined as a method to avoid stale element errors
-  def first_name_fields
-    all("input[name=\"#{author_first_name}\"]")
-  end
 
-  # Defined as a method to avoid stale element errors
-  def last_name_fields
-    all("input[name=\"#{author_last_name}\"]")
-  end
 
   scenario 'Add, delete, edit, and verify other publications' do
     create_submitter(submitter)

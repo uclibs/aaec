@@ -1,26 +1,27 @@
 
 <div id="author_group">
-    <% if publication.author_first_name.empty? && publication.author_last_name.empty? %>
+  <% if publication.author_first_name.empty? && publication.author_last_name.empty? %>
     <% publication.author_first_name << '' %>
     <% publication.author_last_name << '' %>
-    <% end %>
+  <% end %>
 
-    <% publication.author_first_name.each_with_index do |_, index| %>
+  <% publication.author_first_name.zip(publication.author_last_name).each_with_index do |(first_name, last_name), index| %>
     <div class="form-row" id="author_<%= index %>">
-        <div class="col-md-5">
-            <%= label_tag(:author_first_name, author_or_artist_label + ' First Name', class: "required") %>
-            <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[index], required: true, class: "form-control form-group" %>
+      <div class="col-md-5">
+        <%= label_tag("author_first_name_#{index}", 'Author First Name', class: "required") %>
+        <%= text_field_tag "publication[author_first_name][]", first_name, id: "author_first_name_#{index}", required: true, class: "form-control form-group" %>
+      </div>
+      <div class="col-md-5">
+        <%= label_tag("author_last_name_#{index}", 'Author Last Name', class: "required") %>
+        <%= text_field_tag "publication[author_last_name][]", last_name, id: "author_last_name_#{index}", required: true, class: "form-control form-group" %>
+      </div>
+      <% if index > 0 %>
+        <div class="col-md-2">
+          <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_#{index}')", class: "form-control form-group bg-danger text-white" %>
         </div>
-        <div class="col-md-5">
-            <%= label_tag "#{name}_author_last_name_#{index}", "Author Last Name", class: "required" %>
-            <%= text_field_tag "#{name}[author_last_name][]", publication.author_last_name[index], required: true, class: "form-control form-group" %>
-        </div>
-        <% if index > 0 %>
-            <div class="col-md-2">
-                <%= button_tag "Remove Author", type: "button", onclick: "removeAuthor('author_#{index}')", class: "form-control form-group bg-danger text-white" %>
-            </div>
-        <% end %>
+      <% end %>
     </div>
-    <% end %>
+  <% end %>
 </div>
+
 <%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>

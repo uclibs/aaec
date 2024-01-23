@@ -1,0 +1,83 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+describe 'Adding Authors', :feature, js: true do
+  let(:submitter) { FactoryBot.create(:submitter) }
+
+  it 'adds authors to a new publication' do
+    create_submitter(submitter)
+    visit new_other_publication_path
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_other_publication_path)
+
+    # Verify blank input fields for author's first name and last name
+    # to be present on page load
+    expect(first_name_fields.size).to eq(1)
+    expect(last_name_fields.size).to eq(1)
+    check_field_values_by_index(0, '', '')
+
+    # Fill out the fields with the first author's name
+    fill_in "author_first_name_0", with: "First0"
+    fill_in "author_last_name_0", with: "Last0"
+
+    # Click "Add Author" and verify new and old fields
+    click_on 'Add Author'
+    expect(page).to have_selector("input[name='publication[author_first_name][]']", count: 2)
+    expect(page).to have_selector("input[name='publication[author_last_name][]']", count: 2)
+
+    check_field_values_by_index(0, "First0", "Last0")
+    check_field_values_by_index(1, '', '')
+
+    # Fill in second author's name
+    first_name_fields.last.set("First1")
+    last_name_fields.last.set("Last1")
+
+    # Click "Add Author" again
+    click_on 'Add Author'
+    expect(first_name_fields.size).to eq(3)
+    expect(last_name_fields.size).to eq(3)
+    check_field_values_by_index(0, "First0", "Last0")
+    check_field_values_by_index(1, "First1", "Last1")
+    check_field_values_by_index(2, '', '')
+
+    # Fill in third author's name
+    first_name_fields.last.set("First2")
+    last_name_fields.last.set("Last2")
+
+    # Click "Add Author" again
+    click_on 'Add Author'
+    expect(first_name_fields.size).to eq(4)
+    expect(last_name_fields.size).to eq(4)
+    check_field_values_by_index(0, "First0", "Last0")
+    check_field_values_by_index(1, "First1", "Last1")
+    check_field_values_by_index(2, "First2", "Last2")
+    check_field_values_by_index(3, '', '')
+
+    # Fill in fourth author's name
+    first_name_fields.last.set("First3")
+    last_name_fields.last.set("Last3")
+
+    # Fill in the rest of the fields
+    fill_in 'other_publication[work_title]', with: "Title"
+    fill_in 'other_publication[other_title]', with: "Subtitle"
+    fill_in 'other_publication[uc_department]', with: "Department"
+    fill_in 'other_publication[publication_date]', with: "Date"
+    fill_in 'other_publication[url]', with: "URL"
+    fill_in 'other_publication[doi]', with: "DOI"
+
+    # Click "Submit" and verify that the new publication is created
+    # and that a success message is displayed
+    expect { click_on 'Submit' }.to change(OtherPublication, :count).by(1)
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
+    expect(flash[:success] = "Other publication was successfully created.")
+
+    # Click on the hyperlink on the id of the newly created publication
+    # and verify that the author names are correct
+    click_on OtherPublication.last.id.to_s
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.other_publication_path(OtherPublication.last.id))
+    expect(page).to have_text "First0 Last0"
+    expect(page).to have_text "First1 Last1"
+    expect(page).to have_text "First2 Last2"
+    expect(page).to have_text "First3 Last3"
+  end
+end
