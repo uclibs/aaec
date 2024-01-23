@@ -22,7 +22,7 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
       my_button = find('button', text: 'Remove Author')
 
       # Assign a unique ID to the element
-      unique_id = "unique-button-id"
+      unique_id = 'unique-button-id'
       page.execute_script("arguments[0].id = '#{unique_id}'", my_button)
 
       # Execute the script to change the button's background color using the unique ID
@@ -31,9 +31,6 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
       find('button', text: 'green').click
     end
   end
-
-
-
 
   def check_field_values_by_index(index, first_name, last_name)
     expect(first_name_fields[index].value).to eq(first_name)
