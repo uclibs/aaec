@@ -8,14 +8,6 @@ RSpec.feature 'Author Addition, Removal, and Editing in Publications', type: :fe
   let(:author_first_name) { 'other_publication[author_first_name][]' }
   let(:author_last_name) { 'other_publication[author_last_name][]' }
 
-
-
-
-
-
-
-
-
   scenario 'Add, delete, edit, and verify other publications' do
     create_submitter(submitter)
     visit new_other_publication_path

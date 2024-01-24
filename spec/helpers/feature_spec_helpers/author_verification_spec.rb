@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FeatureSpecHelpers::AuthorManagement do
@@ -9,7 +11,6 @@ RSpec.describe FeatureSpecHelpers::AuthorManagement do
   let(:mock_last_name_field1) { double('Capybara Node Element', value: 'LastName1') }
   let(:mock_first_name_field2) { double('Capybara Node Element', value: 'FirstName2') }
   let(:mock_last_name_field2) { double('Capybara Node Element', value: 'LastName2') }
-
 
   let(:parent_element_with_button) { double('Capybara Node Element') }
   let(:parent_element_without_button) { double('Capybara Node Element') }
@@ -33,9 +34,6 @@ RSpec.describe FeatureSpecHelpers::AuthorManagement do
         allow(mock_first_name_field1).to receive(:find).with(:xpath, '../..').and_return(parent_element_with_button)
         expect(remove_button).to receive(:click)
         remove_author_at_index(1) # The second author can be removed
-      end
-      it 'fails a test' do
-        expect(true).to be_falsey
       end
     end
     context 'when the author cannot be removed' do

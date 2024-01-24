@@ -22,33 +22,31 @@ module FeatureSpecHelpers
 
       verify_field_value(
         fields: first_name_fields,
-        index: index,
+        index:,
         expected_value: expected_first_name,
         field_name: 'First name'
       )
 
       verify_field_value(
         fields: last_name_fields,
-        index: index,
+        index:,
         expected_value: expected_last_name,
         field_name: 'Last name'
       )
     end
-
-
 
     private
 
     # Returns the collection of author first name fields.
     # @return [Array<Capybara::Node::Element>] The collection of author first name fields.
     def first_name_fields
-      all("input[name='publication[author_first_name][]']", wait: Capybara.default_max_wait_time)
+      all("input[name$='[author_first_name][]']", wait: Capybara.default_max_wait_time)
     end
 
     # Returns the collection of author last name fields.
     # @return [Array<Capybara::Node::Element>] The collection of author last name fields.
     def last_name_fields
-      all("input[name='publication[author_last_name][]']", wait: Capybara.default_max_wait_time)
+      all("input[name$='[author_last_name][]']", wait: Capybara.default_max_wait_time)
     end
 
     # Finds the parent element of a given field.
@@ -89,4 +87,3 @@ module FeatureSpecHelpers
     end
   end
 end
-
