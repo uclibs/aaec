@@ -1,3 +1,37 @@
+
+// Add an event listener to the author group element that will allow the "Remove Author" button to work
+// even if the author group element is dynamically added to the page.
+document.addEventListener('DOMContentLoaded', function() {
+    const authorGroupElement = document.getElementById('author_group');
+
+    if (authorGroupElement) {
+        authorGroupElement.addEventListener('click', function(event) {
+            if (event.target &&
+                event.target.matches("button[type='button']") &&
+                event.target.textContent === 'Remove Author') {
+                // Navigate up two levels to get the grandparent element, which is the author element.
+                const authorElement = event.target.parentNode.parentNode;
+                const authorElements = Array.from(authorGroupElement.children);
+                const authorIndex = authorElements.indexOf(authorElement);
+
+                if (authorIndex !== -1) {
+                    removeAuthor(authorIndex);
+                    updateAuthorIds()
+                }
+            }
+        });
+    }
+});
+
+function removeAuthor(authorIndex) {
+    const authorGroupElement = document.getElementById('author_group');
+    if (authorGroupElement && authorGroupElement.children[authorIndex]) {
+        authorGroupElement.children[authorIndex].remove();
+        updateAuthorIds();
+    }
+}
+
+
 function addAuthor(type) {
     const authorGroup = document.getElementById("author_group");
     if (!authorGroup) return;
@@ -8,10 +42,11 @@ function addAuthor(type) {
 }
 
 function createAuthorElement(type) {
-    const newAuthor = createElementWithAttributes("div", { class: "form-row", 'data-type': type });
+    const newDataIndex = document.querySelectorAll(`[data-type='${type}']`).length;
+    const newAuthor = createElementWithAttributes("div", { class: "form-row", 'data-type': type, 'data-index': newDataIndex });
     newAuthor.appendChild(createInput(type, "author_first_name"));
     newAuthor.appendChild(createInput(type, "author_last_name"));
-    newAuthor.appendChild(createDeleteButton()); // No index required initially
+    newAuthor.appendChild(createDeleteButton());
     return newAuthor;
 }
 
@@ -57,21 +92,8 @@ function createDeleteButton() {
         class: "form-control form-group bg-danger text-white"
     });
     button.textContent = "Remove Author";
-    button.addEventListener('click', function() {
-        wrapper.parentNode.removeChild(wrapper);
-        updateAuthorIds();
-    });
     wrapper.appendChild(button);
     return wrapper;
-}
-
-
-function removeAuthor(authorIndex) {
-    const authorGroup = document.querySelector(`#author_group .form-row[data-index='${authorIndex}']`);
-    if (authorGroup) {
-        authorGroup.parentNode.removeChild(authorGroup);
-        updateAuthorIds();
-    }
 }
 
 function updateAuthorIds() {
@@ -80,9 +102,6 @@ function updateAuthorIds() {
         group.id = `author_${index}`;
         updateFieldAndLabel(group, 'first_name', index);
         updateFieldAndLabel(group, 'last_name', index);
-
-        const deleteButton = group.querySelector("button[type='button']");
-        if (deleteButton) deleteButton.setAttribute('data-index', index);
     });
 }
 
