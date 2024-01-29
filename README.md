@@ -23,4 +23,4 @@ SQLite 3
 
 ## Running the tests
 1. Run the database migrations: ```bundle exec rake db:migrate``` (Optional)
-1. Run the test suite: ```bundle exec rake spec```
+1. Run the test suite: ```bundle exec rspec```
