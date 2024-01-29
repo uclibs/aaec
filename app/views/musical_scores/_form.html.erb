@@ -10,48 +10,37 @@
   <% end %>
 
   <%= render partial: "partials/author", locals: {name: "musical_score", publication: @musical_score} %>
-
   <hr>
+
+  <%= render partial: "partials/publications_colleges", locals: {form: form} %>
+  <hr>
+
   <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label(:college_ids, "Author College(s)") %><br />
-      <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
-        <div class="form-check">
-          <%= c.check_box class: "form-check-input" %>
-          <%= c.label class: "form-check-label" %>
-        </div>
-      <% end %>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
+        <%= form.text_field :uc_department, class: "form-control" %>
       </div>
-
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label(:uc_department, "UC Department(s) or Division(s)") %>
-          <%= form.text_field :uc_department, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
-          <%= form.text_field :work_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :other_title, 'Other Title' %>
-          <%= form.text_field :other_title, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :publisher %>
-          <%= form.text_field :publisher, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :city %>
-          <%= form.text_field :city, class: "form-control" %>
-        </div>
+      <div class="form-group">
+        <%= form.label :work_title, 'Title of Submitted Work', class: "required" %>
+        <%= form.text_field :work_title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= form.label :other_title, 'Other Title' %>
+        <%= form.text_field :other_title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= form.label :publisher %>
+        <%= form.text_field :publisher, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= form.label :city %>
+        <%= form.text_field :city, class: "form-control" %>
       </div>
     </div>
+  </div>
 
-  <div class="form-row">  
-    <div id="other_college_group" class="form-group col-md-6">
-      <%= form.label :other_college, 'Other College' %>
-      <%= form.text_field :other_college, class: "form-control" %>
-    </div>
+  <div class="form-row">
     <div class="form-group col-md-6">
       <%= form.label :publication_date, 'Publication Date' %>
       <%= form.text_field :publication_date, class: "form-control" %>
@@ -69,7 +58,7 @@
     </div>
   </div>
 
-<%= hidden_field_tag "musical_score[submitter_id]", session[:submitter_id] || @musical_score.submitter_id %>
+  <%= hidden_field_tag "musical_score[submitter_id]", session[:submitter_id] || @musical_score.submitter_id %>
 
   <div class="actions">
     <%= form.submit "Submit", class: "btn btn-primary" %>
