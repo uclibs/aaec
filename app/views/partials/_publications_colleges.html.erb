@@ -1,4 +1,4 @@
-<div class="form-group col-md-6">
+<div class="form-group col-md-6" id="colleges-group">
   <%= form.label(:college_ids, author_or_artist_label + " College(s)") %><br />
   <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |c| %>
     <div class="form-check">

@@ -1,6 +1,4 @@
-# frozen_string_literal: true
 
-require 'rails_helper'
 
 describe 'Create Admin', :feature, js: true do
   before do
