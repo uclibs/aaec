@@ -84,6 +84,27 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
         expect(page).to have_field('Other College', with: 'Other College Name')
       end
 
+      it 'does not save a typed in Other College if the Other checkbox is unchecked' do
+        within '#colleges-group' do
+          all('input[type="checkbox"]').last.set(true)
+        end
+        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
+
+        fill_in('artwork[other_college]', with: 'Other College Name')
+
+        within '#colleges-group' do
+          all('input[type="checkbox"]').last.set(false)
+        end
+        expect(page).to have_selector('input[type="checkbox"]:checked', count: 0)
+        expect(page).to_not have_text('Other College')
+
+        click_on('Submit')
+
+        expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
+        click_on(artwork.work_title)
+        expect(page).to_not have_text 'Other College Name'
+      end
+
       it 'saves both a listed college and Other college when selected' do
         within '#colleges-group' do
           all('input[type="checkbox"]')[1].set(true) # Array is zero-indexed
