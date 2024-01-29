@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CollegesController < ApplicationController
+  include AdminOnlyAccess
+
   before_action :set_college, only: %i[show edit update destroy]
 
   # GET /colleges
@@ -32,7 +34,7 @@ class CollegesController < ApplicationController
         format.html { redirect_to @college }
         format.json { render :show, status: :created, location: @college }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
       end
     end
@@ -47,7 +49,7 @@ class CollegesController < ApplicationController
         format.html { redirect_to @college }
         format.json { render :show, status: :ok, location: @college }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
       end
     end

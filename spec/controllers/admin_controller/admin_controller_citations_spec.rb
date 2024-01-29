@@ -6,8 +6,10 @@ RSpec.describe AdminController, type: :controller do
   describe 'GET #citations' do
     context 'when admin is logged in' do
       before do
-        allow(College).to receive(:count).and_return(2)
-        allow(controller).to receive(:session).and_return(admin: true)
+        session[:admin] = true
+        mock_college1 = double('College', id: 1)
+        mock_college2 = double('College', id: 2)
+        allow(College).to receive(:find_each).and_yield(mock_college1).and_yield(mock_college2)
         allow(controller).to receive(:fetch_all_records).and_return(mocked_records)
       end
 
@@ -19,15 +21,15 @@ RSpec.describe AdminController, type: :controller do
       end
     end
 
-    context 'when admin is not logged in' do
+    context 'when logged in as a submitter' do
       before do
         session[:admin] = false
         session[:submitter_id] = FactoryBot.create(:submitter).id
       end
 
-      it 'redirects to publications_path' do
+      it 'gives a 404 response' do
         get :citations
-        expect(response).to redirect_to(publications_path)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

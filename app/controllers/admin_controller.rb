@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class AdminController < ApplicationController
+  include AdminOnlyAccess
+
   skip_before_action :require_authenticated_user, only: %i[login validate]
   skip_before_action :check_date
+  skip_before_action :check_admin, only: %i[login validate]
 
   ALLOWED_CONTROLLERS_TO_MODELS = {
     'artworks' => Artwork,
@@ -29,12 +32,15 @@ class AdminController < ApplicationController
       session[:admin] = true
       redirect_to publications_path
     else
-      redirect_to manage_path, notice: 'Invalid Credentails'
+      flash.keep[:danger] = 'Invalid Credentails'
+      redirect_to manage_path
     end
   end
 
+  # Generates a CSV file for a given model. This method is restricted
+  # to admin users through the AdminOnlyAccess concern.
   def csv
-    if session[:admin] && params[:id].nil? && allowed_model
+    if params[:id].nil? && allowed_model
       begin
         @instance_variable = allowed_model.all
         respond_to do |format|
@@ -51,15 +57,18 @@ class AdminController < ApplicationController
     end
   end
 
+  # Generates a citations report. This method is restricted to admin
+  # users through the AdminOnlyAccess concern.
   def citations
-    if session[:admin]
-      all = fetch_all_records
-      @college_array = []
-      (1..College.count).each do |i|
-        @college_array << [i, all.select { |p| p.respond_to?(:college_ids) && p.college_ids.include?(i) }.group_by(&:uc_department)]
+    all_publications = fetch_all_records
+    @college_array = []
+
+    College.find_each do |college|
+      publications_in_college = all_publications.select do |publication|
+        publication.respond_to?(:college_ids) && publication.college_ids.include?(college.id)
       end
-    else
-      redirect_to publications_path
+      grouped_by_department = publications_in_college.group_by(&:uc_department)
+      @college_array << [college.id, grouped_by_department]
     end
   end
 

@@ -7,6 +7,9 @@ RSpec.describe AdminController, type: :controller do
   let(:admin_session) { { 'admin' => true } }
   let(:submitter_session) { { 'submitter_id' => FactoryBot.create(:submitter).id } }
 
+  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:submitter_session) { { submitter_id: submitter.id } }
+
   describe 'GET #csv' do
     context 'when the user is an admin' do
       it 'returns a 200 status when requesting a CSV format' do
@@ -17,6 +20,13 @@ RSpec.describe AdminController, type: :controller do
       it 'redirects when an invalid format is provided' do
         get(:csv, params: common_params.merge({ format: 'html' }), session: admin_session)
         expect(response).to redirect_to('/publications')
+      end
+
+      context 'when an id is sent in the params' do
+        it 'redirects to publications path' do
+          get(:csv, params: common_params.merge({ id: 1, format: 'csv' }), session: admin_session)
+          expect(response).to redirect_to('/publications')
+        end
       end
 
       context 'when a StandardError is raised' do
@@ -33,10 +43,9 @@ RSpec.describe AdminController, type: :controller do
     end
 
     context 'when the user is not an admin' do
-      it 'redirects even if a valid format is provided' do
+      it 'redirects to a 404 page even if a valid format is provided' do
         get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to('/publications')
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
