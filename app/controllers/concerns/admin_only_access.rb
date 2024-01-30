@@ -15,6 +15,6 @@ module AdminOnlyAccess
   def check_admin
     return if session[:admin]
 
-    render template: 'errors/404', status: :not_found
+    raise ActiveRecord::RecordNotFound
   end
 end

@@ -18,6 +18,9 @@ def configure_user_session(user_role, resource = nil)
     # For :submitter_owner, pass the actual resource.
     # For :submitter_non_owner, create a new submitter to simulate a non-owner.
     login_as_submitter_of(user_role == :submitter_owner ? resource : FactoryBot.create(:submitter))
+  when :submitter
+    session.delete(:admin)
+    session[:submitter_id] = FactoryBot.create(:submitter).id
   when :none
     session.delete(:admin)
     session.delete(:submitter_id)

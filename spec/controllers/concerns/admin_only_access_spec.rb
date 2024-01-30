@@ -32,8 +32,7 @@ RSpec.describe 'AdminOnlyAccess Concern', type: :controller do
       end
 
       it 'denies access to the action' do
-        get :dummy_action
-        expect(response).to have_http_status(:not_found)
+        expect { get :dummy_action }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

@@ -43,9 +43,10 @@ RSpec.describe AdminController, type: :controller do
     end
 
     context 'when the user is not an admin' do
-      it 'redirects to a 404 page even if a valid format is provided' do
-        get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
-        expect(response).to have_http_status(:not_found)
+      it 'raises a 404 error even if a valid format is provided' do
+        expect {
+          get(:csv, params: common_params.merge({ format: 'csv' }), session: submitter_session)
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

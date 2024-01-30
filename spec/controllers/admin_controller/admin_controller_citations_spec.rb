@@ -27,9 +27,8 @@ RSpec.describe AdminController, type: :controller do
         session[:submitter_id] = FactoryBot.create(:submitter).id
       end
 
-      it 'gives a 404 response' do
-        get :citations
-        expect(response).to have_http_status(:not_found)
+      it 'raises a 404 error' do
+        expect { get :citations }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
