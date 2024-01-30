@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   include ExceptionHandlingManager
   include UserAuthentication
 
-
   prepend_before_action :check_date
 
   skip_before_action :require_authenticated_user, only: :check_date

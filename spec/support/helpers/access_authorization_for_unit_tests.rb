@@ -9,21 +9,14 @@
 # Parameters:
 # - user_role: Symbol representing the user role (:admin, :submitter, or :none).
 def configure_user_session(user_role, resource = nil)
+  reset_session
   case user_role
   when :admin
-    session[:admin] = true
-    session.delete(:submitter_id)
+    set_admin_session
   when :submitter_owner, :submitter_non_owner
-    session.delete(:admin)
-    # For :submitter_owner, pass the actual resource.
-    # For :submitter_non_owner, create a new submitter to simulate a non-owner.
-    login_as_submitter_of(user_role == :submitter_owner ? resource : FactoryBot.create(:submitter))
+    set_submitter_session(user_role, resource)
   when :submitter
-    session.delete(:admin)
-    session[:submitter_id] = FactoryBot.create(:submitter).id
-  when :none
-    session.delete(:admin)
-    session.delete(:submitter_id)
+    set_specific_submitter_session
   end
 end
 
@@ -50,6 +43,28 @@ def params_for(action, resource = nil)
 end
 
 private
+
+def reset_session
+  session.delete(:admin)
+  session.delete(:submitter_id)
+end
+
+def set_admin_session
+  session[:admin] = true
+end
+
+def set_submitter_session(user_role, resource)
+  if user_role == :submitter_owner
+    login_as_submitter_of(resource)
+  else # :submitter_non_owner
+    new_submitter = FactoryBot.create(:submitter)
+    login_as_submitter_of(new_submitter)
+  end
+end
+
+def set_specific_submitter_session
+  session[:submitter_id] = FactoryBot.create(:submitter).id
+end
 
 def create_params
   model_name_underscore = model_name_underscored
