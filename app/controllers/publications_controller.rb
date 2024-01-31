@@ -26,7 +26,7 @@
 #
 
 class PublicationsController < ApplicationController
-  include RestrictSubmitterAccess
+  include SubmitterOwnedContentGuard
 
   before_action :set_object, only: %i[show edit update destroy]
   before_action :signed_in, only: %i[index show edit update destroy]

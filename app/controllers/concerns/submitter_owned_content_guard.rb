@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# The RestrictSubmitterAccess module is a concern for Rails controllers that provides
+# The SubmitterOwnedContentGuard module is a concern for Rails controllers that provides
 # functionality to restrict access to resources based on the submitter's identity.
 # It defines a set of before actions to check if the current user (submitter) is authorized
 # to access a given resource. This module handles special cases for submitters and ensures
@@ -9,31 +9,30 @@
 # controllers that don't require submitter authentication (e.g. pages, errors, etc.).
 #
 # "Index" is skipped because it has its own logic to determine what can be shown.
-module RestrictSubmitterAccess
+module SubmitterOwnedContentGuard
   extend ActiveSupport::Concern
 
   included do
-    before_action :restrict_submitter_access, except: %i[index new create login validate finished]
+    before_action :verify_user_access, except: %i[index new create login validate finished]
+  end
+
+  pages_not_requiring_submitter_ownership = %w[errors pages]
+  
+  def verify_user_access
+    return if user_is_admin? || no_submitter_linked_to_page?
+
+
+    deny_access unless current_submitter_is_creator?
   end
 
   private
 
-  def restrict_submitter_access
-    return if session[:admin] || non_submitter_controller?
-
-    if controller_name == 'submitters'
-      handle_submitter_special_case
-      return
-    end
-
-    set_resource
-    unauthorized_access unless authorized_submitter?
+  def user_is_admin?
+    session[:admin]
   end
-
-  def non_submitter_controller?
-    return true if controller_name == 'admin'
-
-    %w[errors pages].include? controller_name
+  
+  def no_submitter_linked_to_page?
+    pages_not_requiring_submitter_ownership.include?(controller_name)
   end
 
   def handle_submitter_special_case
@@ -41,21 +40,25 @@ module RestrictSubmitterAccess
     unauthorized_access if session[:submitter_id] != submitter.id
   end
 
-  def set_resource
-    return unless resource_class.method_defined?(:submitter_id)
-
-    @resource = resource_class.find(params[:id])
-  end
-
   def resource_class
     controller_name.classify.constantize
   end
 
-  def authorized_submitter?
-    @resource && (session[:submitter_id].to_s == @resource.submitter_id.to_s)
+  def current_submitter_is_creator?
+
+    if controller_name == 'submitters'
+      handle_submitter_special_case
+      return
+    end
+    
+    return unless resource_class.method_defined?(:submitter_id)
+
+    resource = resource_class.find(params[:id])
+
+    resource && (session[:submitter_id].to_s == resource.submitter_id.to_s)
   end
 
-  def unauthorized_access
+  def deny_access
     raise ActiveRecord::RecordNotFound
   end
 end

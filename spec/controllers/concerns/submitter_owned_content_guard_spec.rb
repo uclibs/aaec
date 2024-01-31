@@ -7,7 +7,7 @@ RSpec.describe BooksController, type: :controller do
   let(:another_submitter) { FactoryBot.create(:submitter) }
   let(:book) { FactoryBot.create(:book, submitter_id: submitter.id) }
 
-  describe '#restrict_submitter_access' do
+  describe '#submitter_owned_content_guard' do
     context 'when admin is logged in' do
       before { session[:admin] = true }
 
