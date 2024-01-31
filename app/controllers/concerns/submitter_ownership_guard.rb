@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-# The SubmitterOwnedContentGuard module is a concern for Rails controllers that provides
+# The SubmitterOwnershipGuard module is a concern for Rails controllers that provides
 # functionality to restrict access to resources based on the submitter's identity.
 # It defines a set of before actions to check if the current user (submitter) is authorized
 # to access a given resource. This module handles special cases for submitters and ensures
 # that access is granted only if the user's session matches the submitter_id associated
-# with the resource. It's included in the application controller and is skipped for
-# controllers that don't require submitter authentication (e.g. pages, errors, etc.).
+# with the resource. It's included in the publications and submitters controllers
 #
 # "Index" is skipped because it has its own logic to determine what can be shown.
 module SubmitterOwnershipGuard
@@ -39,7 +38,7 @@ module SubmitterOwnershipGuard
   def submitter_owns_profile?
     submitter = Submitter.find(params[:id])
 
-    logged_in_submitter_id == submitter.id.to_s
+    submitter && (logged_in_submitter_id == submitter.id.to_s)
   end
 
   def submitter_owns_publication?
