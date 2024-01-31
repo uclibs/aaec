@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class SubmittersController < ApplicationController
+  include SubmitterOwnershipGuard
+
   skip_before_action :require_authenticated_user, only: %i[new create finished]
 
-  before_action :set_submitter, only: %i[show edit update destroy]
+  before_action :set_submitter, only: %i[show edit update]
 
   # GET /submitters/1
   # GET /submitters/1.json

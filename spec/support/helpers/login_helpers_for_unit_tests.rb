@@ -7,6 +7,18 @@ def login_as_submitter_of(resource)
   log_in_submitter(submitter_id)
 end
 
+def login_as_admin
+  session[:admin] = true
+end
+
+def user_is_admin?
+  session[:admin]
+end
+
+def logged_in_submitter_id
+  session[:submitter_id].to_s
+end
+
 private
 
 def extract_submitter_id_from(resource)
