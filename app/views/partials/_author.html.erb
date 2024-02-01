@@ -8,20 +8,20 @@
   <% publication.author_first_name.zip(publication.author_last_name).each_with_index do |(first_name, last_name), index| %>
     <div class="form-row" data-type="<%= name %>" data-index=<%= index %> id="author_<%= index %>">
       <div class="col-md-5">
-        <%= label_tag("author_first_name_#{index}", 'Author First Name', class: "required") %>
+        <%= label_tag("author_first_name_#{index}", author_or_artist_label + ' First Name', class: "required") %>
         <%= text_field_tag "#{name}[author_first_name][]", first_name, 'data-publication-type': name, id: "author_first_name_#{index}", required: true, class: "form-control form-group" %>
       </div>
       <div class="col-md-5">
-        <%= label_tag("author_last_name_#{index}", 'Author Last Name', class: "required") %>
+        <%= label_tag("author_last_name_#{index}", author_or_artist_label + ' Last Name', class: "required") %>
         <%= text_field_tag "#{name}[author_last_name][]", last_name, 'data-publication-type': name, id: "author_last_name_#{index}", required: true, class: "form-control form-group" %>
       </div>
       <% if index > 0 %>
         <div class="col-md-2">
-          <%= button_tag "Remove Author", type: "button", class: "form-control form-group bg-danger text-white" %>
+          <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white" %>
         </div>
       <% end %>
     </div>
   <% end %>
 </div>
 
-<%= button_tag "Add Author", type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>
+<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>

@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
         authorGroupElement.addEventListener('click', function(event) {
             if (event.target &&
                 event.target.matches("button[type='button']") &&
-                event.target.textContent === 'Remove Author') {
+                ['Remove Author', 'Remove Artist'].includes(event.target.textContent)
+                ) {
                 // Navigate up two levels to get the grandparent element, which is the author element.
                 const authorElement = event.target.parentNode.parentNode;
                 const authorElements = Array.from(authorGroupElement.children);
@@ -23,7 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+function getRoleFromButton() {
+    const button = document.getElementById('add_author_btn');
+    if (!button) return null; // Return null if the button doesn't exist
+
+    return button.textContent.includes('Artist') ? 'Artist' : 'Author';
+}
+
 function removeAuthor(authorIndex) {
+    console.log("Remove author at : " + authorIndex);
     const authorGroupElement = document.getElementById('author_group');
     if (authorGroupElement && authorGroupElement.children[authorIndex]) {
         authorGroupElement.children[authorIndex].remove();
@@ -59,6 +68,9 @@ function createElementWithAttributes(tag, attributes) {
 function createInput(type, name) {
     // The "for" attribute of the label will be updated with the updateAuthorIds function.
 
+    const role = getRoleFromButton();
+    if (!role) return;
+
     const wrapper = createElementWithAttributes("div", {
         class: "col-md-5",
         "data-type": type
@@ -69,7 +81,7 @@ function createInput(type, name) {
         "data-type": type
     });
 
-    label.textContent = name.includes('first_name') ? 'Author First Name' : 'Author Last Name';
+    label.textContent = name.includes('first_name') ? role + ' First Name' : role + ' Last Name';
 
     const input = createElementWithAttributes("input", {
         type: "text",
@@ -86,12 +98,15 @@ function createInput(type, name) {
 }
 
 function createDeleteButton() {
+    const role = getRoleFromButton();
+    if (!role) return;
+
     const wrapper = createElementWithAttributes("div", { class: "col-md-2" });
     const button = createElementWithAttributes("button", {
         type: "button",
         class: "form-control form-group bg-danger text-white"
     });
-    button.textContent = "Remove Author";
+    button.textContent = "Remove " + role;
     wrapper.appendChild(button);
     return wrapper;
 }
@@ -117,4 +132,7 @@ function updateFieldAndLabel(group, fieldName, index) {
     if (label && label.tagName === 'LABEL') {
         label.setAttribute('for', input.id);
     }
+
+
+
 }

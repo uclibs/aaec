@@ -14,7 +14,7 @@ describe 'Create a Artwork', :feature, js: true do
     # New artwork Page
     expect(page).to have_current_path(Rails.application.routes.url_helpers.new_artwork_path)
     (0..artwork.author_first_name.count - 1).each do |i|
-      click_on('Add Author') if i != 0
+      click_on('Add Artist') if i != 0
       all(:xpath, "//input[@name='artwork[author_first_name][]']").last.set(artwork.author_first_name[i])
       all(:xpath, "//input[@name='artwork[author_last_name][]']").last.set(artwork.author_last_name[i])
     end
