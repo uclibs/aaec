@@ -73,7 +73,7 @@ describe 'Adding Authors', :feature, js: true do
     # and that a success message is displayed
     click_on 'Submit'
     expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
-    expect(page).to have_text 'Other Publication was successfully created.'
+    expect(page).to have_text 'OtherPublication was successfully created.'
 
     # Click on the hyperlink on the id of the newly created publication
     # and verify that the author names are correct
@@ -121,7 +121,7 @@ describe 'Adding Authors', :feature, js: true do
     # and that the author names are correct
     click_on 'Submit'
     expect(page).to have_current_path(Rails.application.routes.url_helpers.other_publication_path(OtherPublication.last.id))
-    expect(page).to have_text 'Other Publication was successfully updated.'
+    expect(page).to have_text 'OtherPublication was successfully updated.'
     expect(page).to have_selector('td', text: 'First0 Last0, First1 Last1, First2 Last2') # Information is in table format on the show page
   end
 end

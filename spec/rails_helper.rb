@@ -75,9 +75,6 @@ RSpec.configure do |config|
 
   # Include helpers for feature tests
   config.include FeatureSpecHelpers::AuthorManagement, type: :feature
-
-  # Set default wait time for Capybara
-  Capybara.default_max_wait_time = 5 # seconds
 end
 
 def create_submitter(submitter)

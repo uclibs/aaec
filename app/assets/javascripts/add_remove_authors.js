@@ -32,7 +32,6 @@ function getRoleFromButton() {
 }
 
 function removeAuthor(authorIndex) {
-    console.log("Remove author at : " + authorIndex);
     const authorGroupElement = document.getElementById('author_group');
     if (authorGroupElement && authorGroupElement.children[authorIndex]) {
         authorGroupElement.children[authorIndex].remove();

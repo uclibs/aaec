@@ -30,7 +30,6 @@ describe 'Author and Artist labels', :feature, js: true do
     expect(page).not_to have_content('Artist')
   end
 
-
   it 'has the title of Artist for new artworks' do
     visit new_artwork_path
     expect(page).to have_content('Add Artist')
