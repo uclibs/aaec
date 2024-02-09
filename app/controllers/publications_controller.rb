@@ -169,7 +169,7 @@ class PublicationsController < ApplicationController
   protected
 
   def set_object
-    instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find(params[:id]))
+    instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find_by(id: params[:id]))
   end
 
   def signed_in

@@ -36,13 +36,13 @@ module SubmitterOwnershipGuard
   end
 
   def submitter_owns_profile?
-    submitter = Submitter.find(params[:id])
+    submitter = Submitter.find_by(id: params[:id])
 
     submitter && (logged_in_submitter_id == submitter.id.to_s)
   end
 
   def submitter_owns_publication?
-    publication = publication_class.find(params[:id])
+    publication = publication_class.find_by(id: params[:id])
     publication && (logged_in_submitter_id == publication.submitter_id.to_s)
   end
 
@@ -52,5 +52,13 @@ module SubmitterOwnershipGuard
 
   def deny_access
     raise ActiveRecord::RecordNotFound
+  end
+
+  def user_is_admin?
+    session[:admin]
+  end
+
+  def logged_in_submitter_id
+    session[:submitter_id].to_s
   end
 end

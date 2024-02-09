@@ -6,7 +6,7 @@ module SubmittersHelper
   end
 
   def find_submitters(id)
-    Array.wrap(Submitter.find(id))
+    Array.wrap(Submitter.find_by(id:))
   end
 
   def submitter_name(submitter)

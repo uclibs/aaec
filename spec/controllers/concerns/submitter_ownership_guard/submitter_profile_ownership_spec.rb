@@ -16,7 +16,7 @@ RSpec.describe SubmittersController, type: :controller do
 
   describe '#submitter_owned_content_guard' do
     context 'when admin is logged in' do
-      before { login_as_admin }
+      before { session[:admin] = true }
 
       it 'allows access to show' do
         get :show, params: { id: submitter.id }
