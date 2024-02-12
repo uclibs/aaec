@@ -9,8 +9,11 @@ RSpec.describe PublicationMailer, type: :mailer do
     let(:mail) { described_class.publication_submit(submitter, publication).deliver_now }
 
     context 'when MAIL_SENDER has name and email' do
-      before do
-        stub_const('ENV', { 'MAIL_SENDER' => 'Sender Name <sender@example.com>' })
+      around do |example|
+        original_mail_sender = ENV.fetch('MAIL_SENDER', nil)
+        ENV['MAIL_SENDER'] = 'Sender Name <sender@example.com>'
+        example.run
+        ENV['MAIL_SENDER'] = original_mail_sender
       end
 
       let(:mail) { described_class.publication_submit(submitter, publication).deliver_now }
@@ -22,8 +25,11 @@ RSpec.describe PublicationMailer, type: :mailer do
     end
 
     context 'when MAIL_SENDER is only an email' do
-      before do
-        stub_const('ENV', { 'MAIL_SENDER' => 'sender@example.com' })
+      around do |example|
+        original_mail_sender = ENV.fetch('MAIL_SENDER', nil)
+        ENV['MAIL_SENDER'] = 'sender@example.com'
+        example.run
+        ENV['MAIL_SENDER'] = original_mail_sender
       end
 
       let(:mail) { described_class.publication_submit(submitter, publication).deliver_now }
@@ -64,8 +70,11 @@ RSpec.describe PublicationMailer, type: :mailer do
     end
 
     context 'when MAIL_SENDER is empty' do
-      before do
-        allow(ENV).to receive(:fetch).with('MAIL_SENDER').and_return(nil)
+      around do |example|
+        original_mail_sender = ENV.fetch('MAIL_SENDER', nil)
+        ENV['MAIL_SENDER'] = ''
+        example.run
+        ENV['MAIL_SENDER'] = original_mail_sender
       end
 
       it 'raises an error' do
