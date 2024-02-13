@@ -18,6 +18,7 @@ SQLite 3
 1. Install bundler (if needed): `gem install bundler`
 1. Run bundler: `bundle install`
 1. Run the database migrations: `bundle exec rake db:migrate`
+1. To include the colleges at UC, seed the database: `bundle exec rake db:seed`
 1. Start the rails server: `rails server`
 1. Visit the site at [http://localhost:3000] (http://localhost:3000)
 
