@@ -24,3 +24,8 @@ SQLite 3
 ## Running the tests
 1. Run the database migrations: ```bundle exec rake db:migrate``` (Optional)
 1. Run the test suite: ```bundle exec rspec```
+
+## Note on Dependency Management
+While this repository includes a yarn.lock file, you do not need to run yarn install to use the program. 
+The application is fully operational with bundle install alone, which manages all necessary Ruby 
+dependencies.
