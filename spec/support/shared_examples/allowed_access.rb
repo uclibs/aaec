@@ -9,8 +9,10 @@
 # The user session is configured based on the provided user role, and the action is triggered using the appropriate HTTP method.
 RSpec.shared_examples 'allowed access' do |action, method, user_role|
   it "allows #{user_role} users to access #{action}" do
-    configure_user_session(user_role)
-    public_send(method, action, params: params_for(action))
+    resource = FactoryBot.create(model_name_underscored.to_sym)
+    configure_user_session(user_role, resource)
+    params = params_for(action, resource)
+    public_send(method, action, params:)
 
     case action
     when 'create'

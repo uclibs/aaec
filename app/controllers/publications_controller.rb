@@ -26,6 +26,8 @@
 #
 
 class PublicationsController < ApplicationController
+  include SubmitterOwnershipGuard
+
   before_action :set_object, only: %i[show edit update destroy]
   before_action :signed_in, only: %i[index show edit update destroy]
   before_action :check_max_submissions, only: %i[new]
@@ -167,7 +169,7 @@ class PublicationsController < ApplicationController
   protected
 
   def set_object
-    instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find(params[:id]))
+    instance_variable_set("@#{controller_name.singularize}", Object.const_get(controller_name.classify).find_by(id: params[:id]))
   end
 
   def signed_in

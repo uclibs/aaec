@@ -18,7 +18,7 @@ RSpec.shared_examples 'restricts non-logged-in users' do |actions|
       end
 
       context 'when submitter user' do
-        include_examples 'allowed access', action, method, :submitter
+        include_examples 'allowed access', action, method, :submitter_non_owner
       end
 
       context 'when admin user' do

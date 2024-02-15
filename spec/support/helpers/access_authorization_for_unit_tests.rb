@@ -8,17 +8,15 @@
 # This method is used in testing to simulate different user access scenarios in controller actions.
 # Parameters:
 # - user_role: Symbol representing the user role (:admin, :submitter, or :none).
-def configure_user_session(user_role)
+def configure_user_session(user_role, resource = nil)
+  reset_session
   case user_role
   when :admin
-    session[:admin] = true
-    session.delete(:submitter_id)
+    set_admin_session
+  when :submitter_owner, :submitter_non_owner
+    set_submitter_session(user_role, resource)
   when :submitter
-    session[:admin] = false
-    session[:submitter_id] = FactoryBot.create(:submitter).id
-  when :none
-    session.delete(:admin)
-    session.delete(:submitter_id)
+    set_specific_submitter_session
   end
 end
 
@@ -31,14 +29,14 @@ end
 # Parameters:
 # - action: The controller action for which parameters are needed (e.g., 'show', 'edit').
 # - record: The record object used to extract the ID for parameter generation.
-def params_for(action)
+def params_for(action, resource = nil)
   case action
   when 'create'
     create_params
   when 'update'
-    update_params
+    update_params(resource)
   when 'edit', 'destroy', 'show'
-    id_params
+    id_params(resource)
   else
     {}
   end
@@ -46,21 +44,43 @@ end
 
 private
 
+def reset_session
+  session.delete(:admin)
+  session.delete(:submitter_id)
+end
+
+def set_admin_session
+  session[:admin] = true
+end
+
+def set_submitter_session(user_role, resource)
+  if user_role == :submitter_owner
+    login_as_submitter_of(resource)
+  else # :submitter_non_owner
+    new_submitter = FactoryBot.create(:submitter)
+    login_as_submitter_of(new_submitter)
+  end
+end
+
+def set_specific_submitter_session
+  session[:submitter_id] = FactoryBot.create(:submitter).id
+end
+
 def create_params
   model_name_underscore = model_name_underscored
   { model_name_underscore => FactoryBot.attributes_for(model_name_underscore.to_sym) }
 end
 
-def update_params
+def update_params(resource = nil)
   model_name_underscore = model_name_underscored
-  record = FactoryBot.create(model_name_underscore.to_sym)
+  record = resource || FactoryBot.create(model_name_underscore.to_sym)
   updated_attributes = FactoryBot.attributes_for(model_name_underscore.to_sym)
   { id: record.id, model_name_underscore => updated_attributes }
 end
 
-def id_params
+def id_params(resource = nil)
   model_name_underscore = model_name_underscored
-  record = FactoryBot.create(model_name_underscore.to_sym)
+  record = resource || FactoryBot.create(model_name_underscore.to_sym)
   { id: record.id }
 end
 

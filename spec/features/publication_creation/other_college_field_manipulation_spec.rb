@@ -10,6 +10,7 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
     before do
       create_submitter(submitter)
       visit new_artwork_path
+      find('input[name="artwork[author_first_name][]"]') # Wait for the page to load
       fill_in('artwork[author_first_name][]', with: artwork.author_first_name[0])
       fill_in('artwork[author_last_name][]', with: artwork.author_last_name[0])
       fill_in('artwork[work_title]', with: artwork.work_title)

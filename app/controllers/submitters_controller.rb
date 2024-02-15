@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class SubmittersController < ApplicationController
+  include SubmitterOwnershipGuard
+
   skip_before_action :require_authenticated_user, only: %i[new create finished]
 
-  before_action :set_submitter, only: %i[show edit update destroy]
+  before_action :set_submitter, only: %i[show edit update]
 
   # GET /submitters/1
   # GET /submitters/1.json
@@ -31,7 +33,7 @@ class SubmittersController < ApplicationController
         format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: @submitter }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
@@ -46,7 +48,7 @@ class SubmittersController < ApplicationController
         format.html { redirect_to publications_path }
         format.json { render :show, status: :ok, location: @submitter }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
@@ -66,7 +68,7 @@ class SubmittersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_submitter
-    @submitter = Submitter.find(params[:id])
+    @submitter = Submitter.find_by(id: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
