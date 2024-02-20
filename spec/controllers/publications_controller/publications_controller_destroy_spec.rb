@@ -66,7 +66,6 @@ RSpec.describe BooksController, type: :controller do
 
       context 'and the book does not belong to the submitter' do
         it 'does not destroy the requested book' do
-          skip 'waiting for related logic to be merged from PR # 323'
           expect { Book.find(already_created_book_by_another_submitter.id) }.not_to raise_error
           expect do
             delete :destroy, params: { id: already_created_book_by_another_submitter.id }
@@ -75,13 +74,11 @@ RSpec.describe BooksController, type: :controller do
         end
 
         it 'redirects to the publications_path' do
-          skip 'waiting for related logic to be merged from PR # 323'
           delete :destroy, params: { id: already_created_book_by_another_submitter.id }
           expect(response).to redirect_to(publications_path)
         end
 
         it 'displays a flash alert' do
-          skip 'waiting for related logic to be merged from PR # 323'
           delete :destroy, params: { id: already_created_book_by_another_submitter.id }
           expect(flash[:danger]).to eql 'You are not authorized to delete this publication.'
         end
