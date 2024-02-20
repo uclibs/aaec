@@ -13,7 +13,7 @@ executors:
 orbs:
   ruby: circleci/ruby@2.0.0
   node: circleci/node@5.0.2
-  browser-tools: circleci/browser-tools@1.4.6
+  browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
 jobs:
@@ -46,9 +46,8 @@ jobs:
       - checkout
       - node/install:
           node-version: "18.17.1"
-      - browser-tools/install-browser-tools:
-          chrome-version: 121.0.6167.184
-            - browser-tools/install-chromedriver
+      - browser-tools/install-browser-tools
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
