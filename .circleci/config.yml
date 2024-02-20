@@ -48,11 +48,11 @@ jobs:
           node-version: "18.17.1"
       - browser-tools/install-browser-tools
       - run:
-          name: Install ChromeDriver version "122.0.6261.39"
+          name: Install stable ChromeDriver version
           command: |
-            CHROMEDRIVER_VERSION="122.0.6261.39"
+            CHROMEDRIVER_VERSION="121.0.6167.184"
             sudo rm -f /usr/local/bin/chromedriver
-            wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+            wget -O /tmp/chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chrome-linux64.zip"
             unzip /tmp/chromedriver.zip -d /tmp
             sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
             sudo chmod +x /usr/local/bin/chromedriver
