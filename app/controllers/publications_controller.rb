@@ -129,7 +129,6 @@ class PublicationsController < ApplicationController
         class_name = controller_name.classify
         formatted_name = class_name.underscore.humanize.titleize
         flash.keep[:success] = "#{formatted_name} was successfully created."
-
         format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: instance_variable }
       else
