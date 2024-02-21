@@ -11,7 +11,9 @@ require 'rails_helper'
 # need to define it here.
 RSpec.describe BooksController, type: :controller do
   let(:submitter) { FactoryBot.create(:submitter) }
+  let(:another_submitter) { FactoryBot.create(:submitter) }
   let(:book) { FactoryBot.create(:book, submitter_id: submitter.id.to_s) }
+  let(:another_book) { FactoryBot.create(:book, submitter_id: another_submitter.id.to_s) }
 
   before do
     book
@@ -44,13 +46,13 @@ RSpec.describe BooksController, type: :controller do
     end
 
     context 'as a submitter' do
-      context 'who owns the book' do
-        before do
-          session[:admin] = nil
-          book
-          login_as_submitter_of(book)
-        end
+      before do
+        session[:admin] = nil
+        book
+        login_as_submitter_of(book)
+      end
 
+      context 'who owns the book' do
         it 'does not set @submitter' do
           get :show, params: { id: book.id }
           expect(assigns(:submitter)).to be_nil
@@ -59,6 +61,13 @@ RSpec.describe BooksController, type: :controller do
         it 'renders the show template' do
           get :show, params: { id: book.id }
           expect(response).to render_template(:show)
+        end
+      end
+
+      context 'who does not own the book' do
+        it 'raises a 404 not found error and does not set submitter' do
+          expect { get :show, params: { id: another_book.id } }.to raise_error(ActiveRecord::RecordNotFound)
+          expect(assigns(:submitter)).to be_nil
         end
       end
     end

@@ -92,8 +92,9 @@ RSpec.describe BooksController, type: :controller do
 
       context 'and the book does not belong to the submitter' do
         it 'does not update the requested book and raises a 404 error' do
-          expect {
-            put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }}
+          expect do
+            put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }
+          end
             .to raise_error(ActiveRecord::RecordNotFound)
 
           already_created_book_by_another_submitter.reload
