@@ -44,7 +44,7 @@ RSpec.describe BooksController, type: :controller do
 
     context 'when a user is logged in as an admin' do
       before do
-        login_as_admin
+        login_as_admin_unit_test
         get :index
       end
 

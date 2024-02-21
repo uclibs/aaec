@@ -18,7 +18,7 @@ RSpec.describe 'Submitter Profile Ownership', type: :feature do
 
   context 'when admin is logged in' do
     before do
-      login_as_admin
+      login_as_admin_feature_test
     end
 
     it 'allows access to the submitter profile page' do

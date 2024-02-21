@@ -91,31 +91,22 @@ RSpec.describe BooksController, type: :controller do
       end
 
       context 'and the book does not belong to the submitter' do
-        it 'does not update the requested book' do
-          skip 'waiting for related logic to be merged from PR # 323'
-          put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }
+        it 'does not update the requested book and raises a 404 error' do
+          expect {
+            put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }}
+            .to raise_error(ActiveRecord::RecordNotFound)
+
           already_created_book_by_another_submitter.reload
+
           expect(already_created_book_by_another_submitter.author_first_name).to eql %w[Test Person]
           expect(already_created_book_by_another_submitter.author_last_name).to eql %w[Case 2]
-        end
-
-        it 'redirects to the publications_path' do
-          skip 'waiting for related logic to be merged from PR # 323'
-          put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }
-          expect(response).to redirect_to(publications_path)
-        end
-
-        it 'displays a flash alert' do
-          skip 'waiting for related logic to be merged from PR # 323'
-          put :update, params: { id: already_created_book_by_another_submitter.id, book: new_attributes }
-          expect(flash[:danger]).to eql 'You are not authorized to edit this publication.'
         end
       end
     end
 
     context 'when attempting to update a book as an admin' do
       before do
-        login_as_admin
+        login_as_admin_unit_test
       end
       it 'updates the requested book' do
         put :update, params: { id: already_created_book_by_submitter.id, book: new_attributes }

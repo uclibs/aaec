@@ -65,29 +65,21 @@ RSpec.describe BooksController, type: :controller do
       end
 
       context 'and the book does not belong to the submitter' do
-        it 'does not destroy the requested book' do
+        it 'raises a 404 error and does not destroy the requested book' do
           expect { Book.find(already_created_book_by_another_submitter.id) }.not_to raise_error
+          initial_book_count = Book.count
           expect do
             delete :destroy, params: { id: already_created_book_by_another_submitter.id }
-          end.not_to change(Book, :count)
+          end.to raise_error(ActiveRecord::RecordNotFound)
+          expect(Book.count).to eql initial_book_count
           expect { Book.find(already_created_book_by_another_submitter.id) }.not_to raise_error
-        end
-
-        it 'redirects to the publications_path' do
-          delete :destroy, params: { id: already_created_book_by_another_submitter.id }
-          expect(response).to redirect_to(publications_path)
-        end
-
-        it 'displays a flash alert' do
-          delete :destroy, params: { id: already_created_book_by_another_submitter.id }
-          expect(flash[:danger]).to eql 'You are not authorized to delete this publication.'
         end
       end
     end
 
     context 'when attempting to delete books as an admin' do
       before do
-        login_as_admin
+        login_as_admin_unit_test
       end
 
       it 'destroys the requested books by either submitter' do

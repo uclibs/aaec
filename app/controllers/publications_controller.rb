@@ -111,7 +111,12 @@ class PublicationsController < ApplicationController
   end
 
   def show
-    @submitter = helpers.find_submitter(instance_variable_get("@#{controller_name.singularize}").id) if session[:admin]
+    resource = controller_name.singularize
+    resource_instance = instance_variable_get("@#{resource}")
+
+    raise ActiveRecord::RecordNotFound unless resource_instance
+
+    @submitter = helpers.find_submitter(resource_instance.id) if session[:admin]
   end
 
   def new
