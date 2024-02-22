@@ -13,6 +13,12 @@
 
 /* Custom bootstrap variables must be set or imported *before* bootstrap. */
 @import "bootstrap";
+@import "forms";
+//@import "scaffolds";
+
+*, *::before, *::after {
+   box-sizing: border-box;
+}
 
 .required:after {
    content: " *";

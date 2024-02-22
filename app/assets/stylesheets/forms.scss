@@ -1,0 +1,27 @@
+// Styles related to the authors partial used when adding
+// or editing a publication.
+
+.two-column-form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  background-color: blue !important;
+
+  // Tablets and above need two columns, mobile needs one
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .two-column-item {
+    flex: 1 1 auto;
+    background-color: yellow !important;
+    @media (min-width: 768px) {
+      flex: 0 1 50%;
+      background-color: orange !important;
+    }
+  }
+}

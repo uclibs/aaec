@@ -1,12 +1,12 @@
 
-<div id="author_group">
+<div id="author_group" class="two-column-form">
     <% if publication.author_first_name.empty? && publication.author_last_name.empty? %>
     <% publication.author_first_name << '' %>
     <% publication.author_last_name << '' %>
     <% end %>
 
     <% publication.author_first_name.each_with_index do |_, index| %>
-    <div class="form-row" id="author_<%= index %>">
+    <div class="form-row two-column-item" id="author_<%= index %>">
         <div class="col-md-5">
             <%= label_tag(:author_first_name, author_or_artist_label + ' First Name', class: "required") %>
             <%= text_field_tag "#{name}[author_first_name][]", publication.author_first_name[index], required: true, class: "form-control form-group" %>

@@ -22,7 +22,6 @@ RSpec.describe 'Application Behavior', type: :feature do
     end
 
     it 'allows the user to log in after having been redirected to the root page with an error message' do
-      visit publications_path
       visit_publications_page_as_submitter(submitter)
       expect(page).to have_current_path(publications_path)
     end
