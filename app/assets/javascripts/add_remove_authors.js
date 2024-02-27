@@ -1,7 +1,7 @@
 
 // Add an event listener to the author group element that will allow the "Remove Author" button to work
 // even if the author group element is dynamically added to the page.
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("turbolinks:load", function() {
     const authorGroupElement = document.getElementById('author_group');
 
     if (authorGroupElement) {
@@ -131,7 +131,4 @@ function updateFieldAndLabel(group, fieldName, index) {
     if (label && label.tagName === 'LABEL') {
         label.setAttribute('for', input.id);
     }
-
-
-
 }
