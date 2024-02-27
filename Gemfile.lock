@@ -156,7 +156,7 @@ GEM
       railties (>= 6.0.0)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
-    listen (3.8.0)
+    listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.22.0)
@@ -394,7 +394,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   jsbundling-rails
-  listen (>= 3.0.5, < 3.9)
+  listen (>= 3.0.5, < 3.10)
   mysql2
   net-smtp
   pagy (~> 7.0.2)
