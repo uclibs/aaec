@@ -5,26 +5,6 @@ require 'rails_helper'
 describe 'Two Column Layout Test', type: :feature, js: true do
   let(:submitter) { FactoryBot.build(:submitter) }
 
-  context 'while submitting a new publication', skip: true do
-    # context 'when there is just one author' do
-    #   it 'adjusts layout from one to two columns based on screen width' do
-    #     create_submitter(submitter)
-    #     visit new_other_publication_path
-    #
-    #     two_column_layout_present
-    #     columns_layout_correct_on_all_devices
-    #   end
-    # end
-  end
-
-  context 'while editing an existing publication', skip: true do
-    skip true
-  end
-
-  context 'while viewing a publication', skip: true do
-    skip true
-  end
-
   context 'while entering in information as a new submitter' do
     it 'adjusts layout from one to two columns based on screen width' do
       visit root_path
