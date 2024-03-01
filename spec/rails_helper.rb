@@ -72,6 +72,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Include helpers for feature tests
+  config.include FeatureSpecHelpers::AuthorManagement, type: :feature
 end
 
 def create_submitter(submitter)
