@@ -24,6 +24,10 @@ document.addEventListener("turbolinks:load", function() {
     }
 });
 
+// We have both authors and artists.  This function looks at the text in the
+// "Add Author" button to determine if we are dealing with artist or an author.
+// The "Add Author" button has its text determined by publications_helper's
+// "author_or_artist_label" method.
 function getRoleFromButton() {
     const button = document.getElementById('add_author_btn');
     if (!button) return null; // Return null if the button doesn't exist
@@ -87,6 +91,7 @@ function createInput(type, name) {
         name: `${type}[${name}][]`,
         required: "required",
         class: "form-control form-group",
+        autocomplete: "off",
         "data-type": type
     });
 
