@@ -1,0 +1,37 @@
+.two-column-form {
+  display: flex;
+  flex-direction: column;
+
+  input, select {
+    border: 1px solid #adb5bd; /* Default state */
+  }
+
+  input:focus, select:focus {
+    border-color: #6c757d; /* Darker border on focus */
+    outline: none; /* Removes the default focus outline to rely on the border change */
+  }
+
+
+  // Tablets and above need two columns, mobile needs one
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .two-column-item {
+    flex: 1 1 auto;
+    margin: 10px;
+    @media (min-width: 768px) {
+      flex: 0 1 45%;
+    }
+  }
+
+  .add-padding-bottom {
+    padding-bottom: 1.5rem;
+  }
+}
+
+.two-column-left-button {
+  margin-left: 10px;
+}
