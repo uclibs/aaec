@@ -35,3 +35,9 @@
 .two-column-left-button {
   margin-left: 10px;
 }
+
+/* Draw a line between each author inside author-group */
+.author_group > :not(:last-child) {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}

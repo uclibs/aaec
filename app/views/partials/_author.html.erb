@@ -1,5 +1,5 @@
 
-<div id="author_group">
+<div id="author_group" class="author_group">
   <% if publication.author_first_name.empty? && publication.author_last_name.empty? %>
     <% publication.author_first_name << '' %>
     <% publication.author_last_name << '' %>
@@ -17,11 +17,11 @@
       </div>
       <% if index > 0 %>
         <div class="col-md-2">
-          <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white" %>
+          <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white two-column-left-button" %>
         </div>
       <% end %>
     </div>
   <% end %>
 </div>
 
-<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>
+<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary two-column-left-button mt-3" %>

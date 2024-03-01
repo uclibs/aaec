@@ -55,7 +55,7 @@ function addAuthor(type) {
 
 function createAuthorElement(type) {
     const newDataIndex = document.querySelectorAll(`[data-type='${type}']`).length;
-    const newAuthor = createElementWithAttributes("div", { class: "form-row", 'data-type': type, 'data-index': newDataIndex });
+    const newAuthor = createElementWithAttributes("div", { class: "form-row two-column-form", 'data-type': type, 'data-index': newDataIndex });
     newAuthor.appendChild(createInput(type, "author_first_name"));
     newAuthor.appendChild(createInput(type, "author_last_name"));
     newAuthor.appendChild(createDeleteButton());
@@ -75,12 +75,11 @@ function createInput(type, name) {
     if (!role) return;
 
     const wrapper = createElementWithAttributes("div", {
-        class: "col-md-5",
+        class: "two-column-item",
         "data-type": type
     });
 
     const label = createElementWithAttributes("label", {
-        class: "required",
         "data-type": type
     });
 
@@ -108,7 +107,7 @@ function createDeleteButton() {
     const wrapper = createElementWithAttributes("div", { class: "col-md-2" });
     const button = createElementWithAttributes("button", {
         type: "button",
-        class: "form-control form-group bg-danger text-white"
+        class: "form-control form-group bg-danger text-white two-column-left-button"
     });
     button.textContent = "Remove " + role;
     wrapper.appendChild(button);
