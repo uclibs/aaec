@@ -47,6 +47,25 @@ module FeatureSpecHelpers
       find('#author_group > :first-child')
     end
 
+    # navigates to the new other publication page and fills out the form.
+    def create_other_publication
+      visit new_other_publication_path
+
+      # Fill out the fields with the first author's name
+      first_name_fields.last.set('First0')
+      last_name_fields.last.set('Last0')
+
+      # Fill in the rest of the fields
+      fill_in 'other_publication[work_title]', with: 'Title'
+      fill_in 'other_publication[other_title]', with: 'Subtitle'
+      fill_in 'other_publication[uc_department]', with: 'Department'
+      fill_in 'other_publication[publication_date]', with: 'Date'
+      fill_in 'other_publication[url]', with: 'URL'
+      fill_in 'other_publication[doi]', with: 'DOI'
+
+      click_on 'Submit'
+    end
+
     private
 
     # Returns the collection of author first name fields.
@@ -78,25 +97,6 @@ module FeatureSpecHelpers
       actual_value = field.value
       error_message = "#{field_name} at index #{index} does not match"
       expect(actual_value).to eq(expected_value), error_message
-    end
-
-    # navigates to the new other publication page and fills out the form.
-    def create_other_publication
-      visit new_other_publication_path
-
-      # Fill out the fields with the first author's name
-      first_name_fields.last.set('First0')
-      last_name_fields.last.set('Last0')
-
-      # Fill in the rest of the fields
-      fill_in 'other_publication[work_title]', with: 'Title'
-      fill_in 'other_publication[other_title]', with: 'Subtitle'
-      fill_in 'other_publication[uc_department]', with: 'Department'
-      fill_in 'other_publication[publication_date]', with: 'Date'
-      fill_in 'other_publication[url]', with: 'URL'
-      fill_in 'other_publication[doi]', with: 'DOI'
-
-      click_on 'Submit'
     end
 
     # Adds three more authors to a publication.  Valid only within

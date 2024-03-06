@@ -113,7 +113,7 @@ describe 'Form Layout Test', type: :feature, js: true do
 
   def verify_three_column_item_heights
     heights = retrieve_item_offsets
-    puts "heights: #{heights}"
+
     expect(heights[0..2].uniq.size).to eq(1)
     expect(heights[2]).not_to eq(heights[3])
   end
