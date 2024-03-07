@@ -67,9 +67,15 @@ class AdminController < ApplicationController
       publications_in_college = all_publications.select do |publication|
         publication.respond_to?(:college_ids) && publication.college_ids.include?(college.id)
       end
+
       grouped_by_department = publications_in_college.group_by(&:uc_department)
 
-      sorted_departments = grouped_by_department.sort_by { |department, _publications| department }.to_h
+      sorted_departments = grouped_by_department.transform_values do |publications|
+        publications.sort_by do |publication|
+          full_names = publication.author_last_name.zip(publication.author_first_name).map { |last, first| "#{last.downcase}, #{first.downcase}" }
+          [full_names, publication.work_title.downcase]
+        end
+      end.sort.to_h
 
       @college_array << [college.id, sorted_departments]
     end
