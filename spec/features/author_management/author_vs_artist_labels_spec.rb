@@ -15,6 +15,7 @@ describe 'Author and Artist labels', :feature, js: true do
 
   it 'uses the title of Author for new books' do
     visit new_book_path
+    expect(page).to have_selector("input[name='book[author_first_name][]']", visible: true)
     expect(page).to have_current_path(Rails.application.routes.url_helpers.new_book_path)
     expect(page).to have_selector("input[name='book[author_first_name][]']", visible: true)
     expect(page).to have_content('Add Author')
@@ -24,6 +25,7 @@ describe 'Author and Artist labels', :feature, js: true do
 
     click_on 'Add Author'
     expect(page).to have_selector("input[name='book[author_first_name][]']", count: 2)
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_book_path)
     first_name_fields.last.set('First1')
     last_name_fields.last.set('Last1')
 
@@ -39,8 +41,8 @@ describe 'Author and Artist labels', :feature, js: true do
 
   it 'has the title of Artist for new artworks' do
     visit new_artwork_path
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_artwork_path)
     expect(page).to have_selector("input[name='artwork[author_first_name][]']", visible: true)
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_artwork_path)
     expect(page).to have_content('Add Artist')
     expect(page).not_to have_content('Add Author')
     first_name_fields.last.set('First0')
