@@ -25,7 +25,7 @@ describe 'Adding Authors', :feature, js: true do
 
     # Click "Add Author" and verify new and old fields
     click_on 'Add Author'
-
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_other_publication_path)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 2)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 2)
 
@@ -38,6 +38,7 @@ describe 'Adding Authors', :feature, js: true do
 
     # Click "Add Author" again
     click_on 'Add Author'
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_other_publication_path)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 3)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 3)
     check_field_values_by_index(0, 'First0', 'Last0')
@@ -50,6 +51,7 @@ describe 'Adding Authors', :feature, js: true do
 
     # Click "Add Author" again
     click_on 'Add Author'
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_other_publication_path)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 4)
     check_field_values_by_index(0, 'First0', 'Last0')

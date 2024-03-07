@@ -40,6 +40,7 @@ describe 'Adding Authors', :feature, js: true do
     create_other_publication
     add_three_more_authors_to_publication(OtherPublication.last)
     visit edit_other_publication_path(OtherPublication.last)
+    expect(page).to have_current_path(edit_other_publication_path(OtherPublication.last))
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 4)
     check_field_values_by_index(0, 'First0', 'Last0')
@@ -94,6 +95,7 @@ describe 'Adding Authors', :feature, js: true do
     create_other_publication
     add_three_more_authors_to_publication(OtherPublication.last)
     visit edit_other_publication_path(OtherPublication.last)
+    expect(page).to have_current_path(edit_other_publication_path(OtherPublication.last))
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 4)
     check_field_values_by_index(0, 'First0', 'Last0')
@@ -112,7 +114,8 @@ describe 'Adding Authors', :feature, js: true do
     last_name_fields.last.set('Last3modified')
     click_on 'Submit'
 
-    page.driver.browser.navigate.refresh
+    visit current_path
+    expect(page).to have_current_path(other_publication_path(OtherPublication.last))
     expect(page).to have_text('First0modified Last0modified, First1modified Last1modified, First2modified Last2modified, First3modified Last3modified')
   end
 end
