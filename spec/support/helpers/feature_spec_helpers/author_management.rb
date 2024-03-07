@@ -99,17 +99,42 @@ module FeatureSpecHelpers
       expect(actual_value).to eq(expected_value), error_message
     end
 
+    # navigates to the new other publication page and fills out the form.
+    def create_other_publication
+      using_wait_time(10) do
+        visit new_other_publication_path
+
+        # Fill out the fields with the first author's name
+        first_name_fields.last.set('First0')
+        last_name_fields.last.set('Last0')
+
+        # Fill in the rest of the fields
+        fill_in 'other_publication[work_title]', with: 'Title'
+        fill_in 'other_publication[other_title]', with: 'Subtitle'
+        fill_in 'other_publication[uc_department]', with: 'Department'
+        fill_in 'other_publication[publication_date]', with: 'Date'
+        fill_in 'other_publication[url]', with: 'URL'
+        fill_in 'other_publication[doi]', with: 'DOI'
+
+        click_on 'Submit'
+        expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
+      end
+    end
+
     # Adds three more authors to a publication.  Valid only within
     # the context of a feature test with an already created publication.
     def add_three_more_authors_to_publication(publication)
-      visit edit_other_publication_path(publication)
-      3.times do
-        current_count = first_name_fields.size
-        click_on 'Add Author'
-        first_name_fields.last.set("First#{current_count}")
-        last_name_fields.last.set("Last#{current_count}")
+      using_wait_time(10) do
+        visit edit_other_publication_path(publication)
+        3.times do
+          current_count = first_name_fields.size
+          click_on 'Add Author'
+          expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: current_count + 1)
+          first_name_fields.last.set("First#{current_count}")
+          last_name_fields.last.set("Last#{current_count}")
+        end
+        click_on 'Submit'
       end
-      click_on 'Submit'
     end
   end
 end
