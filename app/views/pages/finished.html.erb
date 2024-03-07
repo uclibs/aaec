@@ -3,14 +3,37 @@
         <h1>Thank You</h1>
     </div>
     <div class="row pl-2">
-      <p>Your submission(s) was received.</p>
-
-      <p>
-        We would like to include your work in a display. Please send an electronic copy of your published work to melissa.norris@uc.edu OR a print copy to:<br />
-        <br />
-        Melissa Cox Norris<br />
-        ML 0033<br />
-        Langsam Library, Room 640
-      <p>
+      <p>Your submission(s) was received.  You should receive an email confirmation at the address provided.</p>
+      <hr/>
+      <h2>Next Steps</h2>
+      <ol>
+        <li>
+          <p>
+            We would like to include your work in a display. Please send an electronic copy of your published work to
+            <%= mail_to 'melissa.norris@uc.edu' %>
+             OR a print copy to:<br />
+            <br />
+            Melissa Cox Norris<br />
+            ML 0033<br />
+            Langsam Library, Room 640
+          <p>
+        </li>
+        <li>
+          <p>
+            If you have not already done so, consider preserving and sharing your work on our digital repository, <%= link_to 'Scholar@UC', 'https://scholar.uc.edu/', target: '_blank', rel: 'noopener noreferrer' %>
+          </p>
+          <p>
+            <%= link_to 'Scholar@UC', 'https://scholar.uc.edu', class: 'btn btn-primary btn-lg', target: '_blank' %>
+          </p>
+        </li>
+        <li>
+          <p>
+            Forgot something?  Return to AAEC's login page here:
+          </p>
+          <p>
+            <%= link_to 'AAEC Login', root_path, class: 'btn btn-primary btn-lg' %>
+          </p>
+        </li>
+      </ol>
     </div>
 </div>
