@@ -101,6 +101,7 @@ describe 'Adding Authors', :feature, js: true do
     # Click on "Edit" and verify that we are redirected to the edit page
     # and that the author names are correct
     click_on 'Edit'
+    expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 1)
     expect(page).to have_current_path(Rails.application.routes.url_helpers.edit_other_publication_path(OtherPublication.last.id))
     check_field_values_by_index(0, 'First0', 'Last0')
 
