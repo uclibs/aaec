@@ -6,12 +6,12 @@
   <% end %>
 
   <% publication.author_first_name.zip(publication.author_last_name).each_with_index do |(first_name, last_name), index| %>
-    <div class="form-row" data-type="<%= name %>" data-index=<%= index %> id="author_<%= index %>">
-      <div class="col-md-5">
+    <div class="form-row form-container author-form-container" data-type="<%= name %>" data-index=<%= index %> id="author_<%= index %>">
+      <div class="col-md-5 form-item">
         <%= label_tag("author_first_name_#{index}", "#{author_or_artist_label} First Name", class: "required") %>
         <%= text_field_tag "#{name}[author_first_name][]", first_name, "data-publication-type": name, id: "author_first_name_#{index}", autocomplete: 'off', required: true, class: "form-control form-group" %>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 form-item">
         <%= label_tag "author_last_name_#{index}", "#{author_or_artist_label} Last Name", class: "required" %>
         <%= text_field_tag "#{name}[author_last_name][]", last_name, "data-publication-type": name, id: "author_last_name_#{index}", autocomplete: 'off', required: true, class: "form-control form-group" %>
       </div>
