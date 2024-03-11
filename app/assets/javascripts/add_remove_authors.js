@@ -55,7 +55,7 @@ function addAuthor(type) {
 
 function createAuthorElement(type) {
     const newDataIndex = document.querySelectorAll(`[data-type='${type}']`).length;
-    const newAuthor = createElementWithAttributes("div", { class: "form-row two-column-form", 'data-type': type, 'data-index': newDataIndex });
+    const newAuthor = createElementWithAttributes("div", { class: "form-row form-container author-form-container", 'data-type': type, 'data-index': newDataIndex, 'id': 'author_' + newDataIndex });
     newAuthor.appendChild(createInput(type, "author_first_name"));
     newAuthor.appendChild(createInput(type, "author_last_name"));
     newAuthor.appendChild(createDeleteButton());
@@ -69,13 +69,11 @@ function createElementWithAttributes(tag, attributes) {
 }
 
 function createInput(type, name) {
-    // The "for" attribute of the label will be updated with the updateAuthorIds function.
-
     const role = getRoleFromButton();
     if (!role) return;
 
     const wrapper = createElementWithAttributes("div", {
-        class: "two-column-item",
+        class: "form-item",
         "data-type": type
     });
 
@@ -104,10 +102,10 @@ function createDeleteButton() {
     const role = getRoleFromButton();
     if (!role) return;
 
-    const wrapper = createElementWithAttributes("div", { class: "col-md-2" });
+    const wrapper = createElementWithAttributes("div", { class: "form-delete-button col-3" });
     const button = createElementWithAttributes("button", {
         type: "button",
-        class: "form-control form-group bg-danger text-white two-column-left-button"
+        class: "form-control form-group bg-danger text-white"
     });
     button.textContent = "Remove " + role;
     wrapper.appendChild(button);

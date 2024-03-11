@@ -15,13 +15,11 @@
         <%= label_tag "author_last_name_#{index}", "#{author_or_artist_label} Last Name", class: "required" %>
         <%= text_field_tag "#{name}[author_last_name][]", last_name, "data-publication-type": name, id: "author_last_name_#{index}", autocomplete: 'off', required: true, class: "form-control form-group" %>
       </div>
-      <% if index > 0 %>
-        <div class="col-md-2">
-          <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white two-column-left-button" %>
-        </div>
-      <% end %>
+      <div class="<%= index > 0 ? 'form-delete-button' : 'form-delete-button col-2 invisible'%>">
+        <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white" %>
+      </div>
     </div>
   <% end %>
 </div>
 
-<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary two-column-left-button mt-3" %>
+<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary mt-3 col-3" %>
