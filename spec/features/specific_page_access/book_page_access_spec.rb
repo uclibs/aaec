@@ -18,7 +18,7 @@ RSpec.describe 'Book Submission Ownership', type: :feature do
 
   context 'when admin is logged in' do
     before do
-      login_as_admin
+      login_as_admin_feature_test
       create_book_as_new_submitter
       click_on("I'm Finished")
     end

@@ -23,4 +23,10 @@ end
 
 def log_in_submitter(submitter_id)
   session[:submitter_id] = submitter_id
+  session.delete(:admin)
+end
+
+def login_as_admin_unit_test
+  session[:admin] = true
+  session.delete(:submitter_id)
 end

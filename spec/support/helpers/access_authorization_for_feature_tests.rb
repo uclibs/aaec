@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-def login_as_admin
+def login_as_admin_feature_test
   visit manage_path
   fill_in('username', with: ENV.fetch('ADMIN_USERNAME', nil))
   fill_in('password', with: ENV.fetch('ADMIN_PASSWORD', nil))
