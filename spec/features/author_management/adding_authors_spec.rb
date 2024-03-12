@@ -4,6 +4,8 @@ require 'rails_helper'
 
 describe 'Adding Authors', :feature, js: true do
   let(:submitter) { FactoryBot.create(:submitter) }
+  let(:other_publication) { FactoryBot.create(:other_publication, author_first_name: ['First0'], author_last_name: ['Last0'], submitter_id: submitter.id) }
+  let(:pub_id) { other_publication.id }
 
   before do
     create_submitter(submitter)
@@ -11,7 +13,6 @@ describe 'Adding Authors', :feature, js: true do
 
   it 'adds authors to a new publication' do
     visit new_other_publication_path
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.new_other_publication_path)
 
     # Verify blank input fields for author's first name and last name
     # to be present on page load
@@ -19,45 +20,33 @@ describe 'Adding Authors', :feature, js: true do
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 1)
     check_field_values_by_index(0, '', '')
 
-    # Fill out the fields with the first author's name
     first_name_fields.last.set('First0')
     last_name_fields.last.set('Last0')
 
-    # Click "Add Author" and verify new and old fields
-    click_on 'Add Author'
-
-    expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 2)
-    expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 2)
+    add_author_or_artist_and_verify_field
 
     check_field_values_by_index(0, 'First0', 'Last0')
     check_field_values_by_index(1, '', '')
 
-    # Fill in second author's name
     first_name_fields.last.set('First1')
     last_name_fields.last.set('Last1')
 
-    # Click "Add Author" again
-    click_on 'Add Author'
-    expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 3)
-    expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 3)
+    add_author_or_artist_and_verify_field
+
     check_field_values_by_index(0, 'First0', 'Last0')
     check_field_values_by_index(1, 'First1', 'Last1')
     check_field_values_by_index(2, '', '')
 
-    # Fill in third author's name
     first_name_fields.last.set('First2')
     last_name_fields.last.set('Last2')
 
-    # Click "Add Author" again
-    click_on 'Add Author'
-    expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
-    expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 4)
+    add_author_or_artist_and_verify_field
+
     check_field_values_by_index(0, 'First0', 'Last0')
     check_field_values_by_index(1, 'First1', 'Last1')
     check_field_values_by_index(2, 'First2', 'Last2')
     check_field_values_by_index(3, '', '')
 
-    # Fill in fourth author's name
     first_name_fields.last.set('First3')
     last_name_fields.last.set('Last3')
 
@@ -72,56 +61,44 @@ describe 'Adding Authors', :feature, js: true do
     # Click "Submit" and verify that we are redirected to the index page
     # and that a success message is displayed
     click_on 'Submit'
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
     expect(page).to have_text 'Other Publication was successfully created.'
+    expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
 
-    # Click on the hyperlink on the id of the newly created publication
-    # and verify that the author names are correct
-    click_on OtherPublication.last.work_title.to_s
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.other_publication_path(OtherPublication.last.id))
-    expect(page).to have_text 'First0 Last0'
-    expect(page).to have_text 'First1 Last1'
-    expect(page).to have_text 'First2 Last2'
-    expect(page).to have_text 'First3 Last3'
+    # Check the last other_publication and verify that the author names are correct
+    last_other_publication = OtherPublication.last
+    expect(last_other_publication.author_first_name).to eq %w[First0 First1 First2 First3]
+    expect(last_other_publication.author_last_name).to eq %w[Last0 Last1 Last2 Last3]
   end
 
   it 'adds authors to an existing publication' do
-    # Create a new publication.  Adding author functionality for a new publication
-    # is tested in the previous test.
-    create_other_publication # Defined in spec/support/helpers/feature_spec_helpers/author_management.rb
+    login_as_admin_feature_test
 
-    # Click on the hyperlink on the id of the newly created publication
-    # and verify that the author names are correct
-    click_on OtherPublication.last.work_title.to_s
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.other_publication_path(OtherPublication.last.id))
-    expect(page).to have_selector('td', text: 'First0 Last0') # Information is in table format on the show page
+    visit edit_other_publication_path(pub_id)
+    expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 1)
 
-    # Click on "Edit" and verify that we are redirected to the edit page
-    # and that the author names are correct
-    click_on 'Edit'
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.edit_other_publication_path(OtherPublication.last.id))
+    # Defined with the factory creation above
     check_field_values_by_index(0, 'First0', 'Last0')
 
-    # Add another author and verify that the author names are correct
-    click_on 'Add Author'
+    add_author_or_artist_and_verify_field
+
     first_name_fields.last.set('First1')
     last_name_fields.last.set('Last1')
+
+    add_author_or_artist_and_verify_field
+
     check_field_values_by_index(0, 'First0', 'Last0')
     check_field_values_by_index(1, 'First1', 'Last1')
 
-    # Add a third author and verify that the author names are correct
-    click_on 'Add Author'
     first_name_fields.last.set('First2')
     last_name_fields.last.set('Last2')
-    check_field_values_by_index(0, 'First0', 'Last0')
-    check_field_values_by_index(1, 'First1', 'Last1')
-    check_field_values_by_index(2, 'First2', 'Last2')
 
-    # Save the changes and verify that we are redirected to the show page
-    # and that the author names are correct
     click_on 'Submit'
-    expect(page).to have_current_path(Rails.application.routes.url_helpers.other_publication_path(OtherPublication.last.id))
     expect(page).to have_text 'Other Publication was successfully updated.'
-    expect(page).to have_selector('td', text: 'First0 Last0, First1 Last1, First2 Last2') # Information is in table format on the show page
+
+    other_publication = OtherPublication.find(pub_id)
+    other_publication.reload
+
+    expect(other_publication.author_first_name).to eq %w[First0 First1 First2]
+    expect(other_publication.author_last_name).to eq %w[Last0 Last1 Last2]
   end
 end

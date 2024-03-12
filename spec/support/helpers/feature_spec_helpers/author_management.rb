@@ -47,37 +47,48 @@ module FeatureSpecHelpers
       find('#author_group > :first-child')
     end
 
-    # navigates to the new other publication page and fills out the form.
-    def create_other_publication
-      visit new_other_publication_path
+    def add_author_or_artist_and_verify_field
+      # Dynamically get the current count of fields before adding a new one
+      current_count = first_name_fields.size
 
-      # Fill out the fields with the first author's name
-      first_name_fields.last.set('First0')
-      last_name_fields.last.set('Last0')
+      author_button_present = has_button?('Add Author', wait: false)
+      artist_button_present = has_button?('Add Artist', wait: false)
 
-      # Fill in the rest of the fields
-      fill_in 'other_publication[work_title]', with: 'Title'
-      fill_in 'other_publication[other_title]', with: 'Subtitle'
-      fill_in 'other_publication[uc_department]', with: 'Department'
-      fill_in 'other_publication[publication_date]', with: 'Date'
-      fill_in 'other_publication[url]', with: 'URL'
-      fill_in 'other_publication[doi]', with: 'DOI'
+      raise_errors_for_incorrect_button_states(author_button_present, artist_button_present)
 
-      click_on 'Submit'
+      # Trigger adding a new field based on which button is present
+      if author_button_present
+        click_on 'Add Author'
+        field_selector = "input[name$='[author_first_name][]']"
+      elsif artist_button_present
+        click_on 'Add Artist'
+        field_selector = "input[name$='[author_first_name][]']" # Artist first name field is still "author_first_name"
+      end
+
+      # Wait for the next field to appear
+      expect(page).to have_selector(field_selector, count: current_count + 1)
     end
 
-    private
+    def raise_errors_for_incorrect_button_states(author_button_present, artist_button_present)
+      # Fail if both or none of the buttons are present
+      if author_button_present && artist_button_present
+        raise 'Both "Add Author" and "Add Artist" buttons are present, which is unexpected.'
+      elsif !author_button_present && !artist_button_present
+        raise 'Neither "Add Author" nor "Add Artist" button is present, cannot proceed.'
+      end
+    end
 
     # Returns the collection of author first name fields.
     # @return [Array<Capybara::Node::Element>] The collection of author first name fields.
     def first_name_fields
-      all("input[name$='[author_first_name][]']", wait: Capybara.default_max_wait_time)
+      expect(page).to have_selector("input[name$='[author_first_name][]']")
+      all("input[name$='[author_first_name][]']")
     end
 
     # Returns the collection of author last name fields.
     # @return [Array<Capybara::Node::Element>] The collection of author last name fields.
     def last_name_fields
-      all("input[name$='[author_last_name][]']", wait: Capybara.default_max_wait_time)
+      all("input[name$='[author_last_name][]']")
     end
 
     # Validates if the provided index is within the range of existing author fields.
@@ -97,19 +108,6 @@ module FeatureSpecHelpers
       actual_value = field.value
       error_message = "#{field_name} at index #{index} does not match"
       expect(actual_value).to eq(expected_value), error_message
-    end
-
-    # Adds three more authors to a publication.  Valid only within
-    # the context of a feature test with an already created publication.
-    def add_three_more_authors_to_publication(publication)
-      visit edit_other_publication_path(publication)
-      3.times do
-        current_count = first_name_fields.size
-        click_on 'Add Author'
-        first_name_fields.last.set("First#{current_count}")
-        last_name_fields.last.set("Last#{current_count}")
-      end
-      click_on 'Submit'
     end
   end
 end

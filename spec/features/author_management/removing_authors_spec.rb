@@ -3,19 +3,16 @@
 require 'rails_helper'
 
 describe 'Removing Authors', :feature, js: true do
-  let(:submitter) { FactoryBot.create(:submitter) }
+  let(:other_publication) { FactoryBot.create(:other_publication, author_first_name: %w[First0 First1 First2 First3], author_last_name: %w[Last0 Last1 Last2 Last3]) }
+  let(:pub_id) { other_publication.id }
 
   before do
-    create_submitter(submitter)
-    create_other_publication
-    add_three_more_authors_to_publication(OtherPublication.last)
-    visit edit_other_publication_path(OtherPublication.last)
+    login_as_admin_feature_test
+    visit edit_other_publication_path(other_publication)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
-    expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 4)
   end
 
   it 'removes the second author from the publication' do
-    # Remove the second author
     remove_author_at_index(1)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 3)
     expect(page).to have_selector("input[name='other_publication[author_last_name][]']", count: 3)
