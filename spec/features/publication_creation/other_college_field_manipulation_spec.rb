@@ -10,7 +10,7 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
     before do
       create_submitter(submitter)
       visit new_artwork_path
-      find('input[name="artwork[author_first_name][]"]') # Wait for the page to load
+      expect(page).to have_selector('input[name="artwork[author_first_name][]"]') # Wait for the page to load
       fill_in('artwork[author_first_name][]', with: artwork.author_first_name[0])
       fill_in('artwork[author_last_name][]', with: artwork.author_last_name[0])
       fill_in('artwork[work_title]', with: artwork.work_title)
@@ -41,6 +41,8 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
         other_checkbox.set(true)
 
         # Now, the Other College field should be visible
+        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
+        expect(page).to have_text('Other College')
         expect(other_college_field).to be_visible
 
         # Unselect the Other checkbox
@@ -100,9 +102,10 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
         expect(page).to_not have_text('Other College')
 
         click_on('Submit')
-
+        expect(page).to have_text('Instructions')
         expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
         click_on(artwork.work_title)
+        expect(page).to have_text 'Show Artwork'
         expect(page).to_not have_text 'Other College Name'
       end
 
@@ -115,8 +118,10 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
         fill_in('artwork[other_college]', with: 'Other College Name')
         click_on('Submit')
 
+        expect(page).to have_text('Instructions')
         expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
         click_on(artwork.work_title)
+        expect(page).to have_text 'Show Artwork'
         expect(page).to have_text 'Arts and Sciences'
         expect(page).to have_text 'Other College Name'
       end
