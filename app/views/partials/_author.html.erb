@@ -1,27 +1,25 @@
 
-<div id="author_group">
+<div id="author_group" class="author_group">
   <% if publication.author_first_name.empty? && publication.author_last_name.empty? %>
     <% publication.author_first_name << '' %>
     <% publication.author_last_name << '' %>
   <% end %>
 
   <% publication.author_first_name.zip(publication.author_last_name).each_with_index do |(first_name, last_name), index| %>
-    <div class="form-row" data-type="<%= name %>" data-index=<%= index %> id="author_<%= index %>">
-      <div class="col-md-5">
+    <div class="form-row form-container author-form-container" data-type="<%= name %>" data-index=<%= index %> id="author_<%= index %>">
+      <div class="col-md-5 form-item">
         <%= label_tag("author_first_name_#{index}", "#{author_or_artist_label} First Name", class: "required") %>
         <%= text_field_tag "#{name}[author_first_name][]", first_name, "data-publication-type": name, id: "author_first_name_#{index}", autocomplete: 'off', required: true, class: "form-control form-group" %>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 form-item">
         <%= label_tag "author_last_name_#{index}", "#{author_or_artist_label} Last Name", class: "required" %>
         <%= text_field_tag "#{name}[author_last_name][]", last_name, "data-publication-type": name, id: "author_last_name_#{index}", autocomplete: 'off', required: true, class: "form-control form-group" %>
       </div>
-      <% if index > 0 %>
-        <div class="col-md-2">
-          <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white" %>
-        </div>
-      <% end %>
+      <div class="<%= index > 0 ? 'form-delete-button' : 'form-delete-button col-2 invisible'%>">
+        <%= button_tag "Remove " + author_or_artist_label, type: "button", class: "form-control form-group bg-danger text-white" %>
+      </div>
     </div>
   <% end %>
 </div>
 
-<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary" %>
+<%= button_tag "Add " + author_or_artist_label, type: "button", id: "add_author_btn", onclick: "addAuthor('#{name}')", class: "btn btn-primary mt-3 col-3" %>
