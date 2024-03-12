@@ -5,6 +5,7 @@ def login_as_admin_feature_test
   fill_in('username', with: ENV.fetch('ADMIN_USERNAME', nil))
   fill_in('password', with: ENV.fetch('ADMIN_PASSWORD', nil))
   click_on('Submit')
+  expect(page).to have_content('Submitters') # Confirm that the admin is on the publications page
 end
 
 def visit_publications_page_as_submitter(submitter)

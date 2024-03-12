@@ -75,6 +75,9 @@ RSpec.configure do |config|
 
   # Include helpers for feature tests
   config.include FeatureSpecHelpers::AuthorManagement, type: :feature
+
+  # Set Capybara's default wait time
+  Capybara.default_max_wait_time = 10 # seconds
 end
 
 def create_submitter(submitter)
@@ -89,4 +92,5 @@ def create_submitter(submitter)
   fill_in('submitter[phone_number]', with: submitter.phone_number)
   fill_in('submitter[email_address]', with: submitter.email_address)
   click_on('Next')
+  expect(page).to have_content('Instructions') # Wait for the form to advance to the next page
 end
