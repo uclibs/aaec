@@ -71,7 +71,7 @@ describe 'Adding Authors', :feature, js: true do
   end
 
   it 'adds authors to an existing publication' do
-    login_as_admin
+    login_as_admin_feature_test
 
     visit edit_other_publication_path(pub_id)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 1)

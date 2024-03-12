@@ -8,7 +8,7 @@ describe 'Adding Authors', :feature, js: true do
   let(:pub_id) { other_publication.id }
 
   before do
-    login_as_admin
+    login_as_admin_feature_test
     visit edit_other_publication_path(pub_id)
     expect(page).to have_selector("input[name='other_publication[author_first_name][]']", count: 4)
   end

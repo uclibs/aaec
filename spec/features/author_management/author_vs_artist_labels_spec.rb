@@ -54,7 +54,7 @@ describe 'Author and Artist labels', :feature, js: true do
   end
 
   it 'uses the title of Author for existing books' do
-    login_as_admin
+    login_as_admin_feature_test
 
     visit edit_book_path(book)
     expect(page).to have_selector("input[name='book[author_first_name][]']", visible: true)
@@ -74,7 +74,7 @@ describe 'Author and Artist labels', :feature, js: true do
   end
 
   it 'has the title of Artist for existing artworks' do
-    login_as_admin
+    login_as_admin_feature_test
 
     visit edit_artwork_path(artwork)
     expect(page).to have_selector("input[name='artwork[author_first_name][]']", visible: true)
