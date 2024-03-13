@@ -3,18 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
-executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: treatment-database-app
-    docker:
-      - image: docker:20.10.14-git
 
 orbs:
   ruby: circleci/ruby@2.0.0
   node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.4.7
-  coveralls: coveralls/coveralls@1.0.6
+  coveralls: coveralls/coveralls@2.2.1
 
 jobs:
   build:
@@ -103,12 +97,12 @@ jobs:
           name: Run rspec in parallel
           command: |
             mkdir /tmp/test-results
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
+            COVERALLS_SERVICE_NUMBER=${CIRCLE_WORKFLOW_ID}_${CIRCLE_NODE_INDEX} bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
       - coveralls/upload:
           parallel_finished: true
-          path_to_lcov: /home/circleci/aaec/coverage/lcov/aaec.lcov
+      - store_artifacts:
+          path: coverage/
+
 
 workflows:
   version: 2
