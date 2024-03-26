@@ -84,11 +84,15 @@
 }
 
 .footer-top a,
-.footer-top a:hover,
-.footer-top a:active,
 .footer-top a:visited {
    color: white;
    text-decoration: none;
+}
+
+.footer-top a:hover,
+.footer-top a:active,{
+   color: white;
+    text-decoration: underline;
 }
 
 .contact {
@@ -159,11 +163,15 @@
 }
 
 .footer-bottom a,
-.footer-bottom a:hover,
-.footer-bottom a:active,
 .footer-bottom a:visited {
    color: #000;
    text-decoration: underline;
+}
+
+.footer-bottom a:hover,
+.footer-bottom a:active,{
+   color: #000;
+   text-decoration: none;
 }
 
 .thin-text {
