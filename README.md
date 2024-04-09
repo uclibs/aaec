@@ -17,13 +17,13 @@ SQLite 3
 1. Make sure you are on the qa branch: `git checkout qa`
 1. Install bundler (if needed): `gem install bundler`
 1. Run bundler: `bundle install`
-1. Run the database migrations: `bundle exec rake db:migrate`
-1. To include the colleges at UC, seed the database: `bundle exec rake db:seed`
-1. Start the rails server: `rails server`
+1. Run the database migrations: `bundle exec rails db:migrate`
+1. To include the colleges at UC, seed the database: `bundle exec rails db:seed`
+1. Start the rails server: `bundle exec rails server`
 1. Visit the site at [http://localhost:3000] (http://localhost:3000)
 
 ## Running the tests
-1. Run the database migrations: ```bundle exec rake db:migrate``` (Optional)
+1. Run the database migrations if you haven't already: ```bundle exec rails db:migrate```
 1. Run the test suite: ```bundle exec rspec```
 
 ## Note on Dependency Management
