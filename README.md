@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Prerequisites
 ```
-Ruby Version 2.6.5
+Ruby Version 3.3.0
 SQLite 3
 ```
 
@@ -17,10 +17,16 @@ SQLite 3
 1. Make sure you are on the qa branch: `git checkout qa`
 1. Install bundler (if needed): `gem install bundler`
 1. Run bundler: `bundle install`
-1. Run the database migrations: `bundle exec rake db:migrate`
-1. Start the rails server: `rails server`
+1. Run the database migrations: `bundle exec rails db:migrate`
+1. To include the colleges at UC, seed the database: `bundle exec rails db:seed`
+1. Start the rails server: `bundle exec rails server`
 1. Visit the site at [http://localhost:3000] (http://localhost:3000)
 
 ## Running the tests
-1. Run the database migrations: ```bundle exec rake db:migrate``` (Optional)
-1. Run the test suite: ```bundle exec rake spec```
+1. Run the database migrations if you haven't already: ```bundle exec rails db:migrate```
+1. Run the test suite: ```bundle exec rspec```
+
+## Note on Dependency Management
+While this repository includes a yarn.lock file, you do not need to run yarn install to use the program. 
+The application is fully operational with bundle install alone, which manages all necessary Ruby 
+dependencies.

@@ -4,9 +4,10 @@
       <h4 class="alert-heading"><%= pluralize(college.errors.count, "error") %> found:</h4>
       <hr>
       <ul>
-      <% college.errors.full_messages.each do |message| %>
-        <p class="mb-0"><%= message %></p>
-      <% end %>
+        <% college.errors.full_messages.each do |message| %>
+          <p class="mb-0"><%= message %></p>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 

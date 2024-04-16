@@ -1,0 +1,63 @@
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  .form-item {
+    flex: 1 1 100%; // Full width on mobile
+    justify-content: space-between;
+    margin-right: 10px;
+    margin-top: 10px;
+    @media (min-width: 768px) { // Tablet and up
+      flex: 1 1 calc(50% - 20px); // Two column layout
+    }
+  }
+}
+
+.author-form-container {
+  .form-item {
+    @media (min-width: 992px) { // Desktop and up
+      flex: 1 1 calc((100% - 30px) / 3); // Three columns, assuming a 10px margin
+    }
+  }
+
+  // An invisible delete button is used for aligning items in the author form
+  .invisible {
+    display: none;
+    @media (min-width: 992px) {
+      display: block;
+    }
+  }
+
+  .form-delete-button {
+    flex: 0 0 auto;
+    margin-top: 10px;
+    @media (min-width: 992px) {
+      align-self: center;
+      margin-left: auto;
+      margin-top: auto;
+      width: auto;
+    }
+  }
+}
+
+// Adds a ghost/filler item at the end of the .form-container to preserve the layout
+.form-container::after {
+  content: '';
+  flex: 1 1 100%;
+  @media (min-width: 768px) {
+      flex: 1 1 calc(50% - 10px);
+  }
+}
+
+
+
+.add-padding-bottom {
+  padding-bottom: 1.5rem;
+}
+
+/* Draw a line between each author inside author-group */
+.author_group > :not(:last-child) {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}

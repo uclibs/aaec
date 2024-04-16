@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-  <title>Artists, Authors, Editors & Composers | UC Libraries</title>
+    <title>Artists, Authors, Editors & Composers | UC Libraries</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
@@ -38,7 +37,7 @@
         </svg>
     </a>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
@@ -46,7 +45,7 @@
           <% if signed_in %>
           <li class="nav-item">
             <% if session[:admin] then @link_text = "All Publications" else @link_text = "My Publications" end %>
-            <%= link_to @link_text, publications_path, class: "nav-link text-white" %>
+            <%= link_to @link_text, publications_path, class: "nav-link text-white", id: "publications_link"%>
           </li>
           <% if session[:admin] %>
           <li class="nav-item">
@@ -63,8 +62,16 @@
     </nav>
     <div class="nav-sub-bar mb-2">
       <div class="container">
-        <%= link_to "LIBRARIES", "https://libraries.uc.edu/", target: "_blank", class: "text-white" %>
+        <%= link_to "LIBRARIES", "https://libraries.uc.edu/", target: "_blank", class: "text-white text-decoration-none" %>
       </div>
+    </div>
+    <div class="container offset-footer">
+      <% flash.each do |type, message| %>
+        <br/>
+        <div class="alert alert-<%= type %>" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
     </div>
     <%= yield %>
     <%= render partial: 'layouts/footer' %>

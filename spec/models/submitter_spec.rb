@@ -26,18 +26,32 @@ RSpec.describe Submitter, type: :model do
     expect(subject).to_not be_valid
   end
 
+  it 'is valid with a properly formatted phone_number' do
+    subject.phone_number = '111-111-1111'
+    expect(subject).to be_valid
+  end
+
   it 'is not valid without a phone_number' do
     subject.phone_number = nil
     expect(subject).to_not be_valid
   end
 
-  it 'is not valid without a email_address' do
-    subject.email_address = nil
-    expect(subject).to_not be_valid
+  it 'is not valid with an improperly formatted phone_number' do
+    [
+      '1111111111',       # no dashes
+      '111-1111-1111',    # too many digits
+      '11-111-1111',      # too few digits
+      '111-111-1111abc',  # additional characters
+      'abc111-111-1111',  # additional characters
+      '1-111-111-1111'    # too many sections and digits
+    ].each do |invalid_number|
+      subject.phone_number = invalid_number
+      expect(subject).to_not be_valid, "Expected #{invalid_number} to be invalid"
+    end
   end
 
-  it 'is not valid without a formatted phone_number' do
-    subject.phone_number = '1111111111'
+  it 'is not valid without a email_address' do
+    subject.email_address = nil
     expect(subject).to_not be_valid
   end
 

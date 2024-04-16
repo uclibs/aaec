@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CollegesController < ApplicationController
+  include AdminOnlyAccess
+
   before_action :set_college, only: %i[show edit update destroy]
 
   # GET /colleges
@@ -28,10 +30,11 @@ class CollegesController < ApplicationController
 
     respond_to do |format|
       if @college.save
-        format.html { redirect_to @college, notice: 'College was successfully created.' }
+        flash.keep[:success] = 'College was successfully created.'
+        format.html { redirect_to @college }
         format.json { render :show, status: :created, location: @college }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +45,11 @@ class CollegesController < ApplicationController
   def update
     respond_to do |format|
       if @college.update(college_params)
-        format.html { redirect_to @college, notice: 'College was successfully updated.' }
+        flash.keep[:success] = 'College was successfully updated.'
+        format.html { redirect_to @college }
         format.json { render :show, status: :ok, location: @college }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @college.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +60,8 @@ class CollegesController < ApplicationController
   def destroy
     @college.destroy
     respond_to do |format|
-      format.html { redirect_to colleges_url, notice: 'College was successfully destroyed.' }
+      flash.keep[:warning] = 'College was successfully destroyed.'
+      format.html { redirect_to colleges_url }
       format.json { head :no_content }
     end
   end
@@ -65,7 +70,7 @@ class CollegesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_college
-    @college = College.find(params[:id])
+    @college = College.find_by(id: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -13,6 +13,11 @@
 
 /* Custom bootstrap variables must be set or imported *before* bootstrap. */
 @import "bootstrap";
+@import "forms";
+
+*, *::before, *::after {
+   box-sizing: border-box;
+}
 
 .required:after {
    content: " *";
@@ -59,21 +64,79 @@
    color: red;
 }
 
+ footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+ }
+
 .footer-top {
    background-color: #e00122;
    color: #fff;
    font-size: 18px;
+   display: flex;
+   flex-direction: row;
+    justify-content: center;
+
+   @media (max-width: 768px) {
+      flex-direction: column;
+   }
 }
 
 .footer-top a,
-.footer-top a:hover,
-.footer-top a:active,
 .footer-top a:visited {
    color: white;
+   text-decoration: none;
+}
+
+.footer-top a:hover,
+.footer-top a:active,{
+   color: white;
+    text-decoration: underline;
 }
 
 .contact {
+   flex-grow: 0;
+   min-width: 350px;
+   display: block;
+   font-size: 18px;
+   font-stretch: 100%;
+   padding: 40px;
    background-color: #000;
+}
+
+.footer-links-container {
+   display: flex;
+   flex-direction: row;
+   flex-grow: 0;
+   padding: 40px;
+   @media (max-width: 995px) {
+      flex-direction: column;
+   }
+}
+
+.footer-links-group {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   padding: 0 40px;
+}
+
+.footer-column-group {
+   display: flex;
+   flex-direction: row;
+   @media (max-width: 995px) {
+      flex-direction: column;
+   }
+}
+
+.footer-links-column {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   margin-right: 40px;
+   min-width: 200px;
+   align-items: flex-start;
 }
 
 .footer-title {
@@ -82,7 +145,7 @@
 }
 
 .footer-padding {
-   padding: 40px 40px 0 40px;
+   padding: 40px 0px 0 40px;
 }
 
 .footer-bottom {
@@ -100,9 +163,13 @@
 }
 
 .footer-bottom a,
-.footer-bottom a:hover,
-.footer-bottom a:active,
 .footer-bottom a:visited {
+   color: #000;
+   text-decoration: underline;
+}
+
+.footer-bottom a:hover,
+.footer-bottom a:active,{
    color: #000;
    text-decoration: none;
 }

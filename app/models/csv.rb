@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# /lib/foo.rb
-
 module Csv
   def authors
     author_list = ''
@@ -22,11 +20,7 @@ module Csv
   end
 
   def college_name(id)
-    if id.nil?
-      ''
-    else
-      College.find(id).name
-    end
+    College.name_for(id)
   end
 
   def colleges

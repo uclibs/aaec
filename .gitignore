@@ -46,3 +46,17 @@
 .env.development.local
 .env.test.local
 .env.production.local
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore Vendor Local
+/vendor/bundle --local
+/vendor/bundle
+
+# Ignore the files specific to VSCode
+.vscode/*

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class SubmittersController < ApplicationController
-  before_action :set_submitter, only: %i[show edit update destroy]
+  include SubmitterOwnershipGuard
+
+  skip_before_action :require_authenticated_user, only: %i[new create finished]
+
+  before_action :set_submitter, only: %i[show edit update]
 
   # GET /submitters/1
   # GET /submitters/1.json
@@ -22,12 +26,14 @@ class SubmittersController < ApplicationController
 
     respond_to do |format|
       if @submitter.save
+        reset_session
         session[:submitter_id] = @submitter.id
-        # Change to home page
-        format.html { redirect_to publications_path, notice: 'Your account was successfully created.' }
+
+        flash.keep[:success] = 'Your account was successfully created.'
+        format.html { redirect_to publications_path }
         format.json { render :show, status: :created, location: @submitter }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
@@ -38,10 +44,11 @@ class SubmittersController < ApplicationController
   def update
     respond_to do |format|
       if @submitter.update(submitter_params)
-        format.html { redirect_to publications_path, notice: 'Your account was successfully updated.' }
+        flash.keep[:success] = 'Your account was successfully updated.'
+        format.html { redirect_to publications_path }
         format.json { render :show, status: :ok, location: @submitter }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @submitter.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +68,7 @@ class SubmittersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_submitter
-    @submitter = Submitter.find(params[:id])
+    @submitter = Submitter.find_by(id: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

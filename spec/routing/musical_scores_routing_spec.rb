@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookChaptersController, type: :routing do
+RSpec.describe MusicalScoresController, type: :routing do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/musical_scores').to route_to('musical_scores#index')

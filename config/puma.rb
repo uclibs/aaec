@@ -7,27 +7,22 @@
 # and maximum; this matches the default thread size of Active Record.
 #
 threads_count = ENV.fetch('RAILS_MAX_THREADS', 5)
-# threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
 threads threads_count, threads_count
 
 # Specifies the `environment` that Puma will run in.
 #
-# environment ENV.fetch('RAILS_ENV') { 'development' }
-environment ENV.fetch('RAILS_ENV', 'development')
-app_dir = File.expand_path('../..', __FILE__)
+# environment ENV.fetch('RAILS_ENV', 'development')
+
+app_dir = File.expand_path('..', __dir__)
 
 if ENV.fetch('RAILS_ENV') == 'production'
+  # Set the working directory
+  directory app_dir.to_s
   # Set up socket location
   bind "unix://#{app_dir}/tmp/puma/puma.sock"
-
-  # Logs
+  # Log to files
   stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
-
-  # Set the working directory
-  directory '/opt/webapps/aaec/current'
 else
-  # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-  # port ENV.fetch('PORT') { 3000 }
   port ENV.fetch('PORT', 3000)
 end
 

@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include Pagy::Frontend
+  include CustomFormTagHelper
 
   def signed_in
     session[:admin] || session[:submitter_id]

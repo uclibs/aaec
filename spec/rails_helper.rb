@@ -26,11 +26,10 @@ Capybara.javascript_driver = :selenium_chrome_headless
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
-
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -47,7 +46,7 @@ RSpec.configure do |config|
     driven_by(:selenium_chrome_headless)
   end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -73,10 +72,18 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Include helpers for feature tests
+  config.include FeatureSpecHelpers::AuthorManagement, type: :feature
+
+  # Set Capybara's default wait time
+  Capybara.default_max_wait_time = 10 # seconds
 end
 
 def create_submitter(submitter)
   visit root_path
+  return if page.has_content?('The deadline for submissions has passed.')
+
   fill_in('submitter[first_name]', with: submitter.first_name)
   fill_in('submitter[last_name]', with: submitter.last_name)
   find_by_id('submitter_college').find(:xpath, "option[#{submitter.college}]").select_option
@@ -85,4 +92,5 @@ def create_submitter(submitter)
   fill_in('submitter[phone_number]', with: submitter.phone_number)
   fill_in('submitter[email_address]', with: submitter.email_address)
   click_on('Next')
+  expect(page).to have_content('Instructions') # Wait for the form to advance to the next page
 end

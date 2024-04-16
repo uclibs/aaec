@@ -1,0 +1,19 @@
+<div class="form-group col-md-6" id="colleges-group">
+  <fieldset>
+    <legend><%= author_or_artist_label %> College(s)</legend><br/>
+    <%= form.collection_check_boxes :college_ids, College.all, :id, :name do |b| %>
+      <div class="form-check">
+        <%= b.check_box class: "form-check-input" %>
+        <%= b.label class: "form-check-label" %>
+      </div>
+    <% end %>
+  </fieldset>
+</div>
+
+
+<div class="form-row">
+  <div id="other_college_group" class="form-group col-md-6">
+    <%= form.label :other_college, 'Other College' %>
+    <%= form.text_field :other_college, class: "form-control" %>
+  </div>
+</div>

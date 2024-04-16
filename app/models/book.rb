@@ -2,12 +2,11 @@
 
 class Book < ApplicationRecord
   include Csv
+  has_and_belongs_to_many :colleges
+  validates :work_title, presence: true
+  validate :validate_author_names
   serialize :author_first_name, Array
   serialize :author_last_name, Array
-  has_and_belongs_to_many :colleges
-  validates :author_first_name, presence: true
-  validates :author_last_name, presence: true
-  validates :work_title, presence: true
 
   def self.to_csv
     attributes = %w[submitter_id work_title other_title authors colleges uc_department publisher city publication_date url doi]
