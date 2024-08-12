@@ -33,7 +33,7 @@ gem 'ed25519' # Ed25519 elliptic curve public-key signature system
 # Additional Functionality
 gem 'bootsnap', '>= 1.1.0', require: false # Reduces boot times through caching
 gem 'dotenv-rails' # Loads environment variables from .env
-gem 'jbuilder', '~> 2.5' # Used for building JSON structures in a builder-style syntax
+gem 'jbuilder', '~> 2.12' # Used for building JSON structures in a builder-style syntax
 gem 'jquery-rails' # Provides jQuery and the jQuery UJS driver for Rails
 gem 'net-smtp' # Provides Simple Mail Transfer Protocol (SMTP) functionality for Ruby's Net::SMTP library
 gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
@@ -80,7 +80,7 @@ group :test do
   # Adds support for Capybara system testing and Selenium WebDriver
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
   gem 'capybara-selenium', '~> 0.0.6' # Capybara extension for using Selenium WebDriver
-  gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
+  gem 'selenium-webdriver', '~> 4.23' # WebDriver for testing web applications
 end
 
 group :production do
