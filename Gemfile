@@ -47,15 +47,15 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby
 
   # Testing libraries
-  gem 'brakeman', '~> 6.1' # Static analysis security vulnerability scanner for Ruby on Rails applications
-  gem 'bundler-audit', '~> 0.9.1' # Patch-level verification for Bundler dependencies
+  gem 'brakeman' # Static analysis security vulnerability scanner for Ruby on Rails applications
+  gem 'bundler-audit' # Patch-level verification for Bundler dependencies
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
   gem 'rspec-rails' # RSpec for Rails 6+
   gem 'rubocop' # A Ruby static code analyzer and formatter
   gem 'simplecov', require: false # Code coverage analysis tool for Ruby
-  gem 'sqlite3', '~> 2.0' # SQLite3 database adapter for ActiveRecord
+  gem 'sqlite3', '~> 1.7' # SQLite3 database adapter for ActiveRecord
 end
 
 group :development do
