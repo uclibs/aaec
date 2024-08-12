@@ -36,7 +36,7 @@ gem 'dotenv-rails' # Loads environment variables from .env
 gem 'jbuilder', '~> 2.5' # Used for building JSON structures in a builder-style syntax
 gem 'jquery-rails' # Provides jQuery and the jQuery UJS driver for Rails
 gem 'net-smtp' # Provides Simple Mail Transfer Protocol (SMTP) functionality for Ruby's Net::SMTP library
-gem 'pagy', '~> 7.0.10' # Pagination library that is fast, lightweight, and flexible
+gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'truncato' # HTML truncation library for Ruby
 
 # Windows specific timezone data
