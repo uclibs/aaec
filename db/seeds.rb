@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-college_array = []
 # NOTE: This will add 20 of each publication to the first submitter created
 add_publications = false
 
-College.all.each do |college|
-  college_array.push(college.name)
-end
+college_array = College.all.map(&:name)
 
 College.create(name: 'Allied Health Sciences') if college_array.exclude? 'Allied Health Sciences'
 College.create(name: 'Arts and Sciences') if college_array.exclude? 'Arts and Sciences'
