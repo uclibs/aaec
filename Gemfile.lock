@@ -215,7 +215,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
-    pagy (7.0.11)
+    pagy (9.0.5)
     parallel (1.26.2)
     parser (3.3.4.2)
       ast (~> 2.4.1)
@@ -426,7 +426,7 @@ DEPENDENCIES
   mutex_m
   mysql2
   net-smtp
-  pagy (~> 7.0.10)
+  pagy (~> 9.0)
   puma (>= 6.3.1)
   rails (~> 6.1.7.7)
   rails-controller-testing
