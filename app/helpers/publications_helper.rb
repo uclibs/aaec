@@ -27,10 +27,10 @@ module PublicationsHelper
   # @return [String] A string of all authors separated by commas
   def all_authors(publication)
     author_list = ''
-    size = [0, (publication.author_first_name.count - 1)].max
-    (0..size).each do |i|
+    last_author_index = [0, (publication.author_first_name.count - 1)].max
+    (0..last_author_index).each do |i|
       author_list += author_name(publication, i)
-      author_list += if i == size
+      author_list += if i == last_author_index
                        ' '
                      else
                        ', '
@@ -45,26 +45,20 @@ module PublicationsHelper
   # @return [String] A string representation of authors in citation format
   def author_citation(publication)
     return '' if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
+    return ', ' if publication.author_first_name.blank? && publication.author_last_name.blank?
 
-    author_list = ''
-    size = [0, (publication.author_first_name.count - 1)].max
-    if size.zero?
-      author_list += author_name_citation(publication, 0)
-    else
-      (0..size).each do |i|
-        next unless i != size
+    last_author_index = publication.author_first_name.count - 1
 
-        author_list += author_name_citation(publication, i)
-        author_list += if i == size
-                         ''
-                       elsif i == (size - 1)
-                         " and #{author_name(publication, size)}"
-                       else
-                         ', '
-                       end
-      end
-    end
-    author_list
+    # Handle cases with only one author
+    return author_name_citation(publication, 0) if last_author_index.zero?
+
+    # Create a list of author names for all but the last author
+    author_list = (0...last_author_index).map do |i|
+      author_name_citation(publication, i)
+    end.join(', ')
+
+    # Append the last author's name in "First Last" format
+    author_list + " and #{author_name(publication, last_author_index)}"
   end
 
   # Returns an array of truncated author names for a given publication.
@@ -74,8 +68,8 @@ module PublicationsHelper
   def authors_array(publication)
     return [] if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
 
-    size = [0, (publication.author_first_name.count - 1)].max
-    (0..size).map do |i|
+    last_author_index = [0, (publication.author_first_name.count - 1)].max
+    (0..last_author_index).map do |i|
       (Truncato.truncate author_name(publication, i), max_length: 12)
     end
   end
