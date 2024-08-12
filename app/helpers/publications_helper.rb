@@ -74,12 +74,10 @@ module PublicationsHelper
   def authors_array(publication)
     return [] if publication.blank? || publication.author_first_name.nil? || publication.author_last_name.nil?
 
-    author_array = []
     size = [0, (publication.author_first_name.count - 1)].max
-    (0..size).each do |i|
-      author_array << (Truncato.truncate author_name(publication, i), max_length: 12)
+    (0..size).map do |i|
+      (Truncato.truncate author_name(publication, i), max_length: 12)
     end
-    author_array
   end
 
   # Returns the full name of an author at a specific position.

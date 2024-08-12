@@ -28,6 +28,6 @@ class AutocompleteOffFormBuilder < ActionView::Helpers::FormBuilder
 
   def select(attribute, choices = nil, options = {}, html_options = {}, &)
     html_options[:autocomplete] ||= 'off'
-    super(attribute, choices, options, html_options, &)
+    super
   end
 end
