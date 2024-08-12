@@ -56,6 +56,9 @@ group :development, :test do
   gem 'rubocop' # A Ruby static code analyzer and formatter
   gem 'simplecov', require: false # Code coverage analysis tool for Ruby
   gem 'sqlite3', '~> 1.7' # SQLite3 database adapter for ActiveRecord
+
+  # Coverage and code analysis
+  gem 'coveralls_reborn' # Provides Ruby API for Coveralls.io code coverage reporting
 end
 
 group :development do
