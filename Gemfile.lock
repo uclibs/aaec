@@ -433,6 +433,7 @@ DEPENDENCIES
   rails (~> 6.1.7.7)
   rails-controller-testing
   rb-readline
+  rexml (>= 3.3.3)
   rspec-rails
   rspec_junit_formatter
   rubocop
