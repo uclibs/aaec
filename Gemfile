@@ -11,7 +11,7 @@ gem 'bigdecimal' # Provides arbitrary-precision decimal floating-point arithmeti
 gem 'csv' # Ruby's standard CSV library, being removed from Ruby in version 3.4.0
 gem 'drb' # Distributed Ruby, being removed from Ruby in version 3.4.0
 gem 'mutex_m' # Required for activestorage, being removed from Ruby in version 3.4.0
-gem 'rexml', '>= 3.3.3' # XML parsing library, addressing bundle audit issues
+gem 'rexml', '>= 3.3.6' # XML parsing library, addressing bundle audit issues
 
 # Core Rails gems
 gem 'rails', '~> 6.1.7.7' # The Rails framework
