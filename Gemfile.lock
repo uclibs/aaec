@@ -268,7 +268,7 @@ GEM
       ffi (~> 1.0)
     rb-readline (0.5.5)
     regexp_parser (2.9.2)
-    rexml (3.3.5)
+    rexml (3.3.6)
       strscan
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
@@ -433,6 +433,7 @@ DEPENDENCIES
   rails (~> 6.1.7.7)
   rails-controller-testing
   rb-readline
+  rexml (>= 3.3.6)
   rspec-rails
   rspec_junit_formatter
   rubocop
