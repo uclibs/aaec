@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 ## Prerequisites
 ```
 current version of NVM
-Node 18.7.1
+Node 20.14.0
 Ruby Version 3.3.3
 SQLite 3
 ```
@@ -16,7 +16,7 @@ SQLite 3
 ## Node Version Management
 
 This project uses nvm (Node Version Manager) to manage Node.js versions. The `.nvmrc` file is 
-configured to use Node version 18.7.1.
+configured to use Node version 20.14.0.
 
 When running locally, you will need to set the node version with `nvm use` as described below under "Installation".  
 For deployment, the `.nvmrc` file will be used to set the node version and the deployment script will automatically
