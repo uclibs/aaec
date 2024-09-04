@@ -1,8 +1,5 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2.1
+
 executors:
   docker-publisher:
     environment:
@@ -18,13 +15,7 @@ orbs:
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: cimg/ruby:3.3.3
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     environment:
       BUNDLE_PATH: vendor/bundle
@@ -38,40 +29,43 @@ jobs:
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
-
     working_directory: ~/aaec
 
     steps:
       - checkout
       - browser-tools/install-browser-tools
 
+      # Restore caches early, before any installations
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run:
-          name: Configure Bundler
-          command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
+      - restore_cache:
+          keys:
+            - nvm-node-{{ checksum ".nvmrc" }}
+            - nvm-node-
 
+      # NVM and Node.js setup
       - run:
           name: Install NVM and Node.js
           command: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            curl --retry 5 --retry-delay 10 -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --install' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
             source $BASH_ENV
             nvm install $(cat .nvmrc)
             nvm use $(cat .nvmrc)
-            echo "Node Version Manager (NVM) installed successfully."
-            echo "NVM version: $(nvm --version)"
             echo "Node.js version: $(node --version)"
 
+      # Save the NVM/Node.js cache after installation
+      - save_cache:
+          paths:
+            - ~/.nvm/versions/node
+          key: nvm-node-{{ checksum ".nvmrc" }}
+
+      # Install Bundler and Ruby dependencies
       - run:
           name: Install Dependencies
           command: |
@@ -81,6 +75,7 @@ jobs:
             sudo apt-get update
             sudo apt-get install xvfb libfontconfig
 
+      # Save the Bundler cache after installation
       - save_cache:
           paths:
             - ./vendor/bundle
@@ -110,13 +105,12 @@ jobs:
           name: Run Bundle-audit
           command: bundle exec bundle audit check --update
 
-      # run tests!
+      # Run tests
       - run:
-          name: Run rspec in parallel
+          name: Run Rspec in parallel
           command: |
             mkdir /tmp/test-results
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       - coveralls/upload:
           parallel_finished: true
