@@ -6,13 +6,12 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: treatment-database-app
+      IMAGE_NAME: aaec
     docker:
       - image: docker:20.10.14-git
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
@@ -44,8 +43,6 @@ jobs:
 
     steps:
       - checkout
-      - node/install:
-          node-version: "18.17.1"
       - browser-tools/install-browser-tools
 
       - restore_cache:
@@ -62,8 +59,24 @@ jobs:
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
       - run:
+          name: Install NVM and Node.js
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --install' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
+            source $BASH_ENV
+            nvm install $(cat .nvmrc)
+            nvm use $(cat .nvmrc)
+            echo "Node Version Manager (NVM) installed successfully."
+            echo "NVM version: $(nvm --version)"
+            echo "Node.js version: $(node --version)"
+
+      - run:
           name: Install Dependencies
           command: |
+            source $BASH_ENV
+            nvm use
             bundle install
             sudo apt-get update
             sudo apt-get install xvfb libfontconfig
