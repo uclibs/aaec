@@ -64,7 +64,7 @@ end
 
 group :development do
   # Deployment tools using Capistrano
-  gem 'capistrano', '~> 3.18.1', require: false # A remote server automation and deployment tool
+  gem 'capistrano', '~> 3.19.1', require: false # A remote server automation and deployment tool
   gem 'capistrano-bundler', '~> 2.1', require: false # Capistrano integration for Bundler
   gem 'capistrano-rails', '~> 1.4', require: false # Integrates Rails with Capistrano
   gem 'capistrano-rbenv', '~> 2.0' # Rbenv integration for Capistrano
