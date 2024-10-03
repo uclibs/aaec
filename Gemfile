@@ -17,7 +17,7 @@ gem 'rexml', '>= 3.3.6' # XML parsing library, addressing bundle audit issues
 gem 'rails', '~> 6.1.7.7' # The Rails framework
 
 # Server and Performance
-gem 'puma', '>= 6.3.1' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
+gem 'puma', '>= 6.4.3' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
 
 # Frontend and Styles
 gem 'bootstrap', '~> 5.3.2' # Front-end framework for developing responsive, mobile-first projects
