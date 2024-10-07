@@ -157,9 +157,9 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     htmlentities (4.3.4)
-    i18n (1.14.5)
+    i18n (1.14.6)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.12.0)
+    jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jquery-rails (4.6.0)
@@ -420,7 +420,7 @@ DEPENDENCIES
   drb
   ed25519
   factory_bot_rails
-  jbuilder (~> 2.12)
+  jbuilder (~> 2.13)
   jquery-rails
   jsbundling-rails
   listen (>= 3.0.5, < 3.10)
