@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # config valid for current version and patch releases of Capistrano
-lock '~> 3.18.1'
+lock '~> 3.19.1'
 
 set :application, 'AAEC'
 set :repo_url, 'https://github.com/uclibs/aaec.git'
 
 set :rbenv_type, :user
-set :rbenv_ruby, '3.3.0'
+set :rbenv_ruby, '3.3.3'
 # set :rbenv_ruby, File.read('.ruby-version').strip
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all # default value
@@ -81,6 +81,5 @@ namespace :deploy do
   end
 end
 
-Capistrano::DSL.stages.each do |stage|
-  after stage, 'deploy:confirmation'
-end
+before 'deploy:starting', 'deploy:confirmation'
+after 'git:create_release', 'nvm:load'

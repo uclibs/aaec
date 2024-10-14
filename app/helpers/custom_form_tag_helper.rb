@@ -9,6 +9,6 @@
 module CustomFormTagHelper
   def select_tag(name, option_tags = nil, options = {})
     options[:autocomplete] = 'off' unless options.key?(:autocomplete)
-    super(name, option_tags, options)
+    super
   end
 end

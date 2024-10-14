@@ -7,14 +7,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Prerequisites
 ```
-Ruby Version 3.3.0
+current version of NVM
+Node 20.14.0
+Ruby Version 3.3.3
 SQLite 3
 ```
+
+## Node Version Management
+
+This project uses nvm (Node Version Manager) to manage Node.js versions. The `.nvmrc` file is 
+configured to use Node version 20.14.0.
+
+When running locally, you will need to set the node version with `nvm use` as described below under "Installation".  
+For deployment, the `.nvmrc` file will be used to set the node version and the deployment script will automatically
+use the correct version.
 
 ## Installing
 1. Clone the repository: `git clone https://github.com/uclibs/aaec.git ./path/to/local`
 1. Change to the application's directory: e.g. `cd ./path/to/local`
 1. Make sure you are on the qa branch: `git checkout qa`
+1. Install the node version listed in .nvmrc: `nvm install`
+1. Direct to the correct node version listed in .nvmrc: `nvm use`
 1. Install bundler (if needed): `gem install bundler`
 1. Run bundler: `bundle install`
 1. Run the database migrations: `bundle exec rails db:migrate`
