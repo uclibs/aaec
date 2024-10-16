@@ -2,7 +2,7 @@ name: Update Pull Request with Jira Issue Link
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, edited, synchronize]
 
 jobs:
   update-pr:
