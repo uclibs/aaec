@@ -36,6 +36,7 @@ jobs:
             echo "skip_update=true" >> $GITHUB_OUTPUT
           else
             echo "skip_update=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Prepend Jira issue to PR title
         id: prepend_issue
