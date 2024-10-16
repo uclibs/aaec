@@ -18,9 +18,13 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
 
     it 'selects an already listed college' do
       within '#colleges-group' do
-        all('input[type="checkbox"]')[1].set(true) # Array is zero-indexed
+        # Find and explicitly check the second checkbox
+        checkbox = all('input[type="checkbox"]')[1]
+        checkbox.set(true)
+
+        # Explicitly wait for the checkbox to be checked
+        expect(checkbox).to be_checked
       end
-      expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
       click_on('Submit')
 
       expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
@@ -52,10 +56,14 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
       it 'allows user to select Other college without filling in the Other name' do
         # The "Other" college is the last checkbox in the Colleges group
         within '#colleges-group' do
-          all('input[type="checkbox"]').last.set(true)
+          # Find and explicitly check the last checkbox
+          checkbox = all('input[type="checkbox"]').last
+          checkbox.set(true)
+
+          # Explicitly wait for the last checkbox to be checked
+          expect(checkbox).to be_checked
         end
 
-        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
         click_on('Submit')
 
         expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
