@@ -14,15 +14,17 @@ jobs:
       - name: Extract Jira Issue from Branch Name
         run: |
           branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -oE 'LIBAAEC-[0-9]+')
+          
           if [ -z "$branch_name" ]; then
             echo "No Jira issue found in branch name."
             exit 0
           fi
+          
           current_title="${{ github.event.pull_request.title }}"
           new_title="$branch_name $current_title"
           
           # Check if the current title already contains the Jira issue
-          if [[ "$current_title" =~ $branch_name ]]; then
+          if [[ "$current_title" == *"$branch_name"* ]]; then
             echo "PR title already contains the Jira issue."
             exit 0
           fi
