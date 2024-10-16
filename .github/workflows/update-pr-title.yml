@@ -1,0 +1,34 @@
+name: Update PR Title with Jira Issue
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  update-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Extract Jira Issue from Branch Name
+        run: |
+          branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -oE 'LIBAAEC-[0-9]+')
+          if [ -z "$branch_name" ]; then
+            echo "No Jira issue found in branch name."
+            exit 0
+          fi
+          current_title="${{ github.event.pull_request.title }}"
+          new_title="$branch_name $current_title"
+          
+          # Check if the current title already contains the Jira issue
+          if [[ "$current_title" =~ $branch_name ]]; then
+            echo "PR title already contains the Jira issue."
+            exit 0
+          fi
+          
+          # Update the PR title using GitHub API
+          echo "Updating PR title to: $new_title"
+          curl -s -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{\"title\":\"$new_title\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
