@@ -29,19 +29,23 @@ jobs:
           echo "current_title=$current_title" >> $GITHUB_OUTPUT
 
       - name: Check if Jira issue is already in PR title
+        id: check_title
         run: |
-          if [[ "${{ steps.get_title.outputs.current_title }}" == *"${{ steps.extract_branch.outputs.branch_name }}"* ]]; then
+          if echo "${{ steps.get_title.outputs.current_title }}" | grep -q "${{ steps.extract_branch.outputs.branch_name }}"; then
             echo "PR title already contains the Jira issue."
-            exit 0
-          fi
+            echo "skip_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip_update=false" >> $GITHUB_OUTPUT
 
       - name: Prepend Jira issue to PR title
         id: prepend_issue
+        if: steps.check_title.outputs.skip_update == 'false'
         run: |
           new_title="${{ steps.extract_branch.outputs.branch_name }} ${{ steps.get_title.outputs.current_title }}"
           echo "new_title=$new_title" >> $GITHUB_OUTPUT
 
       - name: Update PR title with Jira issue
+        if: steps.check_title.outputs.skip_update == 'false'
         run: |
           new_title="${{ steps.prepend_issue.outputs.new_title }}"
           curl -s -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
