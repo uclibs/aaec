@@ -14,11 +14,7 @@ gem 'mutex_m' # Required for activestorage, being removed from Ruby in version 3
 gem 'rexml', '>= 3.3.6' # XML parsing library, addressing bundle audit issues
 
 # Core Rails gems
-gem 'actioncable', '~> 6.1.7.9'
-gem 'actionmailer', '~> 6.1.7.9'
-gem 'actionpack', '~> 6.1.7.9'
-gem 'actiontext', '~> 6.1.7.9'
-gem 'rails', '~> 6.1.7.9' # The Rails framework
+gem 'rails', '~> 6.1.7.7' # The Rails framework
 
 # Server and Performance
 gem 'puma', '>= 6.4.3' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
