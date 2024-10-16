@@ -7,11 +7,13 @@ on:
 jobs:
   update-pr:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
       - name: Extract Jira Issue from branch name
+        id: extract_branch
         run: |
           branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -oE 'LIBAAEC-[0-9]+')
           if [ -z "$branch_name" ]; then
@@ -19,20 +21,31 @@ jobs:
             exit 0
           fi
           jira_link="https://ucdts.atlassian.net/browse/$branch_name"
+          echo "::set-output name=branch_name::$branch_name"
+          echo "::set-output name=jira_link::$jira_link"
+
+      - name: Check if placeholder exists in PR body
+        id: check_placeholder
+        run: |
           placeholder_exists=$(echo "${{ github.event.pull_request.body }}" | grep -c '\[Link will be automatically added here. Do not remove.\]')
-          
-          if [ "$placeholder_exists" -eq 1 ]; then
+          echo "::set-output name=placeholder_exists::$placeholder_exists"
+
+      - name: Prepare PR body with Jira link
+        id: prepare_pr_body
+        run: |
+          if [ "${{ steps.check_placeholder.outputs.placeholder_exists }}" -eq 1 ]; then
             # If the placeholder exists, replace it with the Jira link
-            pr_body=$(echo "${{ github.event.pull_request.body }}" | sed "s|\[Link will be automatically added here. Do not remove.\]|[$branch_name]($jira_link)|")
+            pr_body=$(echo "${{ github.event.pull_request.body }}" | sed "s|\[Link will be automatically added here. Do not remove.\]|[${{ steps.extract_branch.outputs.branch_name }}](${{ steps.extract_branch.outputs.jira_link }})|")
           else
             # If the placeholder is missing, append the Jira link to the top of the PR description
-            pr_body="### Link to Jira Issue\n[$branch_name]($jira_link)\n\n${{ github.event.pull_request.body }}"
+            pr_body="### Link to Jira Issue\n[${{ steps.extract_branch.outputs.branch_name }}](${{ steps.extract_branch.outputs.jira_link }})\n\n${{ github.event.pull_request.body }}"
           fi
           echo "$pr_body" > pr_body.txt
+          echo "::set-output name=pr_body::$pr_body"
 
       - name: Update Pull Request Description
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: pull-request-edited
-          client-payload: '{"pull_request_number": ${{ github.event.pull_request.number }}, "pr_body": "$(cat pr_body.txt)"}'
+          client-payload: '{"pull_request_number": ${{ github.event.pull_request.number }}, "pr_body": "${{ steps.prepare_pr_body.outputs.pr_body }}"}'

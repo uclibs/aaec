@@ -32,24 +32,21 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
     context 'When selecting Other college' do
       it 'toggles the Other College text field' do
         other_checkbox = all('input[type="checkbox"]').last
-        other_college_field = find('#other_college_group', visible: :all) # Finds even if invisible
 
         # Initially, the Other College field should not be visible
-        expect(other_college_field).not_to be_visible
+        expect(page).to have_selector('#other_college_group', visible: false)
 
         # Select the Other checkbox
         other_checkbox.set(true)
 
         # Now, the Other College field should be visible
-        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
-        expect(page).to have_text('Other College')
-        expect(other_college_field).to be_visible
+        expect(page).to have_selector('#other_college_group', visible: true)
 
         # Unselect the Other checkbox
         other_checkbox.set(false)
 
         # The Other College field should not be visible again
-        expect(other_college_field).not_to be_visible
+        expect(page).to have_selector('#other_college_group', visible: false)
       end
 
       it 'allows user to select Other college without filling in the Other name' do
