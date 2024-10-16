@@ -20,13 +20,13 @@ jobs:
             echo "No Jira issue found in branch name."
             exit 0
           fi
-          echo "::set-output name=branch_name::$branch_name"
+          echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
 
       - name: Get current PR title
         id: get_title
         run: |
           current_title="${{ github.event.pull_request.title }}"
-          echo "::set-output name=current_title::$current_title"
+          echo "current_title=$current_title" >> $GITHUB_OUTPUT
 
       - name: Check if Jira issue is already in PR title
         run: |
@@ -36,14 +36,14 @@ jobs:
           fi
 
       - name: Prepend Jira issue to PR title
+        id: prepend_issue
         run: |
           new_title="${{ steps.extract_branch.outputs.branch_name }} ${{ steps.get_title.outputs.current_title }}"
-          echo "::set-output name=new_title::$new_title"
+          echo "new_title=$new_title" >> $GITHUB_OUTPUT
 
       - name: Update PR title with Jira issue
         run: |
           new_title="${{ steps.prepend_issue.outputs.new_title }}"
-          echo "Updating PR title to: $new_title"
           curl -s -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d "{\"title\":\"$new_title\"}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
