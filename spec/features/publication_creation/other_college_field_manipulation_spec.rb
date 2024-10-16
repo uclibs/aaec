@@ -116,9 +116,22 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
 
       it 'saves both a listed college and Other college when selected' do
         within '#colleges-group' do
-          all('input[type="checkbox"]')[1].set(true) # Array is zero-indexed
-          all('input[type="checkbox"]').last.set(true)
+          # Select the second checkbox and set it to true
+          checkbox1 = all('input[type="checkbox"]')[1]
+          checkbox1.set(true)
+
+          # Explicitly wait for the checkbox to be checked
+          expect(checkbox1).to be_checked
+
+          # Select the last checkbox and set it to true
+          checkbox2 = all('input[type="checkbox"]').last
+          checkbox2.set(true)
+
+          # Explicitly wait for the last checkbox to be checked
+          expect(checkbox2).to be_checked
         end
+
+        # Ensure there are exactly 2 checkboxes checked
         expect(page).to have_selector('input[type="checkbox"]:checked', count: 2)
         fill_in('artwork[other_college]', with: 'Other College Name')
         click_on('Submit')
