@@ -1,0 +1,67 @@
+name: Update PR Title with Jira Issue
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  update-pr-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Extract Jira issue from branch name
+        id: extract_jira_issue
+        run: |
+          echo "Extracting Jira issue from branch name..."
+          jira_issue=$(echo "${{ github.event.pull_request.head.ref }}" | grep -oE 'LIBAAEC-[0-9]+' | tr '[:lower:]' '[:upper:]')
+          if [ -z "$jira_issue" ]; then
+            echo "No Jira issue found in branch name. Exiting."
+            exit 0
+          fi
+          echo "Extracted Jira Issue: $jira_issue"
+          echo "jira_issue=$jira_issue" >> $GITHUB_OUTPUT
+
+      - name: Get current PR title
+        id: get_title
+        run: |
+          echo "Retrieving current PR title..."
+          current_title="${{ github.event.pull_request.title }}"
+          echo "Current PR title: $current_title"
+          echo "current_title=$current_title" >> $GITHUB_OUTPUT
+
+      - name: Check if Jira issue is already in PR title
+        id: check_title
+        run: |
+          echo "Checking if Jira issue is already in PR title..."
+          if echo "${{ steps.get_title.outputs.current_title }}" | grep -qi "${{ steps.extract_jira_issue.outputs.jira_issue }}"; then
+            echo "PR title already contains the Jira issue."
+            echo "skip_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "Jira issue is not in the PR title."
+            echo "skip_update=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Prepend Jira issue to PR title
+        id: prepend_issue
+        if: steps.check_title.outputs.skip_update == 'false'
+        run: |
+          echo "Prepending Jira issue to PR title..."
+          new_title="${{ steps.extract_jira_issue.outputs.jira_issue }} ${{ steps.get_title.outputs.current_title }}"
+          echo "New PR title: $new_title"
+          echo "new_title=$new_title" >> $GITHUB_OUTPUT
+
+      - name: Update PR title with Jira issue
+        if: steps.check_title.outputs.skip_update == 'false'
+        run: |
+          new_title="${{ steps.prepend_issue.outputs.new_title }}"
+          echo "Updating PR title with new title: $new_title"
+          curl -s -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{\"title\":\"$new_title\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" || {
+              echo "Error: Failed to update PR title."
+              exit 1
+            }
+          echo "PR title updated successfully."

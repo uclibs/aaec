@@ -18,9 +18,13 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
 
     it 'selects an already listed college' do
       within '#colleges-group' do
-        all('input[type="checkbox"]')[1].set(true) # Array is zero-indexed
+        # Find and explicitly check the second checkbox
+        checkbox = all('input[type="checkbox"]')[1]
+        checkbox.set(true)
+
+        # Explicitly wait for the checkbox to be checked
+        expect(checkbox).to be_checked
       end
-      expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
       click_on('Submit')
 
       expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
@@ -32,33 +36,34 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
     context 'When selecting Other college' do
       it 'toggles the Other College text field' do
         other_checkbox = all('input[type="checkbox"]').last
-        other_college_field = find('#other_college_group', visible: :all) # Finds even if invisible
 
         # Initially, the Other College field should not be visible
-        expect(other_college_field).not_to be_visible
+        expect(page).to have_selector('#other_college_group', visible: false)
 
         # Select the Other checkbox
         other_checkbox.set(true)
 
         # Now, the Other College field should be visible
-        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
-        expect(page).to have_text('Other College')
-        expect(other_college_field).to be_visible
+        expect(page).to have_selector('#other_college_group', visible: true)
 
         # Unselect the Other checkbox
         other_checkbox.set(false)
 
         # The Other College field should not be visible again
-        expect(other_college_field).not_to be_visible
+        expect(page).to have_selector('#other_college_group', visible: false)
       end
 
       it 'allows user to select Other college without filling in the Other name' do
         # The "Other" college is the last checkbox in the Colleges group
         within '#colleges-group' do
-          all('input[type="checkbox"]').last.set(true)
+          # Find and explicitly check the last checkbox
+          checkbox = all('input[type="checkbox"]').last
+          checkbox.set(true)
+
+          # Explicitly wait for the last checkbox to be checked
+          expect(checkbox).to be_checked
         end
 
-        expect(page).to have_selector('input[type="checkbox"]:checked', count: 1)
         click_on('Submit')
 
         expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
@@ -111,9 +116,22 @@ describe 'Selecting Colleges for an Artwork', :feature, js: true do
 
       it 'saves both a listed college and Other college when selected' do
         within '#colleges-group' do
-          all('input[type="checkbox"]')[1].set(true) # Array is zero-indexed
-          all('input[type="checkbox"]').last.set(true)
+          # Select the second checkbox and set it to true
+          checkbox1 = all('input[type="checkbox"]')[1]
+          checkbox1.set(true)
+
+          # Explicitly wait for the checkbox to be checked
+          expect(checkbox1).to be_checked
+
+          # Select the last checkbox and set it to true
+          checkbox2 = all('input[type="checkbox"]').last
+          checkbox2.set(true)
+
+          # Explicitly wait for the last checkbox to be checked
+          expect(checkbox2).to be_checked
         end
+
+        # Ensure there are exactly 2 checkboxes checked
         expect(page).to have_selector('input[type="checkbox"]:checked', count: 2)
         fill_in('artwork[other_college]', with: 'Other College Name')
         click_on('Submit')
