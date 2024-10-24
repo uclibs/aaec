@@ -26,6 +26,7 @@ jobs:
           echo "Generated Jira Link: $jira_link"
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "jira_link=$jira_link" >> $GITHUB_OUTPUT
+          echo "GITHUB_OUTPUT is $GITHUB_OUTPUT"
 
       - name: Check if Jira link exists in PR body
         id: check_jira_link
@@ -33,6 +34,11 @@ jobs:
           jira_link="${{ steps.extract_branch.outputs.jira_link }}"
           echo "Checking if Jira link exists in the PR body..."
           jira_link_present=$(echo "${{ github.event.pull_request.body || '' }}" | grep -c "$jira_link")
+          echo "Inside checking if Jira link exists in the PR body..."
+          echo "Jira link: $jira_link"
+          echo "PR body: ${{ github.event.pull_request.body || '' }}"
+          echo "Jira link present: $jira_link_present"
+          echo "before if GITHUB_OUTPUT is $GITHUB_OUTPUT"
           if [ "$jira_link_present" -eq 1 ]; then
             echo "Jira link already exists in the PR body."
             echo "skip_update=true" >> $GITHUB_OUTPUT
